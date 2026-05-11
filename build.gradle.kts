@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    id("org.springframework.boot") version "3.3.5" apply false
+    id("org.springframework.boot") version "4.0.6" apply false
     id("io.spring.dependency-management") version "1.1.6"
     id("com.vanniktech.maven.publish") version "0.30.0"
 }
@@ -38,7 +38,7 @@ tasks.withType<Javadoc>().configureEach {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:3.3.5")
+        mavenBom("org.springframework.boot:spring-boot-dependencies:4.0.6")
     }
 }
 
