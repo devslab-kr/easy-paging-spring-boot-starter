@@ -1,0 +1,25 @@
+{
+  "groups": [
+    {
+      "name": "easy-paging",
+      "type": "kr.devslab.easypaging.autoconfigure.EasyPagingProperties",
+      "description": "Configuration for the easy-paging starter."
+    },
+    {
+      "name": "easy-paging.keyset",
+      "type": "kr.devslab.easypaging.autoconfigure.EasyPagingProperties$Keyset",
+      "sourceType": "kr.devslab.easypaging.autoconfigure.EasyPagingProperties",
+      "sourceMethod": "getKeyset()",
+      "description": "Keyset (cursor-based) pagination tuning."
+    }
+  ],
+  "properties": [
+    {
+      "name": "easy-paging.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Master switch to disable the starter entirely.",
+      "defaultValue": true
+    }
+  ],
+  "hints": []
+}
