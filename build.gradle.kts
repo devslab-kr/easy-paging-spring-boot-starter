@@ -49,7 +49,7 @@ dependencies {
     api("org.springframework.boot:spring-boot-starter")
     api("org.springframework.boot:spring-boot-starter-aop")
     api("org.springframework.data:spring-data-commons")
-    api("com.github.pagehelper:pagehelper-spring-boot-starter:2.1.0")
+    api("com.github.pagehelper:pagehelper-spring-boot-starter:4.0.0")
 
     // Silences "cannot find javax.annotation.Nonnull" cosmetic warnings emitted when
     // resolving Spring's @Nullable. Not exposed to consumers (compileOnly).
@@ -63,12 +63,12 @@ dependencies {
     compileOnly("org.springframework.boot:spring-boot-starter-web")
     compileOnly("com.fasterxml.jackson.core:jackson-databind")
     compileOnly("io.projectreactor:reactor-core")
-    compileOnly("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4")
+    compileOnly("org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-web")
-    testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4")
+    testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1")
     testImplementation("io.projectreactor:reactor-core")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("com.h2database:h2")
