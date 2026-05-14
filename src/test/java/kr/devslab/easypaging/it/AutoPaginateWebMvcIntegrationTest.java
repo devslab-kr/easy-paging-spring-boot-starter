@@ -37,7 +37,7 @@ class AutoPaginateWebMvcIntegrationTest {
     }
 
     @Test
-    void multiColumnSortIsApplied() throws Exception {
+    void singleColumnSortIsApplied() throws Exception {
         mockMvc.perform(get("/test/auto/users")
                         .param("page", "0")
                         .param("size", "3")
