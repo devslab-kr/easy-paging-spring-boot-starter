@@ -2,6 +2,7 @@ package kr.devslab.easypaging.autoconfigure;
 
 import java.util.List;
 import kr.devslab.easypaging.core.CursorCodec;
+import kr.devslab.easypaging.support.InvalidSortParameterException;
 import kr.devslab.easypaging.support.KeysetRequestArgumentResolver;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -11,6 +12,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -26,17 +29,32 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @AutoConfigureAfter(EasyPagingAutoConfiguration.class)
 @ConditionalOnClass(WebMvcConfigurer.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-@ConditionalOnBean(CursorCodec.class)
 @ConditionalOnProperty(prefix = "easy-paging", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class EasyPagingWebMvcConfiguration {
 
     @Bean
+    @ConditionalOnBean(CursorCodec.class)
     public WebMvcConfigurer easyPagingWebMvcConfigurer(CursorCodec codec, EasyPagingProperties properties) {
         return new WebMvcConfigurer() {
             @Override
             public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
                 resolvers.add(new KeysetRequestArgumentResolver(codec, properties));
             }
+        };
+    }
+
+    @Bean
+    public HandlerExceptionResolver easyPagingInvalidSortResolver() {
+        return (request, response, handler, ex) -> {
+            Throwable current = ex;
+            while (current != null) {
+                if (current instanceof InvalidSortParameterException) {
+                    response.setStatus(400);
+                    return new ModelAndView();
+                }
+                current = current.getCause();
+            }
+            return null;
         };
     }
 }

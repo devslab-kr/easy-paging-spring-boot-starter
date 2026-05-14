@@ -8,6 +8,7 @@ import kr.devslab.easypaging.annotation.AutoPaginate;
 import kr.devslab.easypaging.autoconfigure.EasyPagingProperties;
 import kr.devslab.easypaging.core.PageResponse;
 import kr.devslab.easypaging.spi.PageResponseFactory;
+import kr.devslab.easypaging.support.InvalidSortParameterException;
 import kr.devslab.easypaging.support.SortConverter;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -19,9 +20,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Synchronous aspect that converts {@link AutoPaginate}-annotated methods
@@ -85,13 +84,10 @@ public class AutoPaginateAspect {
             try {
                 orderBy = SortConverter.toOrderBy(pageable.getSort());
             } catch (IllegalArgumentException invalidSort) {
-                // Translating Sort threw — that's a *client* error
-                // (?sort=…;DROP TABLE…), so surface HTTP 400 rather than 500.
                 if (log.isDebugEnabled()) {
                     log.debug("Rejected invalid sort parameter: {}", invalidSort.getMessage(), invalidSort);
                 }
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, "Invalid sort parameter.", invalidSort);
+                throw new InvalidSortParameterException("Invalid sort parameter.", invalidSort);
             }
             if (!orderBy.isEmpty()) {
                 PageHelper.orderBy(orderBy);
