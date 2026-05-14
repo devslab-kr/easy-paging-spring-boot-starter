@@ -19,9 +19,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Synchronous aspect that converts {@link AutoPaginate}-annotated methods
