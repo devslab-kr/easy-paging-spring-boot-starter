@@ -5,6 +5,8 @@
 > Annotation-driven pagination for Spring Boot + MyBatis. Offset and keyset/cursor in one starter.
 
 [![Maven Central](https://img.shields.io/maven-central/v/kr.devslab/easy-paging-spring-boot-starter.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter)
+[![CI](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 ## At a glance
@@ -115,7 +117,8 @@ The starter collapses all six concerns into the four-line controller at the top 
 ## What you get
 
 - **Spring Data-shaped JSON** out of the box (or [override the response format](#custom-response-format) if you have a company standard).
-- **Safe `?sort=…`** — the sort parameter is validated before it reaches the database; injection attempts get rejected.
+- **0-based pagination** following Spring Data convention (`?page=0` is the first page); PageHelper's 1-based indexing is handled transparently underneath.
+- **Safe `?sort=…`** — the sort parameter is validated before it reaches the database; injection attempts are rejected with HTTP 400.
 - **Page-size clamping** at both the per-endpoint and global level — clients can't ask for `?size=999999`.
 - **Sensible defaults** — page size, max size, and "reasonable" out-of-range handling are all configurable.
 - **Keyset (cursor) pagination** for time-series or unbounded tables where `OFFSET` and `COUNT(*)` become slow ([details](#keyset--cursor-pagination---keysetpaginate)).
@@ -133,10 +136,12 @@ dependencies {
 
 You bring:
 - Spring Boot 3.3+ on Java 21+
-- `mybatis-spring-boot-starter` (any 3.x)
-- a JDBC driver / `DataSource`
+- `mybatis-spring-boot-starter` (any 3.x) — wires up `DataSource`, `SqlSessionFactory`, and `@MapperScan`
+- a JDBC driver
 
-The starter pulls in `spring-boot-starter-aop`, `spring-data-commons`, and `pagehelper-spring-boot-starter` for you.
+The starter pulls in `spring-boot-starter-aop`, `spring-data-commons`, and `pagehelper-spring-boot-starter` for you. **You do not need to add Spring Data JPA** — only the lightweight `spring-data-commons` (which provides `Pageable`, `Page`, `Sort`) is required, and it comes along automatically.
+
+> Why isn't `mybatis-spring-boot-starter` transitive? Because almost every MyBatis project already declares it explicitly with its preferred version, and forcing a version through our starter would create conflicts. Same reasoning for `spring-boot-starter-web` / `webflux` and the JDBC driver — you bring what your app already uses.
 
 ## Offset pagination — `@AutoPaginate`
 
@@ -281,6 +286,17 @@ class AuditEventService {
 | `PageResponse<T>`         | Wrapped envelope with content + pagination metadata. **Recommended for REST.**   |
 | `Object`                  | Wrapped envelope — also routes through a [custom factory](#custom-response-format) if one is registered. Use this when you've replaced the default response shape. |
 | `List<T>`                 | Plain list (sliced and sorted, but no envelope or totals).                       |
+
+### Page numbering
+
+Page numbers are **0-based** throughout — request, response, and your `Pageable`-bound code all use the Spring Data convention. PageHelper internally uses 1-based numbering, but the aspect translates between them transparently so your mapper SQL and the rest of your code only ever see 0-based values.
+
+```
+GET /reports?page=0&size=20  →  first page
+GET /reports?page=1&size=20  →  second page
+```
+
+(For APIs that want to expose 1-based numbering to clients — a common preference in some teams — a configurable option is planned for v0.2.0.)
 
 ### Sorting
 

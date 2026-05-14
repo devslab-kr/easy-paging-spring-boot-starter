@@ -6,6 +6,8 @@
 > Offset 방식과 Keyset/Cursor 방식을 하나로 제공합니다.
 
 [![Maven Central](https://img.shields.io/maven-central/v/kr.devslab/easy-paging-spring-boot-starter.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter)
+[![CI](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 ## 한눈에 보기
@@ -116,7 +118,8 @@ public Map<String, Object> list(
 ## 무엇을 제공하는가
 
 - **Spring Data 호환 JSON** 응답을 기본 제공 (회사 표준 래퍼가 따로 있다면 [응답 형식 커스터마이징](#커스텀-응답-형식) 가능)
-- **안전한 `?sort=…`** — sort 파라미터는 DB에 도달하기 전 검증되어 인젝션 시도를 거부
+- **0-based 페이지 번호** — Spring Data 컨벤션 (`?page=0`이 첫 페이지). PageHelper의 1-based 인덱싱은 내부에서 자동 변환됨
+- **안전한 `?sort=…`** — sort 파라미터는 DB에 도달하기 전 검증되어 인젝션 시도를 HTTP 400으로 거부
 - **페이지 크기 클램핑** — 엔드포인트별 + 전역 상한 이중 적용. 클라이언트가 `?size=999999`로 요청해도 막힘
 - **합리적인 기본값** — 기본 페이지 크기, 최대 크기, 범위 밖 페이지 처리 모두 설정 가능
 - **Keyset(커서) 페이지네이션** — 시계열이나 무한 스트림 테이블처럼 `OFFSET`과 `COUNT(*)`가 부담스러운 경우 ([자세히](#keyset--cursor-페이지네이션--keysetpaginate))
@@ -134,10 +137,12 @@ dependencies {
 
 여러분이 추가:
 - Spring Boot 3.3+ / Java 21+
-- `mybatis-spring-boot-starter` (3.x 모두 지원)
-- JDBC 드라이버 / `DataSource`
+- `mybatis-spring-boot-starter` (3.x 모두 지원) — `DataSource`, `SqlSessionFactory`, `@MapperScan` 자동 설정
+- JDBC 드라이버
 
-스타터가 자동으로 가져옴: `spring-boot-starter-aop`, `spring-data-commons`, `pagehelper-spring-boot-starter`.
+스타터가 자동으로 가져옴: `spring-boot-starter-aop`, `spring-data-commons`, `pagehelper-spring-boot-starter`. **Spring Data JPA는 필요 없습니다** — 가벼운 `spring-data-commons` (`Pageable`, `Page`, `Sort` 제공)만 transitively 따라옵니다.
+
+> `mybatis-spring-boot-starter`를 왜 transitive로 안 가져오는지? 거의 모든 MyBatis 프로젝트가 이미 명시적으로 선언하고 있고, 우리 스타터에서 특정 버전을 강제하면 충돌이 발생합니다. `spring-boot-starter-web` / `webflux`나 JDBC 드라이버를 우리가 가져오지 않는 것과 같은 이유 — 본인 프로젝트가 이미 쓰고 있는 걸 그대로 활용하라는 의도입니다.
 
 ## Offset 페이지네이션 — `@AutoPaginate`
 
@@ -282,6 +287,17 @@ class AuditEventService {
 | `PageResponse<T>`         | 페이지네이션 메타데이터를 포함한 응답 래퍼. **REST 엔드포인트에 권장.**            |
 | `Object`                  | 응답 래퍼 — [커스텀 응답 형식](#커스텀-응답-형식)을 등록했다면 그쪽으로 라우팅됨. 기본 응답 형식을 바꿔 쓰는 경우 사용. |
 | `List<T>`                 | 평범한 리스트 (슬라이스·정렬은 적용되지만 메타데이터·총개수 없음).                  |
+
+### 페이지 번호
+
+페이지 번호는 **요청·응답·`Pageable` 코드 전반에서 0-based** — Spring Data 컨벤션을 그대로 따릅니다. PageHelper는 내부적으로 1-based지만, aspect가 자동 변환해주므로 매퍼 SQL이나 나머지 코드는 항상 0-based만 마주합니다.
+
+```
+GET /reports?page=0&size=20  →  첫 페이지
+GET /reports?page=1&size=20  →  두 번째 페이지
+```
+
+(클라이언트에 1-based 페이지 번호를 노출하고 싶은 팀을 위한 설정 옵션은 v0.2.0에 예정.)
 
 ### 정렬
 
