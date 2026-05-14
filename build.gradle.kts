@@ -1,5 +1,6 @@
 plugins {
     `java-library`
+    jacoco
     id("org.springframework.boot") version "3.3.5" apply false
     id("io.spring.dependency-management") version "1.1.6"
     id("com.vanniktech.maven.publish") version "0.30.0"
@@ -83,6 +84,21 @@ tasks.test {
         showStandardStreams = false
     }
     systemProperty("file.encoding", "UTF-8")
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+jacoco {
+    // 0.8.13 supports Java 21+ bytecode (records, sealed, pattern matching).
+    toolVersion = "0.8.13"
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)    // consumed by Codecov in CI
+        html.required.set(true)   // human-readable report at build/reports/jacoco/test/html
+        csv.required.set(false)
+    }
 }
 
 mavenPublishing {
