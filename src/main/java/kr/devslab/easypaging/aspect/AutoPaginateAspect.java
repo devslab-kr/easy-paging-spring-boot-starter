@@ -85,8 +85,11 @@ public class AutoPaginateAspect {
             } catch (IllegalArgumentException invalidSort) {
                 // Translating Sort threw — that's a *client* error
                 // (?sort=…;DROP TABLE…), so surface HTTP 400 rather than 500.
+                if (log.isDebugEnabled()) {
+                    log.debug("Rejected invalid sort parameter: {}", invalidSort.getMessage(), invalidSort);
+                }
                 throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, invalidSort.getMessage(), invalidSort);
+                        HttpStatus.BAD_REQUEST, "Invalid sort parameter.", invalidSort);
             }
             if (!orderBy.isEmpty()) {
                 PageHelper.orderBy(orderBy);
