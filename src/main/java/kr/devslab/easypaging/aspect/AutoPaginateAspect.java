@@ -19,7 +19,9 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Synchronous aspect that converts {@link AutoPaginate}-annotated methods
@@ -77,19 +79,28 @@ public class AutoPaginateAspect {
                 autoPaginate.reasonable(),
                 /* pageSizeZero = */ Boolean.FALSE);
 
-        String orderBy = SortConverter.toOrderBy(pageable.getSort());
-        if (!orderBy.isEmpty()) {
-            PageHelper.orderBy(orderBy);
-        }
-
         Class<?> declaredReturnType = ((MethodSignature) pjp.getSignature()).getReturnType();
         try {
+            String orderBy;
+            try {
+                orderBy = SortConverter.toOrderBy(pageable.getSort());
+            } catch (IllegalArgumentException invalidSort) {
+                // Translating Sort threw — that's a *client* error
+                // (?sort=…;DROP TABLE…), so surface HTTP 400 rather than 500.
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, invalidSort.getMessage(), invalidSort);
+            }
+            if (!orderBy.isEmpty()) {
+                PageHelper.orderBy(orderBy);
+            }
+
             Object result = pjp.proceed();
             return adaptResult(result, pageable, declaredReturnType);
         } finally {
-            // Defensive: if the method threw before the mapper ran, the page
-            // remains parked on PageHelper's thread-local stack. Clear it so
-            // the next request on this (virtual or platform) thread starts clean.
+            // Defensive: even if SortConverter / mapper / adapter throws before
+            // PageHelper consumes the page, the local state remains parked on
+            // the thread. Clear it so the next request on this (virtual or
+            // platform) thread starts clean.
             PageHelper.clearPage();
         }
     }
