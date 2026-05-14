@@ -1,4 +1,8 @@
-DELETE FROM test_users;
+-- TRUNCATE … RESTART IDENTITY resets the IDENTITY sequence so IDs are 1..N
+-- on every (Spring) context startup, even though H2's mem DB outlives the
+-- context (DB_CLOSE_DELAY=-1).  Without this, sequential @SpringBootTest
+-- classes see IDs of 13..24, 25..36, etc.
+TRUNCATE TABLE test_users RESTART IDENTITY;
 
 INSERT INTO test_users (name, created_at) VALUES
   ('alice',   '2026-05-01 10:00:00'),
