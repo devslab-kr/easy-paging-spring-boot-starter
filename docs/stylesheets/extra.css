@@ -89,6 +89,55 @@
   text-underline-offset: 0.18em;
 }
 
+/* === Buttons ({ .md-button } / { .md-button--primary }) ===================
+ * Same root cause as the body links: Material's default button colors
+ * inherit from primary, which we set to match body bg. Result: outlined
+ * buttons (.md-button) were transparent-on-transparent until hover, and
+ * the primary CTA looked muddy. Rewire to the accent (cyan) family so the
+ * three landing-page buttons (Get Started / GitHub / Maven Central) all
+ * stay visible at rest.
+ * ========================================================================== */
+
+/* Outlined: cyan border + cyan text, fills on hover */
+.md-typeset .md-button {
+  color: var(--md-accent-fg-color);
+  border-color: var(--md-accent-fg-color);
+}
+.md-typeset .md-button:hover,
+.md-typeset .md-button:focus {
+  background-color: var(--md-accent-fg-color);
+  color: #ffffff;
+  border-color: var(--md-accent-fg-color);
+  text-decoration: none;   /* override the global link-hover underline */
+}
+
+/* Primary CTA: filled cyan, white text */
+.md-typeset .md-button--primary {
+  background-color: var(--md-accent-fg-color);
+  color: #ffffff;
+  border-color: var(--md-accent-fg-color);
+}
+.md-typeset .md-button--primary:hover,
+.md-typeset .md-button--primary:focus {
+  background-color: #0891b2;   /* cyan-600 — darker on hover */
+  border-color: #0891b2;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Dark-mode hover: use a brighter cyan since the base is already brighter,
+ * with dark text for contrast. */
+[data-md-color-scheme="slate"] .md-typeset .md-button--primary:hover,
+[data-md-color-scheme="slate"] .md-typeset .md-button--primary:focus {
+  background-color: #67e8f9;   /* cyan-300 */
+  border-color: #67e8f9;
+  color: #18181b;
+}
+[data-md-color-scheme="slate"] .md-typeset .md-button:hover,
+[data-md-color-scheme="slate"] .md-typeset .md-button:focus {
+  color: #18181b;              /* dark text on bright-cyan filled hover */
+}
+
 /* === Hairline separation (the only visual cue the header exists) ========== */
 .md-header {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
