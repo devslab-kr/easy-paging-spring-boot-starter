@@ -132,14 +132,15 @@ The starter collapses all six concerns into the four-line controller at the top 
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.2.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0")
 }
 ```
 
 You bring:
-- Spring Boot 3.3+ on Java 21+
-- `mybatis-spring-boot-starter` (any 3.x) — wires up `DataSource`, `SqlSessionFactory`, and `@MapperScan`
+- Spring Boot 3.3+ on Java 21+ (built/tested against 3.5)
 - a JDBC driver
+
+(MyBatis Spring Boot Starter is now provided transitively — see the [installation guide](https://easy-paging.devslab.kr/getting-started/installation/) if you need a different MyBatis line.)
 
 The starter pulls in `spring-boot-starter-aop`, `spring-data-commons`, and `pagehelper-spring-boot-starter` for you. **You do not need to add Spring Data JPA** — only the lightweight `spring-data-commons` (which provides `Pageable`, `Page`, `Sort`) is required, and it comes along automatically.
 

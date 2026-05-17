@@ -6,6 +6,24 @@ For the canonical, machine-readable source see [`CHANGELOG.md`](https://github.c
 
 ---
 
+## [0.3.0] — 2026-05-18
+
+### Added
+
+- **Keyset reverse direction.** `KeysetPage.prevCursor` is no longer always `null` — it's populated whenever a page that isn't the first is returned, encoded with `BACKWARD` direction. Cursor field semantics are **direction-invariant**: `nextCursor` always means "load older items", `prevCursor` always means "load newer items". The client never has to track which way they're scanning. See [Bidirectional scrolling](guides/keyset.md#bidirectional-scrolling) for the consumer-side pattern (mirror `findBefore` mapper + `request.direction()` dispatch).
+
+### Changed
+
+- **Spring Boot baseline bumped 3.3.5 → 3.5.3.** Internal build/test baseline only; consumers on Spring Boot 3.3+ continue to work because our Spring deps are declared via `api(...)` without version pinning. 3.3 and 3.4 reached OSS end-of-life before this release, so 3.5 is the only currently OSS-supported line.
+- **PageHelper bumped 2.1.0 → 2.1.1.** Picks up MyBatis 3.5.19 + PageHelper engine 6.1.1 (upstream bug-fix patches).
+- **`mybatis-spring-boot-starter:3.0.4` is now provided transitively** — consumers no longer have to add it themselves. Previously, PageHelper's transitive Spring Boot 2.7 line MyBatis starter could leak into apps that forgot to override it; now the library pins the Boot 3-compatible version directly. Override via `exclude(group = "org.mybatis.spring.boot")` if you need a different MyBatis line.
+- Docs: `installation` pages updated to reflect both dependency changes; `keyset` guide gains the "Bidirectional scrolling" section.
+
+### Notes
+
+- `KeysetPage.build` API signature is unchanged, but its behavior is now direction-aware. Forward-only consumers see no change; the only observable difference is that `prevCursor` is no longer always `null` on pages past the first.
+- JUnit Jupiter 5.11+ (shipped by Spring Boot 3.5) needs an explicit `junit-platform-launcher` declaration in projects on Gradle 8.10.x. Build-only concern for this library; not exposed to consumers.
+
 ## [0.2.0] — 2026-05-18
 
 ### Added
