@@ -6,6 +6,25 @@ For the canonical, machine-readable source see [`CHANGELOG.md`](https://github.c
 
 ---
 
+## [0.2.0] — 2026-05-18
+
+### Added
+
+- **`easy-paging.one-indexed-pages` configuration option** (default `false`). When `true`, page numbers are 1-based on both request and response — `?page=1` is the first page, response shows `"page": 1`. See [Sorting & Page Numbering](guides/sorting.md#exposing-1-based-page-numbers-to-clients) for the full contract.
+- `PageResponse.withOneIndexedPages()` — pure transform invoked by the aspect; also usable directly when constructing `PageResponse` manually.
+- **API (Javadoc) reference page** linking to javadoc.io with a quick map of the main public types.
+
+### Changed
+
+- *Sorting & Page Numbering* guide now documents the new option instead of describing it as a future plan.
+- *Configuration* reference lists `one-indexed-pages` alongside the other tunables.
+
+### Notes
+
+- Backward compatible — default behavior is 0-based, identical to v0.1.x. Existing consumers do not need to opt in.
+
+---
+
 ## [0.1.2] — 2026-05-17
 
 ### Added

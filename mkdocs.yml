@@ -78,6 +78,7 @@ plugins:
             Sorting & Page Numbering: 정렬과 페이지 번호
             Reference: 레퍼런스
             Configuration: 설정
+            API (Javadoc): API (Javadoc)
             Changelog: 변경 이력
             Contributing: 기여 가이드
 
@@ -135,5 +136,6 @@ nav:
       - Sorting & Page Numbering: guides/sorting.md
   - Reference:
       - Configuration: reference/configuration.md
+      - API (Javadoc): reference/javadoc.md
   - Changelog: changelog.md
   - Contributing: contributing.md

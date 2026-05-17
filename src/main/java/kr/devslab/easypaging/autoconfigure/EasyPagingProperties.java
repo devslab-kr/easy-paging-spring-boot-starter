@@ -26,6 +26,21 @@ public class EasyPagingProperties {
     /** Whether the aspect should auto-wrap returned {@code List} values into {@code PageResponse}. */
     private boolean autoWrapList = true;
 
+    /**
+     * When {@code true}, page numbers are 1-based on both the incoming request
+     * and the outgoing response: {@code ?page=1} is the first page, and the
+     * response's {@code page} field starts at {@code 1}. Default {@code false}
+     * preserves Spring Data's 0-based convention.
+     *
+     * <p>Internally, Spring's
+     * {@link org.springframework.data.web.PageableHandlerMethodArgumentResolver}
+     * is told to translate 1-based query parameters into 0-based {@code Pageable}
+     * instances, and the aspect shifts the response {@code page} field by
+     * {@code +1} on the way out. Keyset/cursor endpoints are unaffected
+     * (cursors don't use page numbers).
+     */
+    private boolean oneIndexedPages = false;
+
     private final Keyset keyset = new Keyset();
 
     public int getDefaultPageSize() {
@@ -50,6 +65,14 @@ public class EasyPagingProperties {
 
     public void setAutoWrapList(boolean autoWrapList) {
         this.autoWrapList = autoWrapList;
+    }
+
+    public boolean isOneIndexedPages() {
+        return oneIndexedPages;
+    }
+
+    public void setOneIndexedPages(boolean oneIndexedPages) {
+        this.oneIndexedPages = oneIndexedPages;
     }
 
     public Keyset getKeyset() {

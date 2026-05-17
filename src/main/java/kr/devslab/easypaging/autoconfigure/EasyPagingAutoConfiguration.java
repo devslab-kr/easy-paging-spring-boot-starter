@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.config.PageableHandlerMethodArgumentResolverCustomizer;
 
 /**
  * Main auto-configuration. Activates when both PageHelper and Spring Data
@@ -41,5 +42,23 @@ public class EasyPagingAutoConfiguration {
         ObjectMapper mapper = objectMapper.getIfAvailable(ObjectMapper::new);
         EasyPagingProperties.Keyset keyset = properties.getKeyset();
         return new CursorCodec(mapper, keyset.getCursorSecret(), keyset.getMaxCursorBytes());
+    }
+
+    /**
+     * Wires the input half of the one-indexed-pages contract: Spring Data Web's
+     * {@code PageableHandlerMethodArgumentResolver} is told to interpret
+     * {@code ?page=1} as the first page (translating to a 0-based {@code Pageable}
+     * internally), instead of the default where {@code ?page=0} is the first page.
+     *
+     * <p>The output half (response {@code page} field shifted by {@code +1}) is
+     * applied by {@link AutoPaginateAspect}.
+     *
+     * <p>Registered only when {@code easy-paging.one-indexed-pages=true}, so
+     * default 0-based behavior is unchanged for consumers who don't opt in.
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = "easy-paging", name = "one-indexed-pages", havingValue = "true")
+    public PageableHandlerMethodArgumentResolverCustomizer easyPagingOneIndexedPageableCustomizer() {
+        return resolver -> resolver.setOneIndexedParameters(true);
     }
 }

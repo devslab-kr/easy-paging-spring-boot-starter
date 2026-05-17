@@ -150,8 +150,10 @@ public class AutoPaginateAspect {
         if (result == null) {
             return null;
         }
-        if (result instanceof PageResponse<?>) {
-            return result; // Caller already produced the envelope.
+        if (result instanceof PageResponse<?> pre) {
+            // Caller already produced the envelope. Still apply the 1-based
+            // shift if configured, so manual + auto-wrapped paths are consistent.
+            return properties.isOneIndexedPages() ? pre.withOneIndexedPages() : pre;
         }
         if (!properties.isAutoWrapList()) {
             return result;
@@ -170,14 +172,18 @@ public class AutoPaginateAspect {
             // subclass). Wrapping would break the cast — return the list verbatim.
             return list;
         }
+
+        PageResponse<?> envelope = PageResponse.from((List) list, pageable);
+        if (properties.isOneIndexedPages()) {
+            envelope = envelope.withOneIndexedPages();
+        }
         if (responseFactory != null) {
-            PageResponse<?> envelope = PageResponse.from((List) list, pageable);
             return responseFactory.create(
                     envelope.content(),
                     pageable,
                     envelope.totalElements(),
                     envelope.totalPages());
         }
-        return PageResponse.from((List) list, pageable);
+        return envelope;
     }
 }

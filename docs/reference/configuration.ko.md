@@ -10,6 +10,7 @@ easy-paging:
   default-page-size: 20          # 호출자가 ?size= 생략했을 때 사용
   max-page-size: 500             # 전역 절대 상한 (@AutoPaginate maxSize가 더 커도 절대 초과 X)
   auto-wrap-list: true           # false면 PageResponse 자동 래핑을 전역 비활성화
+  one-indexed-pages: false       # true면 1-based 페이지 번호 (요청 + 응답 모두)
   keyset:
     cursor-secret: ""            # 커서 서명용 HMAC-SHA256 시크릿; 빈 값 = 서명 없음 (개발용만)
     max-cursor-bytes: 2048       # 디코딩된 커서 페이로드 크기 상한 (DoS 방지)
@@ -62,6 +63,24 @@ Spring MVC의 `PageableHandlerMethodArgumentResolver`도 자체 기본값(20)이
 `false`면, `PageResponse`나 `Object` 반환 타입을 선언하고 실제로 `List`를 반환하는 메서드에서 리스트가 래핑 없이 그대로 반환됨. Aspect는 여전히 `PageHelper.startPage(...)`를 호출 — 래핑 단계만 스킵.
 
 응답 래핑을 수동으로 처리하고 싶을 때 유용 (예: `ResponseBodyAdvice` 사용).
+
+### `easy-paging.one-indexed-pages`
+
+| | |
+|---|---|
+| **타입** | `boolean` |
+| **기본값** | `false` (Spring Data 0-based 컨벤션) |
+| **효과** | `true`면 요청과 응답 모두 1-based 페이지 번호 사용 |
+
+`true`로 설정 시:
+
+- 클라이언트가 첫 페이지에 `?page=1`을 보내고, 응답에도 `"page": 1`로 표시됨.
+- Spring의 `PageableHandlerMethodArgumentResolver`가 `setOneIndexedParameters(true)`로 설정되어, 들어오는 1-based 값이 내부에선 0-based `Pageable`로 변환됨.
+- Aspect가 응답의 `page` 필드를 `+1` 시프트하여 직렬화.
+- 다른 메타데이터 (`totalPages`, `first`, `last`) 는 변화 없음.
+- Keyset (커서) 엔드포인트는 영향 없음 — 커서는 페이지 번호를 사용하지 않음.
+
+API 계약이나 프론트엔드 컨벤션이 사람-친화 1-based 번호인 경우 유용.
 
 ### `easy-paging.keyset.cursor-secret`
 
