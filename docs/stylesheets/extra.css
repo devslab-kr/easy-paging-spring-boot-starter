@@ -29,15 +29,18 @@
 }
 
 /* === Palette (light scheme) ==============================================
+ * Scoped to `[data-md-color-scheme="default"]`, not `:root`. Material's
+ * own default-scheme stylesheet re-defines these variables inside that
+ * exact scope, and at equal specificity the later rule wins — meaning
+ * anything we set in `:root` was getting silently overridden, leaving
+ * body links the wrong color (and sometimes invisible against the
+ * white body bg). Same trick already worked for the dark scheme below;
+ * apply it consistently here.
+ *
  * Header bg = body bg (white). Header text = dark (zinc-900) for contrast.
  * Cyan-electric stays as a small accent on links/hovers.
- *
- * Important: Material defaults `--md-typeset-a-color` to `--md-primary-fg-color`.
- * Because we set primary = body bg (so the header blends in), that default
- * would make body links invisible — same color as the page. Explicitly point
- * link color at the accent (cyan) instead.
  * ========================================================================== */
-:root {
+[data-md-color-scheme="default"] {
   /* Primary = header surface; match body bg so the header blends in. */
   --md-primary-fg-color:        #ffffff;
   --md-primary-fg-color--light: #fafafa;
