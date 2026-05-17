@@ -28,23 +28,28 @@ theme:
     - content.tabs.link
     - content.action.edit
   palette:
+    # `custom` activates the CSS-variable-driven palette defined in
+    # docs/stylesheets/extra.css (matches devslab.kr brand colors).
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-sunny
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-night
         name: Switch to light mode
   icon:
     repo: fontawesome/brands/github
     edit: material/pencil
+
+extra_css:
+  - stylesheets/extra.css
 
 plugins:
   - search
