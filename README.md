@@ -9,6 +9,8 @@
 [![codecov](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
+📖 **[Documentation → easy-paging.devslab.kr](https://easy-paging.devslab.kr/)**
+
 ## At a glance
 
 Drop one annotation on a controller method and get a JSON-ready paginated response. With the standard Controller → Service → Mapper layering, the controller stays thin:

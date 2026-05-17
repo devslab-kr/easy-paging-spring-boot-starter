@@ -6,6 +6,23 @@ easy-paging의 모든 주요 변경사항이 여기 기록됩니다. 포맷은 [
 
 ---
 
+## [0.1.2] — 2026-05-17
+
+### 추가
+
+- **문서 사이트** [easy-paging.devslab.kr](https://easy-paging.devslab.kr/) — MkDocs Material로 빌드, 14 페이지 × 2 언어, `main` 푸시마다 자동 배포.
+- 양쪽 README에 문서 사이트 링크 추가.
+
+### 변경
+
+- POM `<url>`이 GitHub 레포가 아닌 이 문서 사이트를 가리키도록 변경. Maven Central listing의 "Project" 링크가 첫 방문자를 문서 사이트로 안내.
+
+### 메모
+
+- 기능 변경 없음. 의존성 도구의 새 POM URL이 필요한 경우가 아니면 업그레이드 불필요.
+
+---
+
 ## [0.1.1] — 2026-05-15
 
 ### 추가
