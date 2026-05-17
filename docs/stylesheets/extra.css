@@ -1,17 +1,17 @@
 /* ---------------------------------------------------------------------------
  * easy-paging docs — devslab brand theme
  *
- * Visual goals (matching devslab.kr's actual aesthetic):
- *   - Dark header in both light and dark mode (devslab.kr is dark-first).
- *   - Cyan-electric used as a small accent (links, hovers) — not a wall of color.
- *   - Pretendard typography for clean Korean rendering.
- *   - White-rendered devslab logo, working on both header backgrounds.
- *   - Bilingual "한/EN" language switcher instead of Material's CJK glyph.
+ * Aesthetic: header blends into the body — devslab.kr style.
+ *   - Light mode: white header, white body, dark text/logo
+ *   - Dark  mode: zinc-900 header, zinc-900 body, white text/logo
+ *   - Visual separation between header and body is a hairline border only
+ *   - Cyan-electric used as a small accent (links, hovers, active tab)
+ *   - Pretendard typography (same family as devslab.kr)
+ *   - Bilingual "EN / 한" language switcher (no CJK glyph, no generic globe)
  *
- * Material's default behavior paints the header in the primary color, which
- * made the whole top bar a bright cyan slab — too loud, doesn't match the
- * homepage. We decouple here: primary CSS variables stay neutral, header is
- * dressed explicitly in zinc-900, and cyan is reserved for accents.
+ * Material's default paints the header in primary color. We override the
+ * primary CSS variables to match the body bg so there's no visible color
+ * block at the top — just navigation sitting cleanly above content.
  * --------------------------------------------------------------------------- */
 
 /* === Typography: Pretendard (same family as devslab.kr) =================== */
@@ -29,80 +29,77 @@
 }
 
 /* === Palette (light scheme) ==============================================
- * Activated by `palette.primary: custom` / `palette.accent: custom`.
- * Primary is kept dark (zinc-900) so the header reads as a brand element,
- * not a bright color block. Accent (cyan-500) shows on links + hovers.
+ * Header bg = body bg (white). Header text = dark (zinc-900) for contrast.
+ * Cyan-electric stays as a small accent on links/hovers.
  * ========================================================================== */
 :root {
-  /* Header / "primary" surface */
-  --md-primary-fg-color:        #18181b;   /* zinc-900 */
-  --md-primary-fg-color--light: #27272a;   /* zinc-800 */
-  --md-primary-fg-color--dark:  #09090b;   /* zinc-950 */
-  --md-primary-bg-color:        #ffffff;
-  --md-primary-bg-color--light: rgba(255, 255, 255, 0.75);
+  /* Primary = header surface; match body bg so the header blends in. */
+  --md-primary-fg-color:        #ffffff;
+  --md-primary-fg-color--light: #fafafa;
+  --md-primary-fg-color--dark:  #f4f4f5;   /* zinc-100 — used for elevated states */
+  --md-primary-bg-color:        #18181b;   /* zinc-900 — text/logo on the white header */
+  --md-primary-bg-color--light: rgba(24, 24, 27, 0.75);
 
   /* Accent — small surfaces (links, hovers, selection) */
-  --md-accent-fg-color:              #06b6d4;                   /* cyan-500 (electric) */
+  --md-accent-fg-color:              #06b6d4;                  /* cyan-500 (electric) */
   --md-accent-fg-color--transparent: rgba(6, 182, 212, 0.10);
-  --md-accent-bg-color:              #ffffff;
-  --md-accent-bg-color--light:       rgba(255, 255, 255, 0.75);
 }
 
-/* === Dark scheme =========================================================
- * Body is zinc-900 (devslab.kr's actual bg hex). Header drops to zinc-950
- * so it sits visually above the body. Accent brightens slightly for contrast.
- * ========================================================================== */
+/* === Dark scheme — header blends into the zinc-900 body =================== */
 [data-md-color-scheme="slate"] {
-  --md-primary-fg-color:        #09090b;   /* zinc-950 — header darker than body */
-  --md-primary-fg-color--light: #18181b;   /* zinc-900 */
-  --md-primary-fg-color--dark:  #000000;
-  --md-primary-bg-color:        #fafafa;
+  --md-primary-fg-color:        #18181b;   /* zinc-900 — same as body bg below */
+  --md-primary-fg-color--light: #27272a;   /* zinc-800 — slightly raised */
+  --md-primary-fg-color--dark:  #09090b;   /* zinc-950 */
+  --md-primary-bg-color:        #fafafa;   /* white text/logo on dark header */
   --md-primary-bg-color--light: rgba(250, 250, 250, 0.75);
 
-  --md-accent-fg-color:              #22d3ee;                   /* cyan-400 — pops on dark */
+  --md-accent-fg-color:              #22d3ee;                  /* cyan-400 — pops on dark */
   --md-accent-fg-color--transparent: rgba(34, 211, 238, 0.12);
 
-  --md-default-bg-color:        #18181b;   /* zinc-900 — page bg */
+  /* Body bg matches devslab.kr's actual zinc-900. */
+  --md-default-bg-color:        #18181b;
   --md-default-bg-color--light: #27272a;
   --md-default-bg-color--lighter: #3f3f46;
   --md-code-bg-color:           #09090b;   /* zinc-950 — code blocks pop */
 }
 
-/* === Tabs bar (sub-nav below header) — keep it on-brand =================
- * Sits directly under the dark header. Default Material colors it with
- * primary; that's fine since primary is now zinc-900 / zinc-950, but tweak
- * for a hairline border separation.
- * ========================================================================== */
+/* === Hairline separation (the only visual cue the header exists) ========== */
+.md-header {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+[data-md-color-scheme="slate"] .md-header {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* === Tabs bar (sub-nav under header) — same blending treatment ============ */
 .md-tabs {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+[data-md-color-scheme="slate"] .md-tabs {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
 }
 .md-tabs__link--active {
-  color: #22d3ee;   /* cyan-400 — current section highlighted in electric */
+  color: var(--md-accent-fg-color);
   opacity: 1;
 }
 .md-tabs__link:hover {
-  color: #67e8f9 !important;  /* cyan-300 */
+  color: var(--md-accent-fg-color) !important;
   opacity: 1;
 }
 
-/* === Brand logo: render white on the dark header ==========================
- * logo-mark.svg is filled with #0a0a0a. brightness(0)+invert(1) maps any
- * source color to pure white, so one file works in both modes.
+/* === Brand logo — invert only in dark mode ================================
+ * logo-mark.svg ships as #0a0a0a (dark). That's perfect on the white light-
+ * mode header. In dark mode, force it white with brightness(0)+invert(1).
  * ========================================================================== */
-.md-header__button.md-logo img,
-.md-header__button.md-logo svg {
+[data-md-color-scheme="slate"] .md-header__button.md-logo img,
+[data-md-color-scheme="slate"] .md-header__button.md-logo svg {
   filter: brightness(0) invert(1);
 }
 
 /* === Language switcher: bilingual text label ===============================
- * The default Material translate icon uses material/translate which renders
- * "A + 文". The 文 is a CJK character meant as "(written) character" — i.e.
- * translation — but reads as Chinese to most Korean visitors.
- *
- * Replace with the **current page's language** as a short text badge:
- *   EN page → "EN"
- *   KO page → "한"
- * Material's dropdown chevron handles the "click to switch" affordance.
+ * Replace Material's "A + 文" CJK glyph with the current page language as
+ * a short badge ("EN" or "한"). The 文 reads as "Chinese" to most Korean
+ * visitors which isn't what we want for a language-switcher affordance.
  * ========================================================================== */
 .md-header [aria-label="Select language"] > svg,
 .md-header [aria-label*="언어"]              > svg {
