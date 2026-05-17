@@ -6,6 +6,25 @@ easy-paging의 모든 주요 변경사항이 여기 기록됩니다. 포맷은 [
 
 ---
 
+## [0.2.0] — 2026-05-18
+
+### 추가
+
+- **`easy-paging.one-indexed-pages` 설정 옵션** (기본 `false`). `true`로 설정 시 요청과 응답 모두 1-based 페이지 번호 사용 — `?page=1`이 첫 페이지, 응답에도 `"page": 1`. 전체 동작은 [정렬 & 페이지 번호](guides/sorting.md#클라이언트에-1-based-페이지-번호-노출) 참조.
+- `PageResponse.withOneIndexedPages()` — aspect가 호출하는 순수 변환 메서드. 수동으로 `PageResponse`를 만들 때 직접 사용도 가능.
+- **API (Javadoc) 레퍼런스 페이지** — javadoc.io 링크와 주요 public 타입 빠른 지도.
+
+### 변경
+
+- *정렬 & 페이지 번호* 가이드가 옵션 사용법을 설명 (이전엔 "예정" 으로만 표기).
+- *설정* 레퍼런스에 `one-indexed-pages` 추가.
+
+### 메모
+
+- 하위 호환 — 기본 동작은 0-based, v0.1.x와 동일. 기존 사용자는 opt-in 불필요.
+
+---
+
 ## [0.1.2] — 2026-05-17
 
 ### 추가

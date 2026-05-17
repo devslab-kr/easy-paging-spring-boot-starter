@@ -22,8 +22,21 @@ In the JSON response:
 }
 ```
 
-!!! note "1-based pagination for clients"
-    A configurable option to expose 1-based page numbers to clients (a common preference in some teams) is planned for v0.2.0. Until then, clients must use 0-based.
+### Exposing 1-based page numbers to clients
+
+If your team or API contract prefers human-friendly 1-based page numbering ("page 1" is the first page), flip a single property:
+
+```yaml
+easy-paging:
+  one-indexed-pages: true
+```
+
+With this on:
+
+- Clients send `?page=1&size=20` for the first page (and the response shows `"page": 1`).
+- Internally, Spring's `PageableHandlerMethodArgumentResolver` translates the incoming `?page=1` to `Pageable(pageNumber=0)`, and the aspect adds `+1` when serializing the response.
+- Keyset / cursor endpoints are unaffected — cursors don't use page numbers.
+- `totalPages`, `first`, and `last` are unchanged — only the `page` index shifts.
 
 ## Sorting — basic
 

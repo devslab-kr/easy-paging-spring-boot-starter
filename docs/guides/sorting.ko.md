@@ -22,8 +22,21 @@ JSON 응답에서:
 }
 ```
 
-!!! note "클라이언트에 1-based 페이지 번호 노출"
-    클라이언트에 1-based 페이지 번호를 노출하는 설정 옵션 (일부 팀에서 선호) 은 v0.2.0에 예정되어 있습니다. 그때까지는 클라이언트가 0-based를 사용해야 합니다.
+### 클라이언트에 1-based 페이지 번호 노출
+
+팀이나 API 계약이 "1페이지부터 시작" 같은 사람-친화 1-based 페이지 번호를 선호한다면, 설정 한 줄로 켤 수 있습니다:
+
+```yaml
+easy-paging:
+  one-indexed-pages: true
+```
+
+켜진 상태에서:
+
+- 클라이언트가 첫 페이지에 `?page=1&size=20` 을 보내고, 응답에도 `"page": 1` 로 표시됨.
+- 내부적으로 Spring의 `PageableHandlerMethodArgumentResolver`가 들어오는 `?page=1`을 `Pageable(pageNumber=0)`로 변환하고, aspect가 응답 직렬화 시 `+1` 보정.
+- Keyset / 커서 엔드포인트는 영향 없음 — 커서는 페이지 번호를 사용하지 않음.
+- `totalPages`, `first`, `last`는 변하지 않음 — `page` 인덱스만 시프트됨.
 
 ## 정렬 — 기본
 

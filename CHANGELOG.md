@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-05-18
+
+### Added
+- **`easy-paging.one-indexed-pages` configuration option** (default `false`).
+  When `true`, page numbers are 1-based on both incoming requests and
+  outgoing responses: `?page=1` is the first page, and the response's
+  `page` field starts at `1`. Internally, Spring's
+  `PageableHandlerMethodArgumentResolver` is configured with
+  `setOneIndexedParameters(true)` (input half) and the aspect shifts the
+  response `page` field by `+1` (output half) — both halves are wired by
+  the auto-configuration when the property is on. Keyset endpoints are
+  unaffected (cursors don't use page numbers).
+- `PageResponse.withOneIndexedPages()` — pure transform that shifts the
+  `page` field by `+1`. The aspect calls it; manual callers can use it
+  too if they construct `PageResponse` directly.
+- Docs site: **API (Javadoc)** reference page linking to javadoc.io for
+  the auto-mirrored Javadoc, with a quick-reference table of the main
+  public types.
+
+### Changed
+- Docs: `Sorting & Page Numbering` no longer says "1-based is planned"
+  — it documents the new `one-indexed-pages` option.
+- Docs: `Configuration` reference adds the new property with the same
+  detail level as the other entries.
+
+### Notes
+- Backward compatible: default behavior is unchanged (0-based). Existing
+  consumers do not need to opt in.
+
 ## [0.1.2] - 2026-05-17
 
 ### Added
@@ -84,7 +113,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configuration metadata for IDE auto-completion of `easy-paging.*` properties.
 - GitHub Actions workflows for CI and Maven Central release.
 
-[Unreleased]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/releases/tag/v0.1.0

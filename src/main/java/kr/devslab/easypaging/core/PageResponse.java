@@ -84,4 +84,28 @@ public record PageResponse<T>(
                 true,
                 true);
     }
+
+    /**
+     * Returns a copy with the {@code page} field shifted by {@code +1}, for
+     * APIs that expose 1-based page numbering to clients. Other fields are
+     * untouched (so {@code totalPages}, {@code first}, {@code last} remain
+     * computed against the original 0-based index, which is correct: the
+     * count of pages and the first/last flags don't depend on the chosen
+     * base).
+     *
+     * <p>Invoked by the aspect when {@code easy-paging.one-indexed-pages} is
+     * enabled. Manual callers normally don't need this — define the API in
+     * the convention you want and rely on the property.
+     */
+    public PageResponse<T> withOneIndexedPages() {
+        return new PageResponse<>(
+                content,
+                page + 1,
+                size,
+                totalElements,
+                totalPages,
+                first,
+                last,
+                empty);
+    }
 }

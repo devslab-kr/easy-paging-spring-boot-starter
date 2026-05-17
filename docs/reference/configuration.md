@@ -10,6 +10,7 @@ easy-paging:
   default-page-size: 20          # used when caller omits ?size=
   max-page-size: 500             # global hard cap (never exceeded, even if @AutoPaginate maxSize is higher)
   auto-wrap-list: true           # set false to disable PageResponse wrapping globally
+  one-indexed-pages: false       # set true for 1-based page numbers (client + response)
   keyset:
     cursor-secret: ""            # HMAC-SHA256 secret for signing cursors; empty = unsigned (dev only)
     max-cursor-bytes: 2048       # anti-DoS cap on decoded cursor payload size
@@ -62,6 +63,24 @@ Set lower for stricter DoS protection across the entire application.
 When `false`, methods declaring `PageResponse` or `Object` return type that actually return a `List` will have the list returned as-is, with no envelope wrapping. The aspect still calls `PageHelper.startPage(...)` — only the wrapping step is skipped.
 
 Useful when you want to handle all response wrapping manually (e.g. via a `ResponseBodyAdvice`).
+
+### `easy-paging.one-indexed-pages`
+
+| | |
+|---|---|
+| **Type** | `boolean` |
+| **Default** | `false` (Spring Data 0-based convention) |
+| **Effect** | When `true`, page numbers are 1-based on both request and response |
+
+With `true`:
+
+- Client sends `?page=1` for the first page; the response shows `"page": 1`.
+- Spring's `PageableHandlerMethodArgumentResolver` is configured with `setOneIndexedParameters(true)`, so the incoming 1-based value is translated to a 0-based `Pageable` internally.
+- The aspect shifts the response `page` field by `+1` on the way out.
+- Other metadata (`totalPages`, `first`, `last`) is unchanged.
+- Keyset (cursor) endpoints are unaffected — cursors don't use page numbers.
+
+Useful when your API contract or front-end convention is human-friendly 1-based numbering.
 
 ### `easy-paging.keyset.cursor-secret`
 

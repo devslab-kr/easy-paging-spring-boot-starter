@@ -61,4 +61,35 @@ class PageResponseTest {
 
         assertThat(response.content()).containsExactly("a");
     }
+
+    @Test
+    void withOneIndexedPagesShiftsPageByOne() {
+        Page<String> page = new Page<>(1, 5);
+        page.setTotal(12);
+        page.addAll(List.of("a", "b", "c", "d", "e"));
+
+        PageResponse<String> zeroBased = PageResponse.from(page, PageRequest.of(0, 5));
+        PageResponse<String> oneBased = zeroBased.withOneIndexedPages();
+
+        // Only the page index shifts — other metadata is identical.
+        assertThat(zeroBased.page()).isZero();
+        assertThat(oneBased.page()).isEqualTo(1);
+        assertThat(oneBased.content()).isEqualTo(zeroBased.content());
+        assertThat(oneBased.size()).isEqualTo(zeroBased.size());
+        assertThat(oneBased.totalElements()).isEqualTo(zeroBased.totalElements());
+        assertThat(oneBased.totalPages()).isEqualTo(zeroBased.totalPages());
+        assertThat(oneBased.first()).isEqualTo(zeroBased.first());
+        assertThat(oneBased.last()).isEqualTo(zeroBased.last());
+        assertThat(oneBased.empty()).isEqualTo(zeroBased.empty());
+    }
+
+    @Test
+    void withOneIndexedPagesIsIdempotentForCallerControl() {
+        // Calling twice shifts by 2 — withOneIndexedPages is a pure transform,
+        // not a "ensure 1-based" guard. Caller is responsible for applying it
+        // exactly once. (Documenting the behavior here so it doesn't change
+        // silently.)
+        PageResponse<String> base = PageResponse.from(List.of("x"), PageRequest.of(0, 5));
+        assertThat(base.withOneIndexedPages().withOneIndexedPages().page()).isEqualTo(2);
+    }
 }
