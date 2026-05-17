@@ -10,6 +10,8 @@
 [![codecov](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
+📖 **[문서 보기 → easy-paging.devslab.kr](https://easy-paging.devslab.kr/ko/)**
+
 ## 한눈에 보기
 
 컨트롤러 메서드에 어노테이션 하나만 붙이면 JSON 응답이 바로 나옵니다. Spring MVC 구조에서 컨트롤러는 서비스에 위임만 하고, 실제 로직은 서비스가 담당합니다:

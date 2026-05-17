@@ -6,6 +6,23 @@ For the canonical, machine-readable source see [`CHANGELOG.md`](https://github.c
 
 ---
 
+## [0.1.2] — 2026-05-17
+
+### Added
+
+- This **documentation site** at [easy-paging.devslab.kr](https://easy-paging.devslab.kr/) — built with MkDocs Material, 14 pages × 2 languages, auto-deployed on every push to `main`.
+- README link to the docs site (both languages).
+
+### Changed
+
+- POM `<url>` now points here (the docs site) instead of the GitHub repository. The "Project" link on Maven Central listings will lead first-time visitors here.
+
+### Notes
+
+- No functional changes. Consumers do not need to upgrade unless they want the new POM URL in their dependency tooling.
+
+---
+
 ## [0.1.1] — 2026-05-15
 
 ### Added

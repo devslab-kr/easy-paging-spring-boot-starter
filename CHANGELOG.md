@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-05-17
+
+### Added
+- **Documentation site** at [easy-paging.devslab.kr](https://easy-paging.devslab.kr/),
+  built with MkDocs Material. 14 pages in English and Korean covering
+  getting-started, feature guides, configuration reference, changelog,
+  and contributing. Auto-deployed via GitHub Actions on every push
+  to `main`.
+- README badges + prominent docs-site link in both languages.
+
+### Changed
+- POM `<url>` now points to the docs site (`https://easy-paging.devslab.kr`)
+  instead of the GitHub repository. The repo URL remains in `<scm>` and
+  `<issueManagement>`. As a result, the "Project" link on Maven Central
+  and mvnrepository.com listings will lead first-time visitors to the
+  docs site rather than the source code.
+
+### Notes
+- No functional changes to the library itself — this release is
+  documentation-only. Consumers do not need to upgrade unless they want
+  the new docs link in their dependency tooling.
+
 ## [0.1.1] - 2026-05-14
 
 ### Added
@@ -62,6 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configuration metadata for IDE auto-completion of `easy-paging.*` properties.
 - GitHub Actions workflows for CI and Maven Central release.
 
-[Unreleased]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/releases/tag/v0.1.0
