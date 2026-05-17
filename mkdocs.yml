@@ -19,8 +19,6 @@ theme:
     - navigation.indexes
     - navigation.top
     - navigation.tracking
-    - navigation.instant
-    - navigation.instant.prefetch
     - toc.follow
     - search.suggest
     - search.highlight
