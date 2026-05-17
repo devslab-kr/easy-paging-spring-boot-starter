@@ -17,9 +17,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   declares its Spring dependencies via `api(...)` without version
   pinning, so the consumer's BOM wins at resolution time. Anyone on
   3.5+ gets the freshest transitive dependency graph automatically.
-- Docs: `installation` pages note the new build baseline and clarify
-  that 3.3 / 3.4 are not covered by CI even though they should keep
-  working.
+- **PageHelper bumped from 2.1.0 to 2.1.1** — picks up MyBatis 3.5.19
+  and PageHelper engine 6.1.1 (both patch-level bug fixes upstream).
+- **`mybatis-spring-boot-starter:3.0.4` is now an `api` dependency.**
+  Previously consumers had to add it themselves because PageHelper
+  2.1.x still ships its own transitive `mybatis-spring-boot-starter:2.3.2`
+  (Spring Boot 2.7 line) and we relied on the consumer to override it.
+  Now the library declares 3.0.4 directly, so Gradle's conflict
+  resolution forces the Boot-3-compatible starter onto every consumer's
+  classpath automatically. Consumers who need a different MyBatis line
+  can exclude the group and declare their own — see the *Installation*
+  guide for the exact snippet.
+- Docs: `installation` pages updated to reflect both changes (3.5
+  baseline, transitive MyBatis starter).
 
 ## [0.2.0] - 2026-05-18
 

@@ -5,7 +5,6 @@
 - **Java 21+** (Spring Boot 3.5 기준)
 - **Spring Boot 3.3+** (빌드·테스트는 3.5 기준으로 진행. 3.3 / 3.4도 동작은 하지만 CI 검증 대상은 아님)
 - JDBC 드라이버 (`mysql-connector-j`, `postgresql`, `h2` 등 본인 선택)
-- `mybatis-spring-boot-starter` 3.x
 
 ## 의존성 추가
 
@@ -42,16 +41,23 @@
 - `spring-boot-starter-aop` (aspect 엔진)
 - `spring-data-commons` (`Pageable`, `Page`, `Sort` 타입만 — **Spring Data JPA 아님**)
 - `pagehelper-spring-boot-starter` (SQL 리라이팅 엔진)
+- `mybatis-spring-boot-starter` 3.x (`DataSource`, `SqlSessionFactory`, `@MapperScan` 자동 설정) — PageHelper가 여전히 Boot 2.7 라인 transitive를 끌고 오기 때문에 Boot 3 호환 라인으로 우리 쪽에서 고정해서 제공합니다
 
 ## 본인이 추가해야 하는 것
 
-다음은 의도적으로 transitive가 아닙니다 — 본인 프로젝트가 버전을 결정:
-
-- `mybatis-spring-boot-starter` — `DataSource`, `SqlSessionFactory`, `@MapperScan` 자동 설정
 - DB에 맞는 JDBC 드라이버
 
-!!! tip "왜 transitive로 안 가져오나요?"
-    거의 모든 MyBatis 프로젝트가 이미 명시적 버전으로 선언하고 있어서, 우리가 강제하면 충돌이 발생합니다. `spring-boot-starter-web` / `webflux`도 같은 이유 — 본인 프로젝트가 이미 쓰고 있는 걸 그대로 활용하라는 의도입니다.
+`spring-boot-starter-web` / `webflux`도 **transitive가 아닙니다** — 본인 앱이 쓰는 걸 그대로 사용하세요 (HTTP 컨텍스트가 아닌 곳에서 쓴다면 둘 다 안 넣어도 됩니다).
+
+!!! tip "다른 MyBatis 라인이 필요하다면"
+    PageHelper의 옛 transitive가 앱에 누출되지 않도록 MyBatis Spring Boot Starter 버전을 라이브러리가 고정합니다. 다른 MyBatis 라인이 필요하면 exclude 후 직접 선언:
+
+    ```kotlin
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.2.0") {
+        exclude(group = "org.mybatis.spring.boot")
+    }
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:원하는버전")
+    ```
 
 ## 셋업 확인
 
