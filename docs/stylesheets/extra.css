@@ -103,6 +103,23 @@
   text-decoration-thickness: 0.12em;
 }
 
+/* Code-styled link text — Material's <code> has its own (dark) color which
+ * blocks the link's cyan from showing through. Force <code> inside any body
+ * link to inherit the link color, so [`SomeFile.md`](...) reads as a link. */
+.md-typeset a code {
+  color: inherit;
+}
+
+/* Sidebar nav: active page should be obviously cyan. Material defaults
+ * to --md-typeset-a-color which is cyan-700, but the chrome around it
+ * (subtle background, weight) made it easy to miss in light mode. Bump
+ * weight and remove any opacity so the active page is unmistakable. */
+.md-nav__link--active {
+  color: var(--md-accent-fg-color);
+  font-weight: 700;
+  opacity: 1;
+}
+
 /* === Buttons ({ .md-button } / { .md-button--primary }) ===================
  * Same root cause as the body links: Material's default button colors
  * inherit from primary, which we set to match body bg. Result: outlined
