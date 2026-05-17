@@ -13,7 +13,7 @@
 
     ```kotlin
     dependencies {
-        implementation("kr.devslab:easy-paging-spring-boot-starter:0.1.1")
+        implementation("kr.devslab:easy-paging-spring-boot-starter:0.2.0")
     }
     ```
 
@@ -21,7 +21,7 @@
 
     ```groovy
     dependencies {
-        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.1.1'
+        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.2.0'
     }
     ```
 
@@ -31,7 +31,7 @@
     <dependency>
         <groupId>kr.devslab</groupId>
         <artifactId>easy-paging-spring-boot-starter</artifactId>
-        <version>0.1.1</version>
+        <version>0.2.0</version>
     </dependency>
     ```
 

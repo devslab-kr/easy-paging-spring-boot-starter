@@ -88,7 +88,7 @@ No `PageHelper.startPage(...)` calls scattered through your codebase, no `Thread
 
 ```kotlin title="build.gradle.kts"
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.1.1")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.2.0")
 }
 ```
 
