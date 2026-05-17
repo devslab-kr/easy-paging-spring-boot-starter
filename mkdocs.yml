@@ -1,0 +1,134 @@
+site_name: easy-paging
+site_url: https://easy-paging.devslab.kr/
+site_description: Annotation-driven pagination for Spring Boot + MyBatis. Offset and keyset/cursor in one starter.
+site_author: Devslab
+copyright: Copyright &copy; 2026 Devslab. Licensed under Apache 2.0.
+
+repo_url: https://github.com/devslab-kr/easy-paging-spring-boot-starter
+repo_name: devslab-kr/easy-paging-spring-boot-starter
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+    - navigation.instant
+    - navigation.instant.prefetch
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: ko
+          name: 한국어
+          build: true
+          nav_translations:
+            Home: 홈
+            Getting Started: 시작하기
+            Installation: 설치
+            Tutorial: 튜토리얼
+            Guides: 가이드
+            Offset Pagination: Offset 페이지네이션
+            Keyset Pagination: Keyset 페이지네이션
+            Reactive (WebFlux): Reactive (WebFlux)
+            Custom Response: 커스텀 응답
+            Sorting & Page Numbering: 정렬과 페이지 번호
+            Reference: 레퍼런스
+            Configuration: 설정
+            Changelog: 변경 이력
+            Contributing: 기여 가이드
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - footnotes
+  - tables
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/devslab-kr/easy-paging-spring-boot-starter
+    - icon: fontawesome/brands/java
+      link: https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter
+  alternate:
+    - name: English
+      link: /
+      lang: en
+    - name: 한국어
+      link: /ko/
+      lang: ko
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Tutorial: getting-started/tutorial.md
+  - Guides:
+      - Offset Pagination: guides/offset.md
+      - Keyset Pagination: guides/keyset.md
+      - Reactive (WebFlux): guides/reactive.md
+      - Custom Response: guides/custom-response.md
+      - Sorting & Page Numbering: guides/sorting.md
+  - Reference:
+      - Configuration: reference/configuration.md
+  - Changelog: changelog.md
+  - Contributing: contributing.md
