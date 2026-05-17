@@ -1,50 +1,78 @@
 /* ---------------------------------------------------------------------------
- * easy-paging docs — custom theme overrides
+ * easy-paging docs — devslab brand theme
  *
- * Two goals:
- *   1. Match devslab.kr brand colors (sky + electric-cyan) instead of the
- *      Material Indigo default.
- *   2. Replace the language switcher's "A + 文" CJK glyph (rendered from
- *      material/translate) with an unambiguous globe icon. The CJK glyph
- *      is meant to read as "translation" but reads as "Chinese" to many
- *      Korean visitors, which isn't the message we want.
+ * What this overrides:
+ *   1. Color palette: cyan-electric primary + emerald accent, matching the
+ *      tailwind.config.js tokens on devslab.kr (electric/cyan + emerald).
+ *   2. Typography: Pretendard for Korean (and Latin) — same as devslab.kr.
+ *      Falls back to system fonts so we don't depend on a single CDN.
+ *   3. Brand logo: forces the SVG to render in white so it stays visible on
+ *      both the cyan light-mode header and the dark slate header. (Logo
+ *      source uses #0a0a0a which would be invisible on dark.)
+ *   4. Language switcher icon: replaces Material's "A + 文" CJK glyph with
+ *      a globe (🌐). The 文 is intended as "(written) character" — i.e.
+ *      translation — but reads as Chinese to most Korean visitors.
  * --------------------------------------------------------------------------- */
 
+/* === Typography: Pretendard (matches devslab.kr) ========================== */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+
+:root {
+  --md-text-font: "Pretendard",
+                  -apple-system,
+                  "Apple SD Gothic Neo",
+                  "Noto Sans KR",
+                  system-ui,
+                  sans-serif;
+  --md-code-font: "JetBrains Mono", "SFMono-Regular", Menlo,
+                  Consolas, "Liberation Mono", monospace;
+}
+
 /* === Brand palette (light scheme) =========================================
- * Mirrors the colors defined in tailwind.config.js on devslab.kr:
- *   primary = sky-500     #0ea5e9
- *   accent  = cyan-500    #06b6d4   (a.k.a. "electric")
- * Activated by `palette.primary: custom` / `palette.accent: custom` in mkdocs.yml.
+ * Mirrors devslab.kr's signature electric/cyan-500.
+ *   primary = cyan-500   #06b6d4   (electric)
+ *   accent  = emerald-500 #10b981   (devslab.kr's secondary accent)
+ * Activated by `palette.primary: custom` / `palette.accent: custom`.
  * ========================================================================== */
 :root {
-  --md-primary-fg-color:        #0ea5e9;   /* sky-500 */
-  --md-primary-fg-color--light: #38bdf8;   /* sky-400 */
-  --md-primary-fg-color--dark:  #0284c7;   /* sky-600 */
+  --md-primary-fg-color:        #06b6d4;   /* cyan-500 / electric-500 */
+  --md-primary-fg-color--light: #22d3ee;   /* cyan-400 */
+  --md-primary-fg-color--dark:  #0e7490;   /* cyan-700 — used for hovers */
   --md-primary-bg-color:        #ffffff;
   --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
 
-  --md-accent-fg-color:             #06b6d4;                  /* cyan-500 */
-  --md-accent-fg-color--transparent: rgba(6, 182, 212, 0.10);
+  --md-accent-fg-color:             #10b981;                   /* emerald-500 */
+  --md-accent-fg-color--transparent: rgba(16, 185, 129, 0.10);
   --md-accent-bg-color:             #ffffff;
   --md-accent-bg-color--light:      rgba(255, 255, 255, 0.7);
 }
 
-/* === Dark scheme variants ================================================= */
+/* === Dark scheme variants (devslab.kr is dark-first) ====================== */
 [data-md-color-scheme="slate"] {
-  --md-primary-fg-color:        #38bdf8;   /* sky-400, brighter for dark bg */
-  --md-primary-fg-color--light: #7dd3fc;   /* sky-300 */
-  --md-primary-fg-color--dark:  #0ea5e9;   /* sky-500 */
+  --md-primary-fg-color:        #0e7490;   /* cyan-700, sits well on slate bg */
+  --md-primary-fg-color--light: #22d3ee;
+  --md-primary-fg-color--dark:  #155e75;
 
-  --md-accent-fg-color:             #67e8f9;                  /* cyan-300 */
-  --md-accent-fg-color--transparent: rgba(103, 232, 249, 0.10);
+  --md-accent-fg-color:             #34d399;                   /* emerald-400 */
+  --md-accent-fg-color--transparent: rgba(52, 211, 153, 0.12);
+
+  /* Slate base nudged toward zinc-900 (devslab.kr's actual background). */
+  --md-default-bg-color:        #18181b;   /* zinc-900 */
+  --md-default-bg-color--light: #27272a;   /* zinc-800 */
+  --md-code-bg-color:           #09090b;   /* zinc-950 */
 }
 
-/* === Language switcher icon: replace "A + 文" with a globe ================
- * The default Material translate icon uses a CJK character (文) that reads
- * as Chinese to many Korean users. Hide the SVG and render a globe via a
- * pseudo-element instead. Selector targets both EN ("Select language") and
- * KO (the localized aria-label) variants.
+/* === Brand logo: always render white ======================================
+ * logo-mark.svg is filled with #0a0a0a — perfect for white backgrounds, but
+ * invisible on our colored header. brightness(0)+invert(1) converts any color
+ * to pure white, so the same source works in light and dark modes.
  * ========================================================================== */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  filter: brightness(0) invert(1);
+}
+
+/* === Language switcher icon: 🌐 instead of A+文 =========================== */
 .md-header [aria-label="Select language"] > svg,
 .md-header [aria-label*="언어"]              > svg {
   display: none;
