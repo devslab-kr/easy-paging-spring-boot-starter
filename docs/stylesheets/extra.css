@@ -31,6 +31,11 @@
 /* === Palette (light scheme) ==============================================
  * Header bg = body bg (white). Header text = dark (zinc-900) for contrast.
  * Cyan-electric stays as a small accent on links/hovers.
+ *
+ * Important: Material defaults `--md-typeset-a-color` to `--md-primary-fg-color`.
+ * Because we set primary = body bg (so the header blends in), that default
+ * would make body links invisible — same color as the page. Explicitly point
+ * link color at the accent (cyan) instead.
  * ========================================================================== */
 :root {
   /* Primary = header surface; match body bg so the header blends in. */
@@ -43,6 +48,9 @@
   /* Accent — small surfaces (links, hovers, selection) */
   --md-accent-fg-color:              #06b6d4;                  /* cyan-500 (electric) */
   --md-accent-fg-color--transparent: rgba(6, 182, 212, 0.10);
+
+  /* Body link color — decouple from primary, follow accent (cyan). */
+  --md-typeset-a-color:         #06b6d4;   /* cyan-500 (electric) */
 }
 
 /* === Dark scheme — header blends into the zinc-900 body =================== */
@@ -56,11 +64,29 @@
   --md-accent-fg-color:              #22d3ee;                  /* cyan-400 — pops on dark */
   --md-accent-fg-color--transparent: rgba(34, 211, 238, 0.12);
 
+  /* Body links on dark — slightly brighter cyan for readability. */
+  --md-typeset-a-color:         #22d3ee;   /* cyan-400 */
+
   /* Body bg matches devslab.kr's actual zinc-900. */
   --md-default-bg-color:        #18181b;
   --md-default-bg-color--light: #27272a;
   --md-default-bg-color--lighter: #3f3f46;
   --md-code-bg-color:           #09090b;   /* zinc-950 — code blocks pop */
+}
+
+/* === Link affordance ====================================================
+ * In addition to the cyan color, underline on hover for accessibility.
+ * Bold weight helps links stand out in dense body text without needing the
+ * underline at rest (which gets noisy in code-heavy pages).
+ * ========================================================================== */
+.md-typeset a {
+  font-weight: 500;
+  text-decoration: none;
+}
+.md-typeset a:hover,
+.md-typeset a:focus {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 /* === Hairline separation (the only visual cue the header exists) ========== */
