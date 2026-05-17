@@ -2,8 +2,8 @@
 
 ## 요구사항
 
-- **Java 21+** (Spring Boot 3.3 기준)
-- **Spring Boot 3.3+**
+- **Java 21+** (Spring Boot 3.5 기준)
+- **Spring Boot 3.3+** (빌드·테스트는 3.5 기준으로 진행. 3.3 / 3.4도 동작은 하지만 CI 검증 대상은 아님)
 - JDBC 드라이버 (`mysql-connector-j`, `postgresql`, `h2` 등 본인 선택)
 - `mybatis-spring-boot-starter` 3.x
 

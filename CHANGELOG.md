@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Spring Boot baseline bumped from 3.3.5 to 3.5.3.** Both the
+  `org.springframework.boot` Gradle plugin and the
+  `spring-boot-dependencies` BOM are now pinned to 3.5.3, which is the
+  currently OSS-supported line (3.3 and 3.4 reached OSS end-of-life
+  before this release). This is an *internal* build baseline change —
+  consumers on Spring Boot 3.3+ continue to work because the library
+  declares its Spring dependencies via `api(...)` without version
+  pinning, so the consumer's BOM wins at resolution time. Anyone on
+  3.5+ gets the freshest transitive dependency graph automatically.
+- Docs: `installation` pages note the new build baseline and clarify
+  that 3.3 / 3.4 are not covered by CI even though they should keep
+  working.
+
 ## [0.2.0] - 2026-05-18
 
 ### Added

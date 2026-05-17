@@ -2,8 +2,8 @@
 
 ## Requirements
 
-- **Java 21+** (Spring Boot 3.3 baseline)
-- **Spring Boot 3.3+**
+- **Java 21+** (Spring Boot 3.5 baseline)
+- **Spring Boot 3.3+** (we build/test against 3.5; 3.3 and 3.4 should still work but aren't covered by CI)
 - A JDBC driver (your choice — `mysql-connector-j`, `postgresql`, `h2`, etc.)
 - `mybatis-spring-boot-starter` 3.x
 

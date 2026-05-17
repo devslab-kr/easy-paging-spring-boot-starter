@@ -1,7 +1,7 @@
 plugins {
     `java-library`
     jacoco
-    id("org.springframework.boot") version "3.3.5" apply false
+    id("org.springframework.boot") version "3.5.3" apply false
     id("io.spring.dependency-management") version "1.1.6"
     id("com.vanniktech.maven.publish") version "0.30.0"
 }
@@ -39,7 +39,7 @@ tasks.withType<Javadoc>().configureEach {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:3.3.5")
+        mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.3")
     }
 }
 
@@ -74,6 +74,13 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("com.h2database:h2")
     testImplementation("org.assertj:assertj-core")
+
+    // Explicit launcher pin. JUnit Jupiter 5.11+ (shipped by Spring Boot 3.5)
+    // requires junit-platform-launcher >= 1.11 for OutputDirectoryProvider,
+    // but Gradle 8.10.x bundles 1.10.x by default — without this declaration
+    // the BOM's 1.11.x doesn't make it onto the test runtime classpath and
+    // discovery fails with "OutputDirectoryProvider not available".
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.test {
