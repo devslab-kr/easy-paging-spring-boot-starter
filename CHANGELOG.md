@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Keyset reverse direction is now fully wired up.** `KeysetPage.prevCursor`
+  is no longer always `null` — it's populated whenever a page that isn't
+  the first is returned, encoded with `BACKWARD` direction so the client
+  can blindly use `?cursor=prevCursor` to navigate toward newer items.
+  The cursor field semantics are **direction-invariant**: `nextCursor`
+  always means "load more in display order" (older items when sorted
+  DESC by time), `prevCursor` always means "load newer items". The
+  client never has to track which way they're currently scanning — the
+  cursor token carries the direction and the resolver decodes it.
+- `KeysetPage.build` now handles `BACKWARD` scans correctly: it expects
+  the mapper to return rows in reverse display order (e.g. `ORDER BY
+  time ASC` when the user view is DESC) and reverses them back to
+  display order automatically, so the returned `content` list always
+  matches what the user expects to see.
+- Consumer-side requirement for backward navigation: write a mirror
+  `findBefore` mapper query (flip comparisons, flip `ORDER BY`) and
+  dispatch on `request.direction()` in the controller. The keyset
+  [guide](https://easy-paging.devslab.kr/guides/keyset/#bidirectional-scrolling)
+  shows the full pattern.
+
 ### Changed
 - **Spring Boot baseline bumped from 3.3.5 to 3.5.3.** Both the
   `org.springframework.boot` Gradle plugin and the

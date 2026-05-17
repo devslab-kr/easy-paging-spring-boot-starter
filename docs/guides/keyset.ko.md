@@ -50,12 +50,11 @@ class LocationService {
     }
 
     public KeysetPage<Location> stream(UUID workerId, KeysetRequest req) {
-        // size + 1 행을 조회해서 다음 페이지 존재 여부 감지
-        List<Location> rows = mapper.findAfter(
-            workerId,
-            req.keyAsInstant("time"),
-            req.keyAsLong("id"),
-            req.size() + 1);
+        // size + 1 행을 조회해서 다음 페이지 존재 여부 감지.
+        // BACKWARD 스캔이면 findBefore로 dispatch (아래 "양방향 스크롤" 참조).
+        List<Location> rows = (req.direction() == Cursor.Direction.BACKWARD)
+            ? mapper.findBefore(workerId, req.keyAsInstant("time"), req.keyAsLong("id"), req.size() + 1)
+            : mapper.findAfter (workerId, req.keyAsInstant("time"), req.keyAsLong("id"), req.size() + 1);
 
         return KeysetPage.build(rows, req, r -> Map.of(
             "time", r.getTime(),
@@ -89,13 +88,13 @@ class LocationService {
   "content": [ /* 최대 50개의 행 */ ],
   "size": 50,
   "nextCursor": "eyJrIjp7InRpbWUiOi...",
-  "prevCursor": null,
+  "prevCursor": "eyJrIjp7InRpbWUiOi...",
   "hasNext": true,
-  "hasPrev": false
+  "hasPrev": true
 }
 ```
 
-클라이언트는 다음 페이지 요청 시 `nextCursor`를 `?cursor=…`로 보냄. `OFFSET`도 `COUNT(*)`도 없음.
+클라이언트는 더 오래된 항목을 로드할 땐 `nextCursor`를, 더 새로운 항목을 로드할 땐 `prevCursor`를 `?cursor=…`로 보냄 — 자세한 계약은 [양방향 스크롤](#양방향-스크롤) 참조. `OFFSET`도 `COUNT(*)`도 없음.
 
 ## 어노테이션 옵션
 
@@ -133,6 +132,60 @@ openssl rand -base64 32
 - **`<= size`행 반환** → 마지막 페이지 → `nextCursor`는 `null`, `hasNext`는 `false`
 
 이 패턴은 "다음 페이지가 있는지" 알기 위한 두 번째 `COUNT(*)` 쿼리를 회피합니다.
+
+## 양방향 스크롤
+
+`nextCursor`와 `prevCursor`는 요청의 스캔 방향과 무관하게 **사용자 시각 기준 의미**를 가집니다:
+
+- **`nextCursor`** → 표시 순서상 다음 페이지 (시간 DESC 정렬일 때 더 오래된 항목). 토큰 안에 항상 `direction=FORWARD` 인코딩.
+- **`prevCursor`** → 표시 순서상 이전 페이지 (더 새로운 항목). 항상 `direction=BACKWARD` 인코딩.
+
+클라이언트는 "지금 어느 방향으로 스캔 중인가"를 추적할 필요 없음. *아래로 더 불러오기* 클릭 → `?cursor=nextCursor`. *위로 더 불러오기* 클릭 → `?cursor=prevCursor`. 커서 토큰 자체에 방향이 들어 있어서 리졸버가 디코드하고, 컨트롤러는 적절한 매퍼 쿼리로 dispatch.
+
+### BACKWARD 스캔용 대칭 매퍼
+
+```xml
+<select id="findBefore" resultType="com.example.location.Location">
+    SELECT id, time, lat, lng
+    FROM locations
+    WHERE worker_id = #{workerId}
+      AND ( time &gt; #{time}
+            OR (time = #{time} AND id &gt; #{id}) )
+    ORDER BY time ASC, id ASC
+    LIMIT #{limit}
+</select>
+```
+
+`findAfter`와의 차이 두 가지:
+
+1. **비교 연산자 뒤집기**: `<` → `>` (커서보다 *더 새로운* 행을 원함).
+2. **`ORDER BY` 뒤집기**: `DESC` → `ASC`로 커서에 가까운 행이 먼저 오게. `KeysetPage.build`가 자동으로 다시 뒤집어 표시 순서로 정렬해주므로, 반환되는 `content` 리스트는 항상 사용자 시야 그대로.
+
+### 컨트롤러 dispatch
+
+```java
+@KeysetPaginate(keys = {"time", "id"}, direction = "DESC", defaultSize = 50)
+public KeysetPage<Location> stream(KeysetRequest req, @RequestParam UUID worker) {
+    List<Location> rows = (req.direction() == Cursor.Direction.BACKWARD)
+        ? mapper.findBefore(worker, req.keyAsInstant("time"), req.keyAsLong("id"), req.size() + 1)
+        : mapper.findAfter (worker, req.keyAsInstant("time"), req.keyAsLong("id"), req.size() + 1);
+    return KeysetPage.build(rows, req, r -> Map.of("time", r.getTime(), "id", r.getId()), codec);
+}
+```
+
+### `hasNext` / `hasPrev` 의미
+
+| 필드 | 의미 (스캔 방향 무관) |
+|---|---|
+| `hasNext` | 표시 순서상 *이 페이지 이후*에 더 행이 있음 (더 오래된 항목). |
+| `hasPrev` | 표시 순서상 *이 페이지 이전*에 더 행이 있음 (더 새로운 항목). |
+
+첫 페이지 FORWARD 요청에서는 `hasPrev`가 `false` — 데이터셋 자연 시작점보다 더 새로운 건 없으니까. 커서로 로드된 모든 페이지(FORWARD든 BACKWARD든)는 반대편에 최소 한 행은 존재하므로 해당 `has*`가 `true`.
+
+### 엣지 케이스
+
+- **빈 커서 + `?direction=BACKWARD`**는 `direction=FORWARD`와 동일하게 처리 — 기준 행이 없으니 자연 시작점에서 스캔. 스트림의 가장 오래된 끝부터 시작하려면 데이터셋 너머를 가리키는 명시적 커서를 전달하거나, 자연 DESC 순서가 최신 항목을 먼저 보여주는 걸 이용.
+- **명시적 `?direction=` 쿼리 파라미터는 여전히 커서 인코딩 방향보다 우선**. 의도된 동작 — 서버에서 커서를 재인코딩하지 않고 클라이언트가 재용도 가능 (테스트, "이 커서 위치로 갔다가 반대 방향으로 걷기" 같은 흐름용).
 
 ## 복합 키 설명
 

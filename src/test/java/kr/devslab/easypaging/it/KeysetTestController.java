@@ -3,6 +3,7 @@ package kr.devslab.easypaging.it;
 import java.util.List;
 import java.util.Map;
 import kr.devslab.easypaging.annotation.KeysetPaginate;
+import kr.devslab.easypaging.core.Cursor;
 import kr.devslab.easypaging.core.CursorCodec;
 import kr.devslab.easypaging.core.KeysetPage;
 import kr.devslab.easypaging.core.KeysetRequest;
@@ -25,13 +26,14 @@ class KeysetTestController {
     @GetMapping("/keyset")
     @KeysetPaginate(keys = {"createdAt", "id"}, direction = "DESC", defaultSize = 3, maxSize = 50)
     KeysetPage<TestUser> keyset(KeysetRequest request) {
-        // mapper queries `size + 1` rows to detect the next page.
-        List<TestUser> rows = mapper.findAfter(
-                request.keyAsInstant("createdAt"),
-                request.keyAsLong("id"));
+        // Dispatch to the right mapper query based on scan direction.
+        // BACKWARD scans flip both the WHERE comparison and the ORDER BY.
+        List<TestUser> rows = (request.direction() == Cursor.Direction.BACKWARD)
+                ? mapper.findBefore(request.keyAsInstant("createdAt"), request.keyAsLong("id"))
+                : mapper.findAfter(request.keyAsInstant("createdAt"), request.keyAsLong("id"));
 
-        // Trim to the requested page size for the build() helper (it would
-        // also trim internally, but doing it here keeps the SQL self-explanatory).
+        // Trim to size+1 for the +1 trick (the mapper currently returns all
+        // rows; in real code you'd LIMIT in SQL).
         int upper = Math.min(rows.size(), request.size() + 1);
         return KeysetPage.build(
                 rows.subList(0, upper),
