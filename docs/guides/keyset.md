@@ -51,11 +51,10 @@ class LocationService {
 
     public KeysetPage<Location> stream(UUID workerId, KeysetRequest req) {
         // Fetch size + 1 rows so we can detect whether a next page exists.
-        List<Location> rows = mapper.findAfter(
-            workerId,
-            req.keyAsInstant("time"),
-            req.keyAsLong("id"),
-            req.size() + 1);
+        // Dispatch to findBefore on BACKWARD scans (see "Bidirectional scrolling" below).
+        List<Location> rows = (req.direction() == Cursor.Direction.BACKWARD)
+            ? mapper.findBefore(workerId, req.keyAsInstant("time"), req.keyAsLong("id"), req.size() + 1)
+            : mapper.findAfter (workerId, req.keyAsInstant("time"), req.keyAsLong("id"), req.size() + 1);
 
         return KeysetPage.build(rows, req, r -> Map.of(
             "time", r.getTime(),
@@ -89,13 +88,13 @@ A request to `GET /locations?cursor=<token>&size=50` returns:
   "content": [ /* up to 50 rows */ ],
   "size": 50,
   "nextCursor": "eyJrIjp7InRpbWUiOi...",
-  "prevCursor": null,
+  "prevCursor": "eyJrIjp7InRpbWUiOi...",
   "hasNext": true,
-  "hasPrev": false
+  "hasPrev": true
 }
 ```
 
-The client passes `nextCursor` back as `?cursor=…` for the next page. No `OFFSET`, no `COUNT(*)`.
+The client passes `nextCursor` back as `?cursor=…` to load older items, or `prevCursor` to load newer items — see [Bidirectional scrolling](#bidirectional-scrolling) for the full contract. No `OFFSET`, no `COUNT(*)`.
 
 ## Annotation options
 
@@ -133,6 +132,60 @@ The mapper queries `size + 1` rows. The `KeysetPage.build` helper detects:
 - **`<= size` rows returned** → this is the last page; `nextCursor` is `null`, `hasNext` is `false`.
 
 This avoids a second `COUNT(*)` query just to know if more rows exist.
+
+## Bidirectional scrolling
+
+`nextCursor` and `prevCursor` use **user-perspective semantics** that don't change with the request's scan direction:
+
+- **`nextCursor`** → load the next page in display order (older items when the natural sort is DESC by time). Always encodes `direction=FORWARD` inside the token.
+- **`prevCursor`** → load the previous page in display order (newer items). Always encodes `direction=BACKWARD`.
+
+The client doesn't need to track "which way am I currently scanning". They click *load more below* → `?cursor=nextCursor`. Click *load more above* → `?cursor=prevCursor`. The cursor token itself carries the direction; the resolver decodes it and the controller dispatches to the right mapper query.
+
+### Mirror mapper for backward scans
+
+```xml
+<select id="findBefore" resultType="com.example.location.Location">
+    SELECT id, time, lat, lng
+    FROM locations
+    WHERE worker_id = #{workerId}
+      AND ( time &gt; #{time}
+            OR (time = #{time} AND id &gt; #{id}) )
+    ORDER BY time ASC, id ASC
+    LIMIT #{limit}
+</select>
+```
+
+Two changes from `findAfter`:
+
+1. **Flip the comparisons**: `<` becomes `>` (we want rows that are *newer* than the cursor, not older).
+2. **Flip the `ORDER BY`**: `DESC` becomes `ASC` so the rows nearest the cursor come back first. `KeysetPage.build` reverses them back to display order automatically — the returned `content` list always matches the user-facing view.
+
+### Controller dispatch
+
+```java
+@KeysetPaginate(keys = {"time", "id"}, direction = "DESC", defaultSize = 50)
+public KeysetPage<Location> stream(KeysetRequest req, @RequestParam UUID worker) {
+    List<Location> rows = (req.direction() == Cursor.Direction.BACKWARD)
+        ? mapper.findBefore(worker, req.keyAsInstant("time"), req.keyAsLong("id"), req.size() + 1)
+        : mapper.findAfter (worker, req.keyAsInstant("time"), req.keyAsLong("id"), req.size() + 1);
+    return KeysetPage.build(rows, req, r -> Map.of("time", r.getTime(), "id", r.getId()), codec);
+}
+```
+
+### What `hasNext` / `hasPrev` mean
+
+| Field | Meaning (regardless of scan direction) |
+|---|---|
+| `hasNext` | More rows exist *past this page* in display order (older items). |
+| `hasPrev` | More rows exist *before this page* in display order (newer items). |
+
+For a first-page FORWARD request, `hasPrev` is `false` because nothing is newer than the dataset's natural start. For any page that was loaded with a cursor — FORWARD or BACKWARD — at least one row exists on the opposite side, so the corresponding `has*` is `true`.
+
+### Edge cases
+
+- **Empty cursor + `?direction=BACKWARD`** is treated the same as `direction=FORWARD` — there's no anchor row, so the scan starts at the natural beginning. To start from the oldest end of the stream, the client should pass an explicit cursor pointing past the dataset (or just let the natural DESC order surface the newest items first).
+- **The explicit `?direction=` query parameter still overrides the cursor's encoded direction.** This is intentional — it lets a client re-purpose a cursor without re-encoding server-side (e.g. for testing or for "go back to where this cursor was, then walk the other way" flows).
 
 ## Composite keys explained
 

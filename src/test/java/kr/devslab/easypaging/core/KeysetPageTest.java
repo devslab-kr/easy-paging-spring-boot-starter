@@ -66,4 +66,101 @@ class KeysetPageTest {
 
         assertThat(page.hasPrev()).isTrue();
     }
+
+    @Test
+    void forwardWithCursorEmitsPrevCursorEncodedAsBackward() {
+        // FORWARD scan from a cursor → prevCursor should now exist (head of
+        // page, BACKWARD direction) so the client can navigate "newer".
+        List<Row> rows = List.of(
+                new Row(7, "t7"),
+                new Row(6, "t6"),
+                new Row(5, "t5"),
+                new Row(4, "t4"));
+        KeysetRequest request = new KeysetRequest(
+                Cursor.of(Map.of("id", 8L), Cursor.Direction.FORWARD), 3);
+
+        KeysetPage<Row> page = KeysetPage.build(
+                rows, request,
+                r -> Map.of("id", r.id()),
+                codec);
+
+        assertThat(page.content()).extracting(Row::id).containsExactly(7L, 6L, 5L);
+        assertThat(page.hasNext()).isTrue();
+        assertThat(page.hasPrev()).isTrue();
+        assertThat(page.nextCursor()).isNotNull();
+        assertThat(page.prevCursor()).isNotNull();
+
+        Cursor decodedPrev = codec.decode(page.prevCursor());
+        assertThat(decodedPrev.direction()).isEqualTo(Cursor.Direction.BACKWARD);
+        assertThat(decodedPrev.keys()).containsEntry("id", 7);   // head of page
+
+        Cursor decodedNext = codec.decode(page.nextCursor());
+        assertThat(decodedNext.direction()).isEqualTo(Cursor.Direction.FORWARD);
+        assertThat(decodedNext.keys()).containsEntry("id", 5);   // tail of page (size+1 row trimmed)
+    }
+
+    @Test
+    void backwardScanReversesMapperOrderToDisplayOrder() {
+        // BACKWARD scan: mapper returns rows in ASC order, build() flips to
+        // DESC for display.
+        List<Row> mapperRows = List.of(
+                new Row(6, "t6"),
+                new Row(7, "t7"),
+                new Row(8, "t8"));   // size=3, no +1 → no more newer rows
+        KeysetRequest request = new KeysetRequest(
+                Cursor.of(Map.of("id", 5L), Cursor.Direction.BACKWARD), 3);
+
+        KeysetPage<Row> page = KeysetPage.build(
+                mapperRows, request,
+                r -> Map.of("id", r.id()),
+                codec);
+
+        // Display order: newest first
+        assertThat(page.content()).extracting(Row::id).containsExactly(8L, 7L, 6L);
+        assertThat(page.hasNext()).isTrue();   // cursor was supplied → older rows exist
+        assertThat(page.hasPrev()).isFalse();  // no +1 → no more newer
+        assertThat(page.prevCursor()).isNull();
+        assertThat(page.nextCursor()).isNotNull();
+
+        // nextCursor (= "older") should encode the bottom-of-display row.
+        Cursor decodedNext = codec.decode(page.nextCursor());
+        assertThat(decodedNext.direction()).isEqualTo(Cursor.Direction.FORWARD);
+        assertThat(decodedNext.keys()).containsEntry("id", 6);
+    }
+
+    @Test
+    void backwardWithMoreRowsEncodesPrevCursorFromHead() {
+        // BACKWARD scan with size+1 rows → more newer rows exist.
+        // Mapper returns ASC: [6, 7, 8, 9] for size=3.
+        // After trim of the LAST mapper row (the next-newer marker, row 9):
+        //   kept (ASC) = [6, 7, 8]
+        //   reversed for display = [8, 7, 6]
+        List<Row> mapperRows = List.of(
+                new Row(6, "t6"),
+                new Row(7, "t7"),
+                new Row(8, "t8"),
+                new Row(9, "t9"));
+        KeysetRequest request = new KeysetRequest(
+                Cursor.of(Map.of("id", 5L), Cursor.Direction.BACKWARD), 3);
+
+        KeysetPage<Row> page = KeysetPage.build(
+                mapperRows, request,
+                r -> Map.of("id", r.id()),
+                codec);
+
+        assertThat(page.content()).extracting(Row::id).containsExactly(8L, 7L, 6L);
+        assertThat(page.hasPrev()).isTrue();   // +1 trick triggered → more newer
+        assertThat(page.hasNext()).isTrue();   // cursor was supplied → older rows exist
+
+        // prevCursor (= "newer") encodes the TOP-of-display row, BACKWARD direction.
+        // A follow-up BACKWARD scan from id=8 returns rows 9, 10, ... (more newer).
+        Cursor decodedPrev = codec.decode(page.prevCursor());
+        assertThat(decodedPrev.direction()).isEqualTo(Cursor.Direction.BACKWARD);
+        assertThat(decodedPrev.keys()).containsEntry("id", 8);
+
+        // nextCursor (= "older") encodes the BOTTOM-of-display row, FORWARD.
+        Cursor decodedNext = codec.decode(page.nextCursor());
+        assertThat(decodedNext.direction()).isEqualTo(Cursor.Direction.FORWARD);
+        assertThat(decodedNext.keys()).containsEntry("id", 6);
+    }
 }
