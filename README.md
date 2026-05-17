@@ -132,7 +132,7 @@ The starter collapses all six concerns into the four-line controller at the top 
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.1.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.2.0")
 }
 ```
 
@@ -298,7 +298,7 @@ GET /reports?page=0&size=20  →  first page
 GET /reports?page=1&size=20  →  second page
 ```
 
-(For APIs that want to expose 1-based numbering to clients — a common preference in some teams — a configurable option is planned for v0.2.0.)
+For APIs that want to expose 1-based numbering to clients (a common preference in some teams), set `easy-paging.one-indexed-pages: true` — `?page=1` then becomes the first page and the response's `page` field starts at `1`. Keyset endpoints are unaffected.
 
 ### Sorting
 

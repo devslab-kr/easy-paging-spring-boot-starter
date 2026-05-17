@@ -133,7 +133,7 @@ public Map<String, Object> list(
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.1.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.2.0")
 }
 ```
 
@@ -299,7 +299,7 @@ GET /reports?page=0&size=20  →  첫 페이지
 GET /reports?page=1&size=20  →  두 번째 페이지
 ```
 
-(클라이언트에 1-based 페이지 번호를 노출하고 싶은 팀을 위한 설정 옵션은 v0.2.0에 예정.)
+클라이언트에 1-based 페이지 번호를 노출하고 싶다면 (일부 팀에서 선호) `easy-paging.one-indexed-pages: true` 설정 — `?page=1`이 첫 페이지가 되고 응답의 `page` 필드도 `1`부터 시작합니다. Keyset 엔드포인트는 영향 없음.
 
 ### 정렬
 
