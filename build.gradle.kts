@@ -50,7 +50,17 @@ dependencies {
     api("org.springframework.boot:spring-boot-starter")
     api("org.springframework.boot:spring-boot-starter-aop")
     api("org.springframework.data:spring-data-commons")
-    api("com.github.pagehelper:pagehelper-spring-boot-starter:2.1.0")
+    api("com.github.pagehelper:pagehelper-spring-boot-starter:2.1.1")
+
+    // MyBatis Spring Boot Starter is exposed as api because PageHelper requires
+    // MyBatis at runtime, and PageHelper 2.1.x still ships its own transitive
+    // mybatis-spring-boot-starter:2.3.2 (Spring Boot 2.7 line). Declaring 3.0.4
+    // directly here forces Gradle's conflict resolution to pick the Boot-3-
+    // compatible starter for every consumer — they no longer need to add it
+    // themselves and the wrong-line transitive footprint stops mattering.
+    // Override with `exclude(group = "org.mybatis.spring.boot")` + a direct
+    // declaration if you need a different MyBatis line for some reason.
+    api("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4")
 
     // Silences "cannot find javax.annotation.Nonnull" cosmetic warnings emitted when
     // resolving Spring's @Nullable. Not exposed to consumers (compileOnly).
@@ -64,12 +74,12 @@ dependencies {
     compileOnly("org.springframework.boot:spring-boot-starter-web")
     compileOnly("com.fasterxml.jackson.core:jackson-databind")
     compileOnly("io.projectreactor:reactor-core")
-    compileOnly("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-web")
-    testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4")
+    // mybatis-spring-boot-starter is inherited via the main `api` declaration,
+    // so tests automatically run against whatever consumers get.
     testImplementation("io.projectreactor:reactor-core")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("com.h2database:h2")

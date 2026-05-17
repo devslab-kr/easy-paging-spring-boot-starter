@@ -5,7 +5,6 @@
 - **Java 21+** (Spring Boot 3.5 baseline)
 - **Spring Boot 3.3+** (we build/test against 3.5; 3.3 and 3.4 should still work but aren't covered by CI)
 - A JDBC driver (your choice — `mysql-connector-j`, `postgresql`, `h2`, etc.)
-- `mybatis-spring-boot-starter` 3.x
 
 ## Adding the dependency
 
@@ -42,16 +41,23 @@ The starter transitively brings these for you:
 - `spring-boot-starter-aop` (the aspect engine)
 - `spring-data-commons` (just `Pageable`, `Page`, `Sort` types — **not** Spring Data JPA)
 - `pagehelper-spring-boot-starter` (the underlying SQL rewriter)
+- `mybatis-spring-boot-starter` 3.x (wires up `DataSource`, `SqlSessionFactory`, `@MapperScan`) — pinned to the Spring Boot 3-compatible line because PageHelper itself still ships the older Boot 2.7 transitive
 
 ## What you bring yourself
 
-These are intentionally **not** transitive so your project owns the version:
-
-- `mybatis-spring-boot-starter` — wires up `DataSource`, `SqlSessionFactory`, and `@MapperScan`
 - A JDBC driver for your database
 
-!!! tip "Why aren't these transitive?"
-    Almost every MyBatis project already declares these explicitly with a chosen version. Forcing a version through this starter would cause conflicts. Same reasoning applies to `spring-boot-starter-web` / `webflux` — you bring what your app already uses.
+`spring-boot-starter-web` / `webflux` are also **not** transitive — bring whichever your app already uses (or neither, if you're using the starter from a non-HTTP context).
+
+!!! tip "Need a different MyBatis line?"
+    The MyBatis Spring Boot Starter version is pinned by this library so that PageHelper's older transitive doesn't leak into your app. If you need a different MyBatis line, exclude it and declare your own:
+
+    ```kotlin
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.2.0") {
+        exclude(group = "org.mybatis.spring.boot")
+    }
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:your.version")
+    ```
 
 ## Verifying the setup
 
