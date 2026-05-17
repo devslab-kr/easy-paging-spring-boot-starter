@@ -81,18 +81,26 @@
 }
 
 /* === Link affordance ====================================================
- * In addition to the cyan color, underline on hover for accessibility.
- * Bold weight helps links stand out in dense body text without needing the
- * underline at rest (which gets noisy in code-heavy pages).
+ * Always-on subtle underline + cyan color. Color alone wasn't enough in
+ * sections where a link follows bolded descriptive text (e.g. the
+ * "Where to go next" list on the landing page) — the visual weight of
+ * the bold text drowned out the cyan link. The underline restores the
+ * "this is clickable" affordance without relying purely on color.
+ *
+ * Underline is dim at rest and thickens on hover for feedback.
+ * Offset of 0.18em keeps the underline from clipping descender glyphs
+ * (g, j, p, q, y).
  * ========================================================================== */
 .md-typeset a {
   font-weight: 500;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
 }
 .md-typeset a:hover,
 .md-typeset a:focus {
   text-decoration: underline;
-  text-underline-offset: 0.18em;
+  text-decoration-thickness: 0.12em;
 }
 
 /* === Buttons ({ .md-button } / { .md-button--primary }) ===================
@@ -104,10 +112,13 @@
  * stay visible at rest.
  * ========================================================================== */
 
-/* Outlined: cyan border + cyan text, fills on hover */
+/* Outlined: cyan border + cyan text, fills on hover.
+ * Explicit text-decoration: none — buttons shouldn't inherit the
+ * always-on underline that body links now have. */
 .md-typeset .md-button {
   color: var(--md-accent-fg-color);
   border-color: var(--md-accent-fg-color);
+  text-decoration: none;
 }
 .md-typeset .md-button:hover,
 .md-typeset .md-button:focus {
@@ -124,6 +135,7 @@
   background-color: #06b6d4;   /* cyan-500 — vibrant fill */
   color: #ffffff;
   border-color: #06b6d4;
+  text-decoration: none;
 }
 .md-typeset .md-button--primary:hover,
 .md-typeset .md-button--primary:focus {
