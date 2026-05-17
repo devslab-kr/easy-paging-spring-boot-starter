@@ -7,7 +7,7 @@
 [javadoc.io](https://javadoc.io/)는 Maven Central의 모든 아티팩트에 대한 Javadoc을 자동으로 미러링합니다 — 별도 설정 불필요.
 
 - **최신**: <https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/latest>
-- **특정 버전**: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/<버전>` (예: [0.2.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/0.2.0))
+- **특정 버전**: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/<버전>` (예: [0.3.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/0.3.0))
 
 새 버전을 처음 방문할 때는 javadoc.io가 Maven Central에서 jar를 가져오느라 약간 느리지만, 이후 방문부터는 캐시되어 빠릅니다.
 

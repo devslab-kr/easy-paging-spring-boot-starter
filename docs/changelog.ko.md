@@ -6,6 +6,24 @@ easy-paging의 모든 주요 변경사항이 여기 기록됩니다. 포맷은 [
 
 ---
 
+## [0.3.0] — 2026-05-18
+
+### 추가
+
+- **Keyset 역방향 지원.** `KeysetPage.prevCursor`가 더 이상 항상 `null`이 아님 — 첫 페이지가 아닌 모든 페이지에서 `BACKWARD` 방향으로 인코딩되어 채워짐. 커서 필드 의미는 **방향-불변**: `nextCursor`는 항상 "더 오래된 항목 로드", `prevCursor`는 항상 "더 새로운 항목 로드". 클라이언트는 스캔 방향을 추적할 필요가 없음. 컨슈머 측 패턴(미러 `findBefore` 매퍼 + `request.direction()` dispatch)은 [양방향 스크롤](guides/keyset.md#양방향-스크롤) 참조.
+
+### 변경
+
+- **Spring Boot 베이스라인 bump 3.3.5 → 3.5.3.** 내부 빌드/테스트 베이스라인만 변경 — Spring 의존성을 `api(...)`로 버전 핀 없이 선언하므로 Spring Boot 3.3+ 사용자는 그대로 동작. 3.3과 3.4는 이번 릴리즈 시점에 OSS 지원이 종료됐고, 3.5만 현재 OSS 지원 라인.
+- **PageHelper bump 2.1.0 → 2.1.1.** MyBatis 3.5.19 + PageHelper 엔진 6.1.1 (업스트림 버그 픽스 패치) 적용.
+- **`mybatis-spring-boot-starter:3.0.4`이 이제 transitive로 제공** — 컨슈머가 직접 추가하지 않아도 됨. 이전에는 PageHelper의 transitive Spring Boot 2.7 라인 MyBatis starter가 override를 깜빡한 앱에 누출될 수 있었지만, 이제 라이브러리가 Boot 3 호환 버전을 직접 고정. 다른 MyBatis 라인이 필요하면 `exclude(group = "org.mybatis.spring.boot")`로 override.
+- 문서: `installation` 페이지 업데이트 (두 의존성 변경 반영); `keyset` 가이드에 "양방향 스크롤" 섹션 추가.
+
+### 노트
+
+- `KeysetPage.build` API 시그니처는 그대로지만 동작이 방향 인지 방식으로 변경. FORWARD 전용 컨슈머는 변화 없음 — 유일한 관찰 가능한 차이는 첫 페이지 이후 페이지의 `prevCursor`가 더 이상 항상 `null`이 아니라는 점.
+- Spring Boot 3.5가 가져오는 JUnit Jupiter 5.11+는 Gradle 8.10.x 프로젝트에서 명시적 `junit-platform-launcher` 선언이 필요. 이 라이브러리의 빌드 한정 이슈로 컨슈머에는 노출되지 않음.
+
 ## [0.2.0] — 2026-05-18
 
 ### 추가

@@ -12,7 +12,7 @@
 
     ```kotlin
     dependencies {
-        implementation("kr.devslab:easy-paging-spring-boot-starter:0.2.0")
+        implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0")
     }
     ```
 
@@ -20,7 +20,7 @@
 
     ```groovy
     dependencies {
-        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.2.0'
+        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.3.0'
     }
     ```
 
@@ -30,7 +30,7 @@
     <dependency>
         <groupId>kr.devslab</groupId>
         <artifactId>easy-paging-spring-boot-starter</artifactId>
-        <version>0.2.0</version>
+        <version>0.3.0</version>
     </dependency>
     ```
 
@@ -53,7 +53,7 @@
     PageHelper의 옛 transitive가 앱에 누출되지 않도록 MyBatis Spring Boot Starter 버전을 라이브러리가 고정합니다. 다른 MyBatis 라인이 필요하면 exclude 후 직접 선언:
 
     ```kotlin
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.2.0") {
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0") {
         exclude(group = "org.mybatis.spring.boot")
     }
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:원하는버전")

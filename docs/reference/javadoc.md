@@ -7,7 +7,7 @@ The library ships a `javadoc.jar` with every release to Maven Central. Two ways 
 [javadoc.io](https://javadoc.io/) mirrors Javadoc for every artifact on Maven Central — no setup required.
 
 - **Latest**: <https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/latest>
-- **Specific version**: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/<version>` (e.g. [0.2.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/0.2.0))
+- **Specific version**: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/<version>` (e.g. [0.3.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/0.3.0))
 
 The first visit to a new version takes a moment while javadoc.io fetches the jar from Maven Central; subsequent visits are cached.
 

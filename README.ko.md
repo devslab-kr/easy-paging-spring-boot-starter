@@ -133,18 +133,17 @@ public Map<String, Object> list(
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.2.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0")
 }
 ```
 
 여러분이 추가:
-- Spring Boot 3.3+ / Java 21+
-- `mybatis-spring-boot-starter` (3.x 모두 지원) — `DataSource`, `SqlSessionFactory`, `@MapperScan` 자동 설정
+- Spring Boot 3.3+ / Java 21+ (빌드·테스트는 3.5 기준)
 - JDBC 드라이버
 
-스타터가 자동으로 가져옴: `spring-boot-starter-aop`, `spring-data-commons`, `pagehelper-spring-boot-starter`. **Spring Data JPA는 필요 없습니다** — 가벼운 `spring-data-commons` (`Pageable`, `Page`, `Sort` 제공)만 transitively 따라옵니다.
+스타터가 자동으로 가져옴: `spring-boot-starter-aop`, `spring-data-commons`, `pagehelper-spring-boot-starter`, `mybatis-spring-boot-starter` 3.x. **Spring Data JPA는 필요 없습니다** — 가벼운 `spring-data-commons` (`Pageable`, `Page`, `Sort` 제공)만 transitively 따라옵니다.
 
-> `mybatis-spring-boot-starter`를 왜 transitive로 안 가져오는지? 거의 모든 MyBatis 프로젝트가 이미 명시적으로 선언하고 있고, 우리 스타터에서 특정 버전을 강제하면 충돌이 발생합니다. `spring-boot-starter-web` / `webflux`나 JDBC 드라이버를 우리가 가져오지 않는 것과 같은 이유 — 본인 프로젝트가 이미 쓰고 있는 걸 그대로 활용하라는 의도입니다.
+> 다른 MyBatis 라인이 필요하다면 `exclude(group = "org.mybatis.spring.boot")` 후 원하는 버전 직접 선언 — [설치 가이드](https://easy-paging.devslab.kr/ko/getting-started/installation/) 참조.
 
 ## Offset 페이지네이션 — `@AutoPaginate`
 

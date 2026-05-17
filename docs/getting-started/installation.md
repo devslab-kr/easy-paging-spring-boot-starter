@@ -12,7 +12,7 @@
 
     ```kotlin
     dependencies {
-        implementation("kr.devslab:easy-paging-spring-boot-starter:0.2.0")
+        implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0")
     }
     ```
 
@@ -20,7 +20,7 @@
 
     ```groovy
     dependencies {
-        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.2.0'
+        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.3.0'
     }
     ```
 
@@ -30,7 +30,7 @@
     <dependency>
         <groupId>kr.devslab</groupId>
         <artifactId>easy-paging-spring-boot-starter</artifactId>
-        <version>0.2.0</version>
+        <version>0.3.0</version>
     </dependency>
     ```
 
@@ -53,7 +53,7 @@ The starter transitively brings these for you:
     The MyBatis Spring Boot Starter version is pinned by this library so that PageHelper's older transitive doesn't leak into your app. If you need a different MyBatis line, exclude it and declare your own:
 
     ```kotlin
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.2.0") {
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0") {
         exclude(group = "org.mybatis.spring.boot")
     }
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:your.version")
