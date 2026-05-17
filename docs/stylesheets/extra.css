@@ -1,20 +1,20 @@
 /* ---------------------------------------------------------------------------
  * easy-paging docs — devslab brand theme
  *
- * What this overrides:
- *   1. Color palette: cyan-electric primary + emerald accent, matching the
- *      tailwind.config.js tokens on devslab.kr (electric/cyan + emerald).
- *   2. Typography: Pretendard for Korean (and Latin) — same as devslab.kr.
- *      Falls back to system fonts so we don't depend on a single CDN.
- *   3. Brand logo: forces the SVG to render in white so it stays visible on
- *      both the cyan light-mode header and the dark slate header. (Logo
- *      source uses #0a0a0a which would be invisible on dark.)
- *   4. Language switcher icon: replaces Material's "A + 文" CJK glyph with
- *      a globe (🌐). The 文 is intended as "(written) character" — i.e.
- *      translation — but reads as Chinese to most Korean visitors.
+ * Visual goals (matching devslab.kr's actual aesthetic):
+ *   - Dark header in both light and dark mode (devslab.kr is dark-first).
+ *   - Cyan-electric used as a small accent (links, hovers) — not a wall of color.
+ *   - Pretendard typography for clean Korean rendering.
+ *   - White-rendered devslab logo, working on both header backgrounds.
+ *   - Bilingual "한/EN" language switcher instead of Material's CJK glyph.
+ *
+ * Material's default behavior paints the header in the primary color, which
+ * made the whole top bar a bright cyan slab — too loud, doesn't match the
+ * homepage. We decouple here: primary CSS variables stay neutral, header is
+ * dressed explicitly in zinc-900, and cyan is reserved for accents.
  * --------------------------------------------------------------------------- */
 
-/* === Typography: Pretendard (matches devslab.kr) ========================== */
+/* === Typography: Pretendard (same family as devslab.kr) =================== */
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
 
 :root {
@@ -28,51 +28,82 @@
                   Consolas, "Liberation Mono", monospace;
 }
 
-/* === Brand palette (light scheme) =========================================
- * Mirrors devslab.kr's signature electric/cyan-500.
- *   primary = cyan-500   #06b6d4   (electric)
- *   accent  = emerald-500 #10b981   (devslab.kr's secondary accent)
+/* === Palette (light scheme) ==============================================
  * Activated by `palette.primary: custom` / `palette.accent: custom`.
+ * Primary is kept dark (zinc-900) so the header reads as a brand element,
+ * not a bright color block. Accent (cyan-500) shows on links + hovers.
  * ========================================================================== */
 :root {
-  --md-primary-fg-color:        #06b6d4;   /* cyan-500 / electric-500 */
-  --md-primary-fg-color--light: #22d3ee;   /* cyan-400 */
-  --md-primary-fg-color--dark:  #0e7490;   /* cyan-700 — used for hovers */
+  /* Header / "primary" surface */
+  --md-primary-fg-color:        #18181b;   /* zinc-900 */
+  --md-primary-fg-color--light: #27272a;   /* zinc-800 */
+  --md-primary-fg-color--dark:  #09090b;   /* zinc-950 */
   --md-primary-bg-color:        #ffffff;
-  --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
+  --md-primary-bg-color--light: rgba(255, 255, 255, 0.75);
 
-  --md-accent-fg-color:             #10b981;                   /* emerald-500 */
-  --md-accent-fg-color--transparent: rgba(16, 185, 129, 0.10);
-  --md-accent-bg-color:             #ffffff;
-  --md-accent-bg-color--light:      rgba(255, 255, 255, 0.7);
+  /* Accent — small surfaces (links, hovers, selection) */
+  --md-accent-fg-color:              #06b6d4;                   /* cyan-500 (electric) */
+  --md-accent-fg-color--transparent: rgba(6, 182, 212, 0.10);
+  --md-accent-bg-color:              #ffffff;
+  --md-accent-bg-color--light:       rgba(255, 255, 255, 0.75);
 }
 
-/* === Dark scheme variants (devslab.kr is dark-first) ====================== */
+/* === Dark scheme =========================================================
+ * Body is zinc-900 (devslab.kr's actual bg hex). Header drops to zinc-950
+ * so it sits visually above the body. Accent brightens slightly for contrast.
+ * ========================================================================== */
 [data-md-color-scheme="slate"] {
-  --md-primary-fg-color:        #0e7490;   /* cyan-700, sits well on slate bg */
-  --md-primary-fg-color--light: #22d3ee;
-  --md-primary-fg-color--dark:  #155e75;
+  --md-primary-fg-color:        #09090b;   /* zinc-950 — header darker than body */
+  --md-primary-fg-color--light: #18181b;   /* zinc-900 */
+  --md-primary-fg-color--dark:  #000000;
+  --md-primary-bg-color:        #fafafa;
+  --md-primary-bg-color--light: rgba(250, 250, 250, 0.75);
 
-  --md-accent-fg-color:             #34d399;                   /* emerald-400 */
-  --md-accent-fg-color--transparent: rgba(52, 211, 153, 0.12);
+  --md-accent-fg-color:              #22d3ee;                   /* cyan-400 — pops on dark */
+  --md-accent-fg-color--transparent: rgba(34, 211, 238, 0.12);
 
-  /* Slate base nudged toward zinc-900 (devslab.kr's actual background). */
-  --md-default-bg-color:        #18181b;   /* zinc-900 */
-  --md-default-bg-color--light: #27272a;   /* zinc-800 */
-  --md-code-bg-color:           #09090b;   /* zinc-950 */
+  --md-default-bg-color:        #18181b;   /* zinc-900 — page bg */
+  --md-default-bg-color--light: #27272a;
+  --md-default-bg-color--lighter: #3f3f46;
+  --md-code-bg-color:           #09090b;   /* zinc-950 — code blocks pop */
 }
 
-/* === Brand logo: always render white ======================================
- * logo-mark.svg is filled with #0a0a0a — perfect for white backgrounds, but
- * invisible on our colored header. brightness(0)+invert(1) converts any color
- * to pure white, so the same source works in light and dark modes.
+/* === Tabs bar (sub-nav below header) — keep it on-brand =================
+ * Sits directly under the dark header. Default Material colors it with
+ * primary; that's fine since primary is now zinc-900 / zinc-950, but tweak
+ * for a hairline border separation.
+ * ========================================================================== */
+.md-tabs {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.md-tabs__link--active {
+  color: #22d3ee;   /* cyan-400 — current section highlighted in electric */
+  opacity: 1;
+}
+.md-tabs__link:hover {
+  color: #67e8f9 !important;  /* cyan-300 */
+  opacity: 1;
+}
+
+/* === Brand logo: render white on the dark header ==========================
+ * logo-mark.svg is filled with #0a0a0a. brightness(0)+invert(1) maps any
+ * source color to pure white, so one file works in both modes.
  * ========================================================================== */
 .md-header__button.md-logo img,
 .md-header__button.md-logo svg {
   filter: brightness(0) invert(1);
 }
 
-/* === Language switcher icon: 🌐 instead of A+文 =========================== */
+/* === Language switcher: bilingual text label ===============================
+ * The default Material translate icon uses material/translate which renders
+ * "A + 文". The 文 is a CJK character meant as "(written) character" — i.e.
+ * translation — but reads as Chinese to most Korean visitors.
+ *
+ * Replace with the **current page's language** as a short text badge:
+ *   EN page → "EN"
+ *   KO page → "한"
+ * Material's dropdown chevron handles the "click to switch" affordance.
+ * ========================================================================== */
 .md-header [aria-label="Select language"] > svg,
 .md-header [aria-label*="언어"]              > svg {
   display: none;
@@ -80,9 +111,21 @@
 
 .md-header [aria-label="Select language"]::before,
 .md-header [aria-label*="언어"]::before {
-  content: "🌐";
-  font-size: 1.25rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
   line-height: 1;
+  padding: 0 0.15rem;
   display: inline-block;
   vertical-align: middle;
+}
+
+html[lang="en"] .md-header [aria-label="Select language"]::before,
+html[lang="en"] .md-header [aria-label*="언어"]::before {
+  content: "EN";
+}
+
+html[lang="ko"] .md-header [aria-label="Select language"]::before,
+html[lang="ko"] .md-header [aria-label*="언어"]::before {
+  content: "한";
 }
