@@ -45,12 +45,18 @@
   --md-primary-bg-color:        #18181b;   /* zinc-900 — text/logo on the white header */
   --md-primary-bg-color--light: rgba(24, 24, 27, 0.75);
 
-  /* Accent — small surfaces (links, hovers, selection) */
-  --md-accent-fg-color:              #06b6d4;                  /* cyan-500 (electric) */
-  --md-accent-fg-color--transparent: rgba(6, 182, 212, 0.10);
+  /* Accent — small surfaces (links, hovers, selection)
+   *
+   * cyan-700 instead of cyan-500: against a white body the brighter
+   * cyan-500 lands at ~2.4:1 contrast — under WCAG AA's 4.5:1 minimum
+   * for normal text. cyan-700 (#0e7490) gives ~5.4:1 which passes AA
+   * while keeping the "electric" feel.
+   */
+  --md-accent-fg-color:              #0e7490;                  /* cyan-700 — AA-readable on white */
+  --md-accent-fg-color--transparent: rgba(14, 116, 144, 0.10);
 
-  /* Body link color — decouple from primary, follow accent (cyan). */
-  --md-typeset-a-color:         #06b6d4;   /* cyan-500 (electric) */
+  /* Body link color — decouple from primary, follow accent. */
+  --md-typeset-a-color:         #0e7490;   /* cyan-700 */
 }
 
 /* === Dark scheme — header blends into the zinc-900 body =================== */
@@ -111,11 +117,13 @@
   text-decoration: none;   /* override the global link-hover underline */
 }
 
-/* Primary CTA: filled cyan, white text */
+/* Primary CTA: filled cyan, white text. Use cyan-500 (brighter) for the
+ * fill since white text on it has plenty of contrast — the dim cyan-700
+ * we use for body text would look muddy here. */
 .md-typeset .md-button--primary {
-  background-color: var(--md-accent-fg-color);
+  background-color: #06b6d4;   /* cyan-500 — vibrant fill */
   color: #ffffff;
-  border-color: var(--md-accent-fg-color);
+  border-color: #06b6d4;
 }
 .md-typeset .md-button--primary:hover,
 .md-typeset .md-button--primary:focus {
