@@ -59,7 +59,7 @@ class AutoPaginatePostgresDialectTest {
 
     @Test
     void offsetPaginationWorksAgainstPostgres() throws Exception {
-        mockMvc.perform(get("/test/users").param("page", "0").param("size", "5"))
+        mockMvc.perform(get("/test/auto/users").param("page", "0").param("size", "5"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content", hasSize(5)))
                 .andExpect(jsonPath("$.totalElements").value(15))
@@ -73,7 +73,7 @@ class AutoPaginatePostgresDialectTest {
         // Exercises PageHelper's ORDER BY injection on PostgreSQL specifically.
         // Column name is camelCase in Java but snake_case in SQL — verify the
         // SortConverter + PageHelper roundtrip doesn't double-quote or mangle.
-        mockMvc.perform(get("/test/users")
+        mockMvc.perform(get("/test/auto/users")
                         .param("page", "0")
                         .param("size", "3")
                         .param("sort", "createdAt,desc"))
@@ -84,7 +84,7 @@ class AutoPaginatePostgresDialectTest {
     @Test
     void lastPageReportsCorrectSizeOnPostgres() throws Exception {
         // 15 rows / size 5 → page 2 is the last page with 5 rows.
-        mockMvc.perform(get("/test/users").param("page", "2").param("size", "5"))
+        mockMvc.perform(get("/test/auto/users").param("page", "2").param("size", "5"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content", hasSize(5)))
                 .andExpect(jsonPath("$.last").value(true))

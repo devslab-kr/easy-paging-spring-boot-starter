@@ -55,7 +55,7 @@ class AutoPaginateMysqlDialectTest {
 
     @Test
     void offsetPaginationWorksAgainstMysql() throws Exception {
-        mockMvc.perform(get("/test/users").param("page", "0").param("size", "5"))
+        mockMvc.perform(get("/test/auto/users").param("page", "0").param("size", "5"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content", hasSize(5)))
                 .andExpect(jsonPath("$.totalElements").value(15))
@@ -66,7 +66,7 @@ class AutoPaginateMysqlDialectTest {
 
     @Test
     void midPageReportsBoundaryFlagsCorrectly() throws Exception {
-        mockMvc.perform(get("/test/users").param("page", "1").param("size", "5"))
+        mockMvc.perform(get("/test/auto/users").param("page", "1").param("size", "5"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content", hasSize(5)))
                 .andExpect(jsonPath("$.first").value(false))
@@ -76,7 +76,7 @@ class AutoPaginateMysqlDialectTest {
     @Test
     void sortDescOrderIsHonouredOnMysql() throws Exception {
         // Top of created_at DESC sort should yield the newest seeded row first.
-        mockMvc.perform(get("/test/users")
+        mockMvc.perform(get("/test/auto/users")
                         .param("page", "0")
                         .param("size", "3")
                         .param("sort", "createdAt,desc"))
