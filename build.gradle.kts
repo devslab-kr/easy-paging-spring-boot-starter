@@ -1,147 +1,18 @@
+// Multi-module orchestration. The root project is not published — each
+// publishable artifact lives under its own subproject (see settings.gradle.kts)
+// and applies the publishing plugin itself.
+//
+// Plugin versions are declared here with `apply false` so subprojects can
+// apply them without repeating version numbers, and so the version drift
+// between modules stays at zero.
+
 plugins {
-    `java-library`
-    jacoco
     id("org.springframework.boot") version "3.5.3" apply false
-    id("io.spring.dependency-management") version "1.1.6"
-    id("com.vanniktech.maven.publish") version "0.30.0"
+    id("io.spring.dependency-management") version "1.1.6" apply false
+    id("com.vanniktech.maven.publish") version "0.30.0" apply false
 }
 
-group = providers.gradleProperty("GROUP").get()
-version = providers.gradleProperty("VERSION").get()
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
+allprojects {
+    group = providers.gradleProperty("GROUP").get()
+    version = providers.gradleProperty("VERSION").get()
 }
-
-tasks.withType<JavaCompile>().configureEach {
-    options.encoding = "UTF-8"
-    // -parameters: keep AOP-readable param names. -Xlint enabled but the noisy/cosmetic
-    // categories (classfile/processing/serial) are excluded so -Werror stays usable
-    // for genuine code issues without tripping on Spring's JSR-305 quirks or harmless
-    // annotation-processor warnings.
-    options.compilerArgs.addAll(listOf(
-        "-parameters",
-        "-Xlint:all,-classfile,-processing,-serial",
-        "-Werror"
-    ))
-}
-
-tasks.withType<Javadoc>().configureEach {
-    options.encoding = "UTF-8"
-    (options as StandardJavadocDocletOptions).apply {
-        addBooleanOption("Xdoclint:none", true)
-        addBooleanOption("html5", true)
-        locale = "en_US"
-    }
-}
-
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.3")
-    }
-}
-
-dependencies {
-    // Required at runtime — pulled in transitively for consumers.
-    // The Spring Boot BOM (above) controls versions so they align with whatever
-    // Boot version the consumer is on at resolution time.
-    api("org.springframework.boot:spring-boot-starter")
-    api("org.springframework.boot:spring-boot-starter-aop")
-    api("org.springframework.data:spring-data-commons")
-    api("com.github.pagehelper:pagehelper-spring-boot-starter:2.1.1")
-
-    // MyBatis Spring Boot Starter is exposed as api because PageHelper requires
-    // MyBatis at runtime, and PageHelper 2.1.x still ships its own transitive
-    // mybatis-spring-boot-starter:2.3.2 (Spring Boot 2.7 line). Declaring 3.0.4
-    // directly here forces Gradle's conflict resolution to pick the Boot-3-
-    // compatible starter for every consumer — they no longer need to add it
-    // themselves and the wrong-line transitive footprint stops mattering.
-    // Override with `exclude(group = "org.mybatis.spring.boot")` + a direct
-    // declaration if you need a different MyBatis line for some reason.
-    api("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4")
-
-    // Silences "cannot find javax.annotation.Nonnull" cosmetic warnings emitted when
-    // resolving Spring's @Nullable. Not exposed to consumers (compileOnly).
-    compileOnly("com.google.code.findbugs:jsr305:3.0.2")
-
-    // Auto-configuration metadata processor — produces additional-spring-configuration-metadata.json
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-
-    // Optional: only needed when the consumer is a Servlet/WebFlux app or uses Jackson.
-    // Marked compileOnly so consumers without these features don't pay the cost.
-    compileOnly("org.springframework.boot:spring-boot-starter-web")
-    compileOnly("com.fasterxml.jackson.core:jackson-databind")
-    compileOnly("io.projectreactor:reactor-core")
-
-    // Test
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-web")
-    // mybatis-spring-boot-starter is inherited via the main `api` declaration,
-    // so tests automatically run against whatever consumers get.
-    testImplementation("io.projectreactor:reactor-core")
-    testImplementation("io.projectreactor:reactor-test")
-    testImplementation("com.h2database:h2")
-    testImplementation("org.assertj:assertj-core")
-
-    // Explicit launcher pin. JUnit Jupiter 5.11+ (shipped by Spring Boot 3.5)
-    // requires junit-platform-launcher >= 1.11 for OutputDirectoryProvider,
-    // but Gradle 8.10.x bundles 1.10.x by default — without this declaration
-    // the BOM's 1.11.x doesn't make it onto the test runtime classpath and
-    // discovery fails with "OutputDirectoryProvider not available".
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
-
-tasks.test {
-    useJUnitPlatform()
-    testLogging {
-        events("passed", "skipped", "failed")
-        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-        showStandardStreams = false
-    }
-    systemProperty("file.encoding", "UTF-8")
-    finalizedBy(tasks.jacocoTestReport)
-}
-
-jacoco {
-    // 0.8.13 supports Java 21+ bytecode (records, sealed, pattern matching).
-    toolVersion = "0.8.13"
-}
-
-tasks.jacocoTestReport {
-    dependsOn(tasks.test)
-    reports {
-        xml.required.set(true)    // consumed by Codecov in CI
-        html.required.set(true)   // human-readable report at build/reports/jacoco/test/html
-        csv.required.set(false)
-    }
-}
-
-mavenPublishing {
-    pom {
-        developers {
-            developer {
-                id.set(providers.gradleProperty("POM_DEVELOPER_ID"))
-                name.set(providers.gradleProperty("POM_DEVELOPER_NAME"))
-                url.set(providers.gradleProperty("POM_DEVELOPER_URL"))
-                email.set(providers.gradleProperty("POM_DEVELOPER_EMAIL"))
-                organization.set(providers.gradleProperty("POM_ORGANIZATION_NAME"))
-                organizationUrl.set(providers.gradleProperty("POM_ORGANIZATION_URL"))
-            }
-        }
-
-        organization {
-            name.set(providers.gradleProperty("POM_ORGANIZATION_NAME"))
-            url.set(providers.gradleProperty("POM_ORGANIZATION_URL"))
-        }
-
-        issueManagement {
-            system.set(providers.gradleProperty("POM_ISSUE_SYSTEM"))
-            url.set(providers.gradleProperty("POM_ISSUE_URL"))
-        }
-    }
-}
-// NOTE: name/description/inceptionYear/url/license/scm are sourced from gradle.properties
-//       (Vanniktech maven-publish reads POM_* automatically). Only fields the plugin does
-//       not auto-read (developer, organization, issueManagement) are configured here.

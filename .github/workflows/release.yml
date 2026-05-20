@@ -55,5 +55,8 @@ jobs:
           generate_release_notes: true
           name: ${{ github.ref_name }}
           fail_on_unmatched_files: false
+          # Glob across all subproject `build/libs/` directories so adding a
+          # new published module (e.g. `reactive/`) automatically picks up
+          # its jars without another workflow edit.
           files: |
-            build/libs/*.jar
+            **/build/libs/*.jar
