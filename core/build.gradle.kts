@@ -95,6 +95,18 @@ dependencies {
     testImplementation("com.h2database:h2")
     testImplementation("org.assertj:assertj-core")
 
+    // Testcontainers — real-database compat layer. Tagged @Tag("dialect-compat")
+    // and run by the `testDialect` task, separate from the fast H2 path. H2
+    // catches most logic bugs in seconds; PostgreSQL + MySQL catch the
+    // dialect-specific PageHelper rewriting paths the H2 dialect would miss.
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.21.2"))
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:mysql")
+    testImplementation("org.postgresql:postgresql")
+    testImplementation("com.mysql:mysql-connector-j")
+
     // Explicit launcher pin. JUnit Jupiter 5.11+ (shipped by Spring Boot 3.5)
     // requires junit-platform-launcher >= 1.11 for OutputDirectoryProvider,
     // but Gradle 8.10.x bundles 1.10.x by default — without this declaration
@@ -104,7 +116,14 @@ dependencies {
 }
 
 tasks.test {
-    useJUnitPlatform()
+    // Fast feedback loop: H2 in-memory only. Tests tagged "dialect-compat"
+    // (PostgreSQL / MySQL Testcontainers) live in the same source set but run
+    // via the separate `testDialect` task below, so a CI matrix and local
+    // `gradle test` runs stay fast (~25s) while we still get dialect coverage
+    // before each release.
+    useJUnitPlatform {
+        excludeTags("dialect-compat")
+    }
     testLogging {
         events("passed", "skipped", "failed")
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
@@ -112,6 +131,24 @@ tasks.test {
     }
     systemProperty("file.encoding", "UTF-8")
     finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.register<Test>("testDialect") {
+    description = "Runs the dialect-compat tests (PostgreSQL + MySQL via Testcontainers). " +
+            "Requires a working Docker daemon."
+    group = "verification"
+    useJUnitPlatform {
+        includeTags("dialect-compat")
+    }
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+    shouldRunAfter("test")
+    testLogging {
+        events("passed", "skipped", "failed")
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        showStandardStreams = false
+    }
+    systemProperty("file.encoding", "UTF-8")
 }
 
 jacoco {

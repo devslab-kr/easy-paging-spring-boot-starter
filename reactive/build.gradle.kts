@@ -73,11 +73,29 @@ dependencies {
     testImplementation("com.h2database:h2")
     testImplementation("org.assertj:assertj-core")
 
+    // Testcontainers — dialect-compat tests against real PostgreSQL R2DBC.
+    // r2dbc-h2 in the fast tests catches API-shape regressions; PostgreSQL
+    // catches driver-specific type-binding differences (TIMESTAMP WITH TIME
+    // ZONE, UUID, etc.) that we won't see against H2.
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.21.2"))
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:r2dbc")
+    testImplementation("org.postgresql:r2dbc-postgresql")
+    // Used by Testcontainers' Postgres module to run init scripts via JDBC.
+    testImplementation("org.postgresql:postgresql")
+
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.test {
-    useJUnitPlatform()
+    // Fast feedback loop: H2-via-R2DBC only. Dialect-compat (PostgreSQL R2DBC
+    // via Testcontainers) runs via the separate `testDialect` task — see
+    // core/build.gradle.kts for the rationale on the split.
+    useJUnitPlatform {
+        excludeTags("dialect-compat")
+    }
     testLogging {
         events("passed", "skipped", "failed")
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
@@ -85,6 +103,24 @@ tasks.test {
     }
     systemProperty("file.encoding", "UTF-8")
     finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.register<Test>("testDialect") {
+    description = "Runs dialect-compat tests against real PostgreSQL R2DBC via Testcontainers. " +
+            "Requires a working Docker daemon."
+    group = "verification"
+    useJUnitPlatform {
+        includeTags("dialect-compat")
+    }
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+    shouldRunAfter("test")
+    testLogging {
+        events("passed", "skipped", "failed")
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        showStandardStreams = false
+    }
+    systemProperty("file.encoding", "UTF-8")
 }
 
 jacoco {
