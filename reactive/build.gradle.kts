@@ -16,6 +16,13 @@ base {
     archivesName.set("easy-paging-spring-boot-starter-reactive")
 }
 
+// See the matching override in core/build.gradle.kts for the full rationale.
+afterEvaluate {
+    tasks.named<AbstractArchiveTask>("mavenPlainJavadocJar").configure {
+        archiveBaseName.set("easy-paging-spring-boot-starter-reactive")
+    }
+}
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
