@@ -6,39 +6,20 @@ easy-paging의 향후 계획을 정리한 살아있는 문서입니다. 항목�
 
 ---
 
-## 다음 마이너 — v0.3.0
+## 최근 출시
 
-기존 표면에 깔끔하게 들어가는 작은 기능들.
+| 릴리스 | 주요 변경 |
+|---|---|
+| **v0.4.0** | 새 옵션 아티팩트 `easy-paging-spring-boot-starter-reactive`로 네이티브 R2DBC + WebFlux 지원. Gradle 빌드 멀티-모듈 구조로 마이그레이션. Testcontainers dialect-compat 테스트 레이어 (PostgreSQL + MySQL). |
+| **v0.3.0** | Keyset 역방향 (`prevCursor` 활성화). Spring Boot 베이스라인 3.3.5 → 3.5.3. PageHelper 2.1.1 + transitive MyBatis starter `api`로 승격. |
 
-### Keyset 역방향
-
-현재 비활성화된 `KeysetPage.prevCursor` 필드 활성화. 매퍼 쪽에 거울 형태의 `findBefore` 쿼리가 필요하고, 코덱이 커서 토큰에 스캔 방향을 기록해야 합니다 (이미 `Cursor.Direction`에 와이어링되어 있고 노출만 안 한 상태).
-
-**사용 사례**: 진정한 양방향 무한 스크롤 — "위로 더 불러오기" + "아래로 더 불러오기". 모바일 피드에 거의 필수.
-
-### Spring Boot 베이스라인 업그레이드
-
-Spring Boot BOM을 3.3.5 → 릴리즈 시점의 LTS (3.5 / 3.7) 로 bump. 의존성 그래프를 최신으로 유지하고 deprecation 이슈를 조기에 잡아냄.
-
-소비자 레벨에서는 하위 호환 — Spring Boot 3.3+를 쓰는 사용자는 그대로 동작, 우리 내부 베이스라인만 이동.
+전체 노트는 [변경 이력](changelog.md) 참조.
 
 ---
 
-## 중기 — v0.4.x
+## 다음 마이너 — TBD
 
-자체 마이너 버전을 받을 만한 큰 기능.
-
-### 네이티브 WebFlux + R2DBC 지원
-
-지금의 WebFlux 지원은 `ReactivePagingSupport.paginate(...)` — 블로킹 MyBatis를 `Schedulers.boundedElastic()`에 올리는 정적 헬퍼. MyBatis 사용자에겐 충분하지만, 실제 리액티브 DB까지는 못 닿음.
-
-v0.4가 추가할 1급 지원:
-
-- Spring Data R2DBC 리포지토리가 반환하는 `Mono<Page<T>>` / `Flux<T>`
-- WebFlux 용 `KeysetRequest` 인자 리졸버
-- `@AutoPaginate`의 인식되는 반환 타입에 `Mono<PageResponse<T>>` 추가
-
-코어 JAR을 작게 유지하기 위해 별도 옵션 스타터 (`easy-paging-spring-boot-starter-reactive`) 로 배포할 가능성 높음.
+v0.4.0 이후 사용자 피드백에 따라 형태가 결정됩니다. 현재 [검토 중](#검토-중--미확정) 섹션의 항목들이 후보 — 원하는 항목에 이슈로 투표해주세요.
 
 ---
 

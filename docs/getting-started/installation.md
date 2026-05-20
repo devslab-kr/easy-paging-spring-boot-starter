@@ -12,7 +12,7 @@
 
     ```kotlin
     dependencies {
-        implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0")
+        implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
     }
     ```
 
@@ -20,7 +20,7 @@
 
     ```groovy
     dependencies {
-        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.3.0'
+        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.4.0'
     }
     ```
 
@@ -30,7 +30,7 @@
     <dependency>
         <groupId>kr.devslab</groupId>
         <artifactId>easy-paging-spring-boot-starter</artifactId>
-        <version>0.3.0</version>
+        <version>0.4.0</version>
     </dependency>
     ```
 
@@ -49,11 +49,26 @@ The starter transitively brings these for you:
 
 `spring-boot-starter-web` / `webflux` are also **not** transitive — bring whichever your app already uses (or neither, if you're using the starter from a non-HTTP context).
 
+## Optional — reactive companion artifact
+
+If your app uses Spring Data R2DBC + WebFlux instead of (or alongside) MyBatis, add the optional reactive starter:
+
+```kotlin
+dependencies {
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
+}
+```
+
+You bring (same as a stock Spring Data R2DBC project): an R2DBC driver, `spring-boot-starter-webflux`, `spring-boot-starter-data-r2dbc`. The reactive starter pulls in the core starter transitively, so no double declaration needed if you only use R2DBC.
+
+See the [Reactive guide](../guides/reactive.md#native-r2dbc--webflux) for the full helper API.
+
 !!! tip "Need a different MyBatis line?"
     The MyBatis Spring Boot Starter version is pinned by this library so that PageHelper's older transitive doesn't leak into your app. If you need a different MyBatis line, exclude it and declare your own:
 
     ```kotlin
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0") {
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0") {
         exclude(group = "org.mybatis.spring.boot")
     }
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:your.version")

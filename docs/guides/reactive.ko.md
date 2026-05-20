@@ -79,8 +79,8 @@ return ReactivePagingSupport.paginate(
 
 ```kotlin title="build.gradle.kts"
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0")
-    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.3.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
 }
 ```
 

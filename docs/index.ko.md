@@ -82,13 +82,19 @@ class ReportController {
 
     예외 경로 포함, 매 요청 종료 시 내부 상태 자동 정리. `ThreadLocal` 누수 없음.
 
+-   :material-water: **Reactive: WebFlux + R2DBC**
+
+    옵션 `…-starter-reactive` 아티팩트: `R2dbcEntityTemplate`에서 `Mono<PageResponse<T>>`, 커서 스크롤용 keyset 헬퍼, WebFlux `KeysetRequest` 인자 리졸버. MyBatis 쪽과 동일한 봉투.
+
 </div>
 
 ## 빠른 설치
 
 ```kotlin title="build.gradle.kts"
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    // 옵션 — 네이티브 R2DBC + WebFlux 헬퍼:
+    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
 }
 ```
 
