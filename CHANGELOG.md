@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Dialect-compat test layer** — new `testDialect` Gradle task runs the
+  `@Tag("dialect-compat")` tests against real PostgreSQL + MySQL via
+  Testcontainers, in addition to the existing fast H2 path. Catches the
+  PageHelper dialect-rewriting paths and R2DBC type-binding behavior
+  that H2 doesn't exercise (the same class of issue that surfaced
+  during reactive module development). Tagged so the day-to-day
+  `./gradlew test` stays under 30s; CI runs both as parallel jobs.
 - **New optional artifact `easy-paging-spring-boot-starter-reactive`** —
   native R2DBC + WebFlux support, intended for projects on Spring Data
   R2DBC. Existing MyBatis users add nothing; the new starter is purely

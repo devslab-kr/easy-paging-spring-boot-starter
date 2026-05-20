@@ -20,8 +20,29 @@ JDK 21 이상이 필요합니다. Gradle wrapper를 사용하므로 별도의 Gr
 
 ## 테스트
 
-- 순수 타입(`Sort`, `Cursor`, `PageResponse`, `KeysetPage`)에 대한 단위 테스트는 대상 클래스와 같은 위치(`src/test/java/.../core` 또는 `support`)에 둡니다.
-- 통합 테스트(Spring Boot + H2 + MyBatis + PageHelper)는 `src/test/java/.../it` 아래에 두며, 단일 테스트 애플리케이션(`TestApplication`)을 공유합니다.
+테스트는 두 레이어로 분리되어 있습니다:
+
+1. **Fast** — H2 in-memory, 기본 실행.
+   ```bash
+   ./gradlew test          # core + reactive, 약 30초, Docker 불필요
+   ```
+   순수 타입(`Sort`, `Cursor`, `PageResponse`, `KeysetPage`)에 대한 단위 테스트는 대상 클래스와 같은 위치(`src/test/java/.../core` 또는 `support`).
+   통합 테스트(core는 Spring Boot + H2 + MyBatis + PageHelper, reactive는 Spring Boot + r2dbc-h2)는 `src/test/java/.../it` 아래에 두며 단일 테스트 애플리케이션(`TestApplication` / `ReactiveTestApplication`) 공유.
+
+2. **Dialect-compat** — Testcontainers로 실제 PostgreSQL + MySQL 컨테이너 띄워서 검증, 명시 실행.
+   ```bash
+   ./gradlew testDialect   # Docker daemon 필요, 약 2분
+   ```
+   `@Tag("dialect-compat")`로 태깅되어 있고 `src/test/java/.../it/dialect/`에 위치. fast `test` 태스크는 이 태그를 제외하므로 일상 개발은 빠른 상태 유지. CI는 둘을 별도 job으로 모두 실행.
+
+### Windows 로컬 개발에서 Docker 셋업
+
+dialect 테스트는 Testcontainers가 접속할 수 있는 Docker daemon이 필요합니다. 최근 Windows Docker Desktop이 기본 named pipe(`\\.\pipe\docker_engine`)에 "400 + redirect" 응답을 보내는데 Testcontainers ≤ 1.21.x가 이 redirect를 따라가지 않습니다. 두 가지 해결책:
+
+- **[Testcontainers Desktop](https://testcontainers.com/desktop/)** 실행 — 공식 companion 도구로 Docker 접속을 깔끔하게 프록시. 권장.
+- 또는 Docker Desktop 설정에서 TCP daemon 노출 (*Settings → General → Expose daemon on tcp://localhost:2375*) 후 `~/.testcontainers.properties`에 `docker.host=tcp://localhost:2375` 설정. 보안상 신뢰된 로컬 환경에서만.
+
+Linux + Docker (CI의 Ubuntu runner 포함)는 표준 Unix 소켓 `/var/run/docker.sock`이 추가 설정 없이 동작. macOS는 Docker Desktop이 자동으로 named pipe `unix:///var/run/docker.sock` 생성.
 
 ## 이슈 리포트
 

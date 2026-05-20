@@ -24,11 +24,44 @@ install is needed.
 
 ## Tests
 
-- Unit tests for pure types (`Sort`, `Cursor`, `PageResponse`, `KeysetPage`)
-  live alongside their target under `src/test/java/.../core` or `support`.
-- Integration tests (Spring Boot + H2 + MyBatis + PageHelper) live under
-  `src/test/java/.../it` and share a single test application
-  (`TestApplication`).
+The test layer has two tiers:
+
+1. **Fast** — H2 in-memory, runs by default.
+   ```bash
+   ./gradlew test          # core + reactive, ~30s, no Docker needed
+   ```
+   Unit tests for pure types (`Sort`, `Cursor`, `PageResponse`, `KeysetPage`)
+   live alongside their target under `src/test/java/.../core` or `support`.
+   Integration tests (Spring Boot + H2 + MyBatis + PageHelper for `core`,
+   Spring Boot + r2dbc-h2 for `reactive`) live under `src/test/java/.../it`
+   and share a single test application (`TestApplication` /
+   `ReactiveTestApplication`).
+
+2. **Dialect-compat** — real PostgreSQL + MySQL via Testcontainers, runs on demand.
+   ```bash
+   ./gradlew testDialect   # needs a working Docker daemon, ~2min
+   ```
+   These tests are tagged `@Tag("dialect-compat")` and live under
+   `src/test/java/.../it/dialect/`. The fast `test` task excludes them so
+   day-to-day development stays snappy; CI runs both as separate jobs.
+
+### Docker on Windows local dev
+
+The dialect tests need a Docker daemon Testcontainers can connect to.
+Recent Docker Desktop on Windows returns a "400 + redirect" response from
+the default named pipe (`\\.\pipe\docker_engine`), and Testcontainers
+≤ 1.21.x doesn't follow the redirect. Two workarounds:
+
+- Run **[Testcontainers Desktop](https://testcontainers.com/desktop/)** — official
+  companion tool that proxies Docker access cleanly. Recommended.
+- Or expose the Docker daemon on TCP via Docker Desktop settings
+  (*Settings → General → Expose daemon on tcp://localhost:2375*) and set
+  `docker.host=tcp://localhost:2375` in `~/.testcontainers.properties`.
+  Less secure — only for trusted local dev.
+
+On Linux + Docker (including CI's Ubuntu runners) the standard Unix
+socket `/var/run/docker.sock` works without configuration. On macOS the
+named pipe is `unix:///var/run/docker.sock` (Docker Desktop creates it).
 
 ## Reporting issues
 
