@@ -73,6 +73,43 @@ public record PageResponse<T>(
                 list.isEmpty());
     }
 
+    /**
+     * Builds a response when the caller already knows the total element count
+     * (e.g. from a separate count query — the typical R2DBC pattern, where the
+     * page rows and the count come from two parallel {@code Mono}s).
+     *
+     * <p>Differs from {@link #from(List, Pageable)} which infers the total from
+     * the PageHelper-wrapped {@code List} returned by a MyBatis mapper. Use
+     * {@code from} when the {@code list} is a PageHelper {@code Page}; use
+     * {@code of} when you have a plain {@code List} plus a separately computed
+     * total.
+     *
+     * @param rows      the visible rows for this page (already trimmed to size)
+     * @param pageable  the request that produced these rows
+     * @param total     total elements across all pages
+     */
+    public static <T> PageResponse<T> of(List<T> rows, Pageable pageable, long total) {
+        Objects.requireNonNull(rows, "rows");
+        Objects.requireNonNull(pageable, "pageable");
+        if (total < 0) {
+            throw new IllegalArgumentException("total must be >= 0 (use from() if unknown): " + total);
+        }
+        int pageNum = pageable.getPageNumber();
+        int size = pageable.getPageSize();
+        int totalPages = size == 0 ? 0 : (int) Math.ceil((double) total / size);
+        boolean first = pageNum == 0;
+        boolean last = total == 0 || pageNum + 1 >= totalPages;
+        return new PageResponse<>(
+                rows,
+                pageNum,
+                size,
+                total,
+                totalPages,
+                first,
+                last,
+                rows.isEmpty());
+    }
+
     public static <T> PageResponse<T> empty(Pageable pageable) {
         return new PageResponse<>(
                 Collections.emptyList(),

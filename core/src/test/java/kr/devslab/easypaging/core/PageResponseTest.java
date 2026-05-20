@@ -42,6 +42,41 @@ class PageResponseTest {
     }
 
     @Test
+    void ofWithExplicitTotalComputesTotalPagesAndLastFlag() {
+        // Typical R2DBC pattern: page rows from one query, total from a count query.
+        List<String> rows = List.of("a", "b", "c", "d", "e");
+        Pageable pageable = PageRequest.of(0, 5);
+
+        PageResponse<String> response = PageResponse.of(rows, pageable, 12L);
+
+        assertThat(response.content()).hasSize(5);
+        assertThat(response.totalElements()).isEqualTo(12L);
+        assertThat(response.totalPages()).isEqualTo(3);
+        assertThat(response.first()).isTrue();
+        assertThat(response.last()).isFalse();
+        assertThat(response.empty()).isFalse();
+    }
+
+    @Test
+    void ofZeroTotalProducesLastEmptyPage() {
+        PageResponse<String> response = PageResponse.of(List.of(), PageRequest.of(0, 10), 0L);
+
+        assertThat(response.totalElements()).isZero();
+        assertThat(response.totalPages()).isZero();
+        assertThat(response.first()).isTrue();
+        assertThat(response.last()).isTrue();
+        assertThat(response.empty()).isTrue();
+    }
+
+    @Test
+    void ofRejectsNegativeTotal() {
+        org.assertj.core.api.Assertions.assertThatThrownBy(() ->
+                        PageResponse.of(List.of(), PageRequest.of(0, 10), -1L))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("total must be >= 0");
+    }
+
+    @Test
     void empty() {
         PageResponse<String> response = PageResponse.empty(PageRequest.of(2, 20));
         assertThat(response.content()).isEmpty();

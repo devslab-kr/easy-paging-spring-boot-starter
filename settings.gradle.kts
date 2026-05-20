@@ -15,8 +15,10 @@ dependencyResolutionManagement {
 rootProject.name = "easy-paging-spring-boot-starter"
 
 // Subprojects. Each publishable artifact lives under its own subproject.
-// `core` produces the `kr.devslab:easy-paging-spring-boot-starter` artifact
-// (the published name is set explicitly in core/build.gradle.kts via
-// `mavenPublishing.coordinates(...)` so the on-disk path can stay short
-// while the Maven coordinates stay backward-compatible).
+// The on-disk path is short (`core`, `reactive`); the Maven artifact ID is
+// pinned via `mavenPublishing.coordinates(...)` in each module's build file.
+//
+//   core      → kr.devslab:easy-paging-spring-boot-starter
+//   reactive  → kr.devslab:easy-paging-spring-boot-starter-reactive
 include("core")
+include("reactive")
