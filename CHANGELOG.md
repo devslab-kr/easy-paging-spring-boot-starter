@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **New optional artifact `easy-paging-spring-boot-starter-reactive`** —
+  native R2DBC + WebFlux support, intended for projects on Spring Data
+  R2DBC. Existing MyBatis users add nothing; the new starter is purely
+  additive. Three pieces ship:
+  - `R2dbcOffsetPagingSupport.paginate(template, entity, criteria,
+    pageable)` — runs the page-rows query and the count query in
+    parallel via `Mono.zip` and produces the same `PageResponse`
+    envelope as the MyBatis side.
+  - `R2dbcKeysetSupport.paginate(template, entity, baseFilter, keys,
+    request, keyExtractor, codec)` — keyset/cursor pagination on
+    R2DBC. Builds the lexicographic `WHERE` clause, flips `ORDER BY`
+    for backward scans, runs the `size + 1` query, and assembles a
+    `KeysetPage`. Built-in type coercion for `Instant`,
+    `LocalDateTime`, `OffsetDateTime`, `LocalDate`, `UUID`, primitive
+    wrappers, and `String` cursor values.
+  - `ReactiveKeysetRequestArgumentResolver` — WebFlux counterpart of
+    the servlet `KeysetRequestArgumentResolver`. Auto-registered when
+    WebFlux is on the classpath; consumers declare `KeysetRequest`
+    parameters on WebFlux handlers without manual wiring.
+- `PageResponse.of(rows, pageable, total)` — new core factory for the
+  "known total" case (the typical R2DBC pattern). Complements the
+  existing `PageResponse.from(list, pageable)` which infers the total
+  from a PageHelper-wrapped list. Rejects negative totals to surface
+  the "did you mean `from()`?" case loudly.
+
+### Changed
+- **Gradle build migrated to multi-module structure.** Source files
+  moved from `src/` to `core/src/` (no code changes; rename detection
+  preserves history). The published artifact coordinates are
+  byte-identical (`kr.devslab:easy-paging-spring-boot-starter`); the
+  on-disk jar filename and POM `artifactId` are both pinned explicitly
+  via `base.archivesName` and `mavenPublishing.coordinates(...)`. The
+  new `reactive/` subproject lives alongside `core/` and publishes
+  separately as `kr.devslab:easy-paging-spring-boot-starter-reactive`.
+- CI / release workflow paths updated for the new layout: jacoco
+  coverage report now resolves under `core/build/...`; release asset
+  glob now `**/build/libs/*.jar` so future modules' jars attach
+  automatically.
+
+### Notes
+- Strictly additive for existing v0.3 consumers — adding the
+  `easy-paging-spring-boot-starter-reactive` dependency is opt-in and
+  the existing `easy-paging-spring-boot-starter` coordinates and
+  behavior are unchanged.
+
 ## [0.3.0] - 2026-05-18
 
 ### Added
