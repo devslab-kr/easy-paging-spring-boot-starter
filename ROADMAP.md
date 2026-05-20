@@ -6,39 +6,20 @@ For released features see [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
-## Next minor — v0.3.0
+## Recently shipped
 
-Smaller features that fit cleanly into the existing surface.
+| Release | Highlights |
+|---|---|
+| **v0.4.0** | Native R2DBC + WebFlux support via the new optional `easy-paging-spring-boot-starter-reactive` artifact. Gradle build migrated to multi-module structure. Testcontainers dialect-compat test layer (PostgreSQL + MySQL). |
+| **v0.3.0** | Keyset reverse direction (`prevCursor` activated). Spring Boot baseline 3.3.5 → 3.5.3. PageHelper 2.1.1 + transitive MyBatis starter promoted to `api`. |
 
-### Keyset reverse direction
-
-Activate the currently-deferred `prevCursor` field on `KeysetPage`. The mapper side needs a mirrored `findBefore` query, and the codec needs to track scan direction in the cursor token (already wired in `Cursor.Direction`, just not surfaced).
-
-Use case: true bidirectional infinite scroll — "load more above" as well as "load more below". Most mobile feeds want this.
-
-### Spring Boot baseline upgrade
-
-Bump the Spring Boot BOM from 3.3.5 → current LTS (3.5 / 3.7, whichever is OSS-supported at release time). Keeps the dependency graph fresh and shakes out any deprecation breakage early.
-
-Backward compatible at the consumer level — anyone on Spring Boot 3.3+ will continue to work, this just shifts our internal baseline.
+See [CHANGELOG.md](CHANGELOG.md) for the full notes.
 
 ---
 
-## Medium term — v0.4.x
+## Next minor — TBD
 
-Larger features that warrant their own minor versions.
-
-### Native WebFlux + R2DBC support
-
-Today the WebFlux story is `ReactivePagingSupport.paginate(...)` — a static helper that bridges blocking MyBatis onto `Schedulers.boundedElastic()`. That's fine for MyBatis users on WebFlux, but doesn't reach actual reactive databases.
-
-v0.4 adds first-class support for:
-
-- Spring Data R2DBC repositories returning `Mono<Page<T>>` / `Flux<T>`
-- A WebFlux-shaped `KeysetRequest` argument resolver
-- `Mono<PageResponse<T>>` as a recognized return type from `@AutoPaginate`
-
-Probably ships as a separate optional starter (`easy-paging-spring-boot-starter-reactive`) to keep the core JAR small.
+Shape will be driven by post-0.4.0 user feedback. Candidates likely to land here come from the [Considering](#considering--not-committed) section — open an issue to vote on what you want next.
 
 ---
 

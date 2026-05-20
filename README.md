@@ -125,6 +125,7 @@ The starter collapses all six concerns into the four-line controller at the top 
 - **Sensible defaults** — page size, max size, and "reasonable" out-of-range handling are all configurable.
 - **Keyset (cursor) pagination** for time-series or unbounded tables where `OFFSET` and `COUNT(*)` become slow ([details](#keyset--cursor-pagination---keysetpaginate)).
 - **WebFlux/Reactor support** for blocking MyBatis on `Schedulers.boundedElastic()` ([details](#reactive-webflux-support)).
+- **Native R2DBC + WebFlux** via the optional `…-starter-reactive` companion artifact — `Mono<PageResponse<T>>` from `R2dbcEntityTemplate`, lexicographic keyset `WHERE` builder, reactive `KeysetRequest` argument resolver. Same envelope shape as the MyBatis side so clients see one contract.
 - **Safe under Virtual Threads** — internal state is cleaned up on every request, no leaks.
 
 ## Install
@@ -132,19 +133,21 @@ The starter collapses all six concerns into the four-line controller at the top 
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    // Optional — only if you also need native R2DBC + WebFlux helpers:
+    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
 }
 ```
 
 You bring:
 - Spring Boot 3.3+ on Java 21+ (built/tested against 3.5)
-- a JDBC driver
+- a JDBC driver (or an R2DBC driver if using the reactive starter)
 
-(MyBatis Spring Boot Starter is now provided transitively — see the [installation guide](https://easy-paging.devslab.kr/getting-started/installation/) if you need a different MyBatis line.)
+(MyBatis Spring Boot Starter is provided transitively — see the [installation guide](https://easy-paging.devslab.kr/getting-started/installation/) if you need a different MyBatis line.)
 
-The starter pulls in `spring-boot-starter-aop`, `spring-data-commons`, and `pagehelper-spring-boot-starter` for you. **You do not need to add Spring Data JPA** — only the lightweight `spring-data-commons` (which provides `Pageable`, `Page`, `Sort`) is required, and it comes along automatically.
+The core starter pulls in `spring-boot-starter-aop`, `spring-data-commons`, `pagehelper-spring-boot-starter`, and `mybatis-spring-boot-starter`. **You do not need Spring Data JPA** — only the lightweight `spring-data-commons` (which provides `Pageable`, `Page`, `Sort`) comes along automatically.
 
-> Why isn't `mybatis-spring-boot-starter` transitive? Because almost every MyBatis project already declares it explicitly with its preferred version, and forcing a version through our starter would create conflicts. Same reasoning for `spring-boot-starter-web` / `webflux` and the JDBC driver — you bring what your app already uses.
+The reactive starter declares `spring-boot-starter-webflux` and `spring-boot-starter-data-r2dbc` as `compileOnly`, so you only pay for what you actually use.
 
 ## Offset pagination — `@AutoPaginate`
 

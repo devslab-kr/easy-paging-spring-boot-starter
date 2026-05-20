@@ -6,6 +6,27 @@ easy-paging의 모든 주요 변경사항이 여기 기록됩니다. 포맷은 [
 
 ---
 
+## [0.4.0] — 2026-05-20
+
+### 추가
+
+- **새 옵션 아티팩트 `easy-paging-spring-boot-starter-reactive`** — 네이티브 R2DBC + WebFlux 지원, core 스타터의 자매 모듈. 기존 MyBatis 사용자는 추가 작업 없음 — 순수 additive. 세 가지 제공:
+    - `R2dbcOffsetPagingSupport.paginate(template, entity, criteria, pageable)` — 페이지 행 + count 쿼리를 `Mono.zip`으로 병렬화, MyBatis 쪽과 동일한 `PageResponse` 봉투.
+    - `R2dbcKeysetSupport.paginate(template, entity, baseFilter, keys, request, keyExtractor, codec)` — R2DBC keyset/커서 페이지네이션. `Instant`, `LocalDateTime`, `OffsetDateTime`, `LocalDate`, `UUID`, primitive wrapper에 대한 내장 타입 강제 변환.
+    - `ReactiveKeysetRequestArgumentResolver` — servlet `KeysetRequestArgumentResolver`의 WebFlux 버전. WebFlux 클래스패스 발견 시 자동 등록.
+- `PageResponse.of(rows, pageable, total)` — total을 이미 아는 경우(R2DBC의 일반적 패턴)를 위한 새 팩토리. 기존 `PageResponse.from(list, pageable)`(PageHelper 래핑된 list에서 total 추론)과 상보.
+- **Dialect-compat 테스트 레이어** — 새 `./gradlew testDialect` task가 `@Tag("dialect-compat")` 태그된 테스트들을 Testcontainers로 실제 PostgreSQL + MySQL 컨테이너에 대해 실행 (기존 H2 fast path와 별도). PageHelper의 dialect-rewriting 경로와 R2DBC driver-specific 타입 바인딩 동작 검증.
+
+### 변경
+
+- **Gradle 빌드가 멀티-모듈 구조로 마이그레이션** (`core/` + `reactive/`). 게시된 `kr.devslab:easy-paging-spring-boot-starter` 좌표는 byte-identical 유지; R2DBC 스택이 필요한 사용자만 새 `…-reactive` 라인 추가.
+- 멀티-모듈 레이아웃에 맞춰 CI/릴리스 워크플로우 경로 갱신; 릴리스 asset glob을 `**/build/libs/*.jar`로 변경해 미래 모듈 jar 자동 첨부.
+
+### 노트
+
+- 기존 v0.3 사용자에게는 엄격하게 additive — `easy-paging-spring-boot-starter-reactive` 추가는 옵트인이고, core 아티팩트의 좌표와 동작은 그대로.
+- 새 reactive auto-configuration들은 `@ConditionalOnClass(ServerWebExchange.class)` 등으로 자체 게이팅되므로 WebFlux/R2DBC가 컨슈머 클래스패스에 없을 때 죽은 코드가 돌지 않음.
+
 ## [0.3.0] — 2026-05-18
 
 ### 추가

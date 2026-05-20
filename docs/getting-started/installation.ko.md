@@ -12,7 +12,7 @@
 
     ```kotlin
     dependencies {
-        implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0")
+        implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
     }
     ```
 
@@ -20,7 +20,7 @@
 
     ```groovy
     dependencies {
-        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.3.0'
+        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.4.0'
     }
     ```
 
@@ -30,7 +30,7 @@
     <dependency>
         <groupId>kr.devslab</groupId>
         <artifactId>easy-paging-spring-boot-starter</artifactId>
-        <version>0.3.0</version>
+        <version>0.4.0</version>
     </dependency>
     ```
 
@@ -49,11 +49,26 @@
 
 `spring-boot-starter-web` / `webflux`도 **transitive가 아닙니다** — 본인 앱이 쓰는 걸 그대로 사용하세요 (HTTP 컨텍스트가 아닌 곳에서 쓴다면 둘 다 안 넣어도 됩니다).
 
+## 옵션 — reactive 동반 아티팩트
+
+앱이 MyBatis 대신 (또는 함께) Spring Data R2DBC + WebFlux를 쓴다면 옵션 reactive 스타터 추가:
+
+```kotlin
+dependencies {
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
+}
+```
+
+본인이 추가 (Spring Data R2DBC 프로젝트의 일반 셋업): R2DBC 드라이버, `spring-boot-starter-webflux`, `spring-boot-starter-data-r2dbc`. reactive 스타터가 core 스타터를 transitive로 가져오므로 R2DBC만 쓰면 core 라인은 생략 가능.
+
+헬퍼 API 전체는 [Reactive 가이드](../guides/reactive.md#네이티브-r2dbc--webflux) 참조.
+
 !!! tip "다른 MyBatis 라인이 필요하다면"
     PageHelper의 옛 transitive가 앱에 누출되지 않도록 MyBatis Spring Boot Starter 버전을 라이브러리가 고정합니다. 다른 MyBatis 라인이 필요하면 exclude 후 직접 선언:
 
     ```kotlin
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0") {
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0") {
         exclude(group = "org.mybatis.spring.boot")
     }
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:원하는버전")

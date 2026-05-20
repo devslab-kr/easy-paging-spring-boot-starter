@@ -73,7 +73,7 @@ plugins:
             Guides: 가이드
             Offset Pagination: Offset 페이지네이션
             Keyset Pagination: Keyset 페이지네이션
-            Reactive (WebFlux): Reactive (WebFlux)
+            Reactive (WebFlux + R2DBC): Reactive (WebFlux + R2DBC)
             Custom Response: 커스텀 응답
             Sorting & Page Numbering: 정렬과 페이지 번호
             Reference: 레퍼런스
@@ -132,7 +132,7 @@ nav:
   - Guides:
       - Offset Pagination: guides/offset.md
       - Keyset Pagination: guides/keyset.md
-      - Reactive (WebFlux): guides/reactive.md
+      - Reactive (WebFlux + R2DBC): guides/reactive.md
       - Custom Response: guides/custom-response.md
       - Sorting & Page Numbering: guides/sorting.md
   - Reference:

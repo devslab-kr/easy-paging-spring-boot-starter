@@ -126,6 +126,7 @@ public Map<String, Object> list(
 - **합리적인 기본값** — 기본 페이지 크기, 최대 크기, 범위 밖 페이지 처리 모두 설정 가능
 - **Keyset(커서) 페이지네이션** — 시계열이나 무한 스트림 테이블처럼 `OFFSET`과 `COUNT(*)`가 부담스러운 경우 ([자세히](#keyset--cursor-페이지네이션--keysetpaginate))
 - **WebFlux/Reactor 지원** — `Schedulers.boundedElastic()` 위에서 블로킹 MyBatis 호출 ([자세히](#reactive-webflux-지원))
+- **네이티브 R2DBC + WebFlux** — 옵션 `…-starter-reactive` 동반 아티팩트로 제공. `R2dbcEntityTemplate` → `Mono<PageResponse<T>>`, 사전순(lexicographic) keyset `WHERE` 빌더, 리액티브 `KeysetRequest` 인자 리졸버. MyBatis 쪽과 동일한 봉투 모양이라 클라이언트는 단일 계약을 봄.
 - **Virtual Threads 안전** — 매 요청 종료 시 내부 상태가 자동 정리됨
 
 ## 설치
@@ -133,15 +134,19 @@ public Map<String, Object> list(
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    // 옵션 — 네이티브 R2DBC + WebFlux 헬퍼가 필요한 경우만:
+    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
 }
 ```
 
 여러분이 추가:
 - Spring Boot 3.3+ / Java 21+ (빌드·테스트는 3.5 기준)
-- JDBC 드라이버
+- JDBC 드라이버 (reactive 스타터 사용 시에는 R2DBC 드라이버도)
 
-스타터가 자동으로 가져옴: `spring-boot-starter-aop`, `spring-data-commons`, `pagehelper-spring-boot-starter`, `mybatis-spring-boot-starter` 3.x. **Spring Data JPA는 필요 없습니다** — 가벼운 `spring-data-commons` (`Pageable`, `Page`, `Sort` 제공)만 transitively 따라옵니다.
+core 스타터가 자동으로 가져옴: `spring-boot-starter-aop`, `spring-data-commons`, `pagehelper-spring-boot-starter`, `mybatis-spring-boot-starter` 3.x. **Spring Data JPA는 필요 없습니다** — 가벼운 `spring-data-commons` (`Pageable`, `Page`, `Sort` 제공)만 transitively 따라옵니다.
+
+reactive 스타터는 `spring-boot-starter-webflux`와 `spring-boot-starter-data-r2dbc`를 `compileOnly`로 선언하므로, 실제로 사용하는 것에 대해서만 비용을 지불.
 
 > 다른 MyBatis 라인이 필요하다면 `exclude(group = "org.mybatis.spring.boot")` 후 원하는 버전 직접 선언 — [설치 가이드](https://easy-paging.devslab.kr/ko/getting-started/installation/) 참조.
 

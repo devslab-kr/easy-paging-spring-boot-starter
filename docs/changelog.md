@@ -6,6 +6,27 @@ For the canonical, machine-readable source see [`CHANGELOG.md`](https://github.c
 
 ---
 
+## [0.4.0] — 2026-05-20
+
+### Added
+
+- **New optional artifact `easy-paging-spring-boot-starter-reactive`** — native R2DBC + WebFlux support, sibling to the core starter. Existing MyBatis users add nothing; the new starter is purely additive. Three pieces ship:
+    - `R2dbcOffsetPagingSupport.paginate(template, entity, criteria, pageable)` — page rows + count query parallelized via `Mono.zip`, produces the same `PageResponse` envelope as the MyBatis side.
+    - `R2dbcKeysetSupport.paginate(template, entity, baseFilter, keys, request, keyExtractor, codec)` — keyset/cursor pagination on R2DBC, with built-in type coercion for `Instant`, `LocalDateTime`, `OffsetDateTime`, `LocalDate`, `UUID`, and primitive wrappers.
+    - `ReactiveKeysetRequestArgumentResolver` — WebFlux counterpart of the servlet `KeysetRequestArgumentResolver`. Auto-registered when WebFlux is on the classpath.
+- `PageResponse.of(rows, pageable, total)` — new core factory for the "known total" case (the typical R2DBC pattern). Complements `PageResponse.from(list, pageable)` which infers the total from a PageHelper-wrapped list.
+- **Dialect-compat test layer** — new `./gradlew testDialect` task runs `@Tag("dialect-compat")` tests against real PostgreSQL + MySQL via Testcontainers, on top of the existing fast H2 path. Catches the PageHelper dialect-rewriting paths and R2DBC type-binding behavior that H2 doesn't exercise.
+
+### Changed
+
+- **Gradle build migrated to multi-module structure** (`core/` + `reactive/`). The published `kr.devslab:easy-paging-spring-boot-starter` coordinates are byte-identical; users only need to add the new `…-reactive` line if they want the R2DBC stack.
+- CI / release workflow paths updated for the multi-module layout; release asset glob now `**/build/libs/*.jar` so future module jars attach automatically.
+
+### Notes
+
+- Strictly additive for existing v0.3 consumers — adding `easy-paging-spring-boot-starter-reactive` is opt-in; the core artifact's coordinates and behavior are unchanged.
+- The new reactive auto-configurations gate themselves on `@ConditionalOnClass(ServerWebExchange.class)` etc., so dead code doesn't run when WebFlux / R2DBC aren't on the consumer's classpath.
+
 ## [0.3.0] — 2026-05-18
 
 ### Added

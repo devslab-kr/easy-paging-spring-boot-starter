@@ -82,13 +82,19 @@ No `PageHelper.startPage(...)` calls scattered through your codebase, no `Thread
 
     Internal state cleaned up on every request, regardless of exception path. No `ThreadLocal` leaks.
 
+-   :material-water: **Reactive: WebFlux + R2DBC**
+
+    Optional `…-starter-reactive` artifact: `Mono<PageResponse<T>>` from `R2dbcEntityTemplate`, keyset helper for cursor scrolls, and a WebFlux `KeysetRequest` argument resolver. Same envelope as the MyBatis side.
+
 </div>
 
 ## Quick install
 
 ```kotlin title="build.gradle.kts"
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.3.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    // Optional — native R2DBC + WebFlux helpers:
+    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
 }
 ```
 
