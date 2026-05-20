@@ -19,6 +19,30 @@ base {
     archivesName.set("easy-paging-spring-boot-starter")
 }
 
+// Vanniktech maven-publish creates its own Jar task for the javadoc artifact
+// (named `mavenPlainJavadocJar`) and hardcodes its archive base name to
+// `<subproject>-maven-javadoc`, ignoring `base.archivesName`. Without this
+// override the GitHub Release ends up with `core-maven-javadoc-X.Y.Z-javadoc.jar`
+// next to a properly named `easy-paging-spring-boot-starter-X.Y.Z.jar`, which is
+// confusing for anyone manually downloading from the release page. (The Maven
+// Central upload itself is unaffected — Vanniktech renames artifacts by
+// coordinates at publish time.)
+//
+// Vanniktech sets the archive base name on the task during its plugin's own
+// `afterEvaluate` hook, so a plain `configureEach` (which runs at task
+// realization, earlier) gets overwritten. Running our override inside an
+// `afterEvaluate` block makes it the last writer.
+//
+// Note: Vanniktech's `JavadocJar` task type does *not* extend
+// `org.gradle.api.tasks.bundling.Jar` — it extends `AbstractArchiveTask`
+// directly. Targeting the common parent type avoids the "not a subclass"
+// error from `tasks.named<Jar>(...)`.
+afterEvaluate {
+    tasks.named<AbstractArchiveTask>("mavenPlainJavadocJar").configure {
+        archiveBaseName.set("easy-paging-spring-boot-starter")
+    }
+}
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
