@@ -1,6 +1,6 @@
 package kr.devslab.easypaging.autoconfigure;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import kr.devslab.easypaging.aspect.AutoPaginateAspect;
 import kr.devslab.easypaging.core.CursorCodec;

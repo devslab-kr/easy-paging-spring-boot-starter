@@ -2,8 +2,7 @@ package kr.devslab.easypaging.reactive.it.dialect;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import tools.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +75,7 @@ class R2dbcPostgresDialectTest {
     @Autowired private R2dbcEntityTemplate template;
 
     private final CursorCodec codec = new CursorCodec(
-            new ObjectMapper().registerModule(new JavaTimeModule()),
+            new ObjectMapper(),
             "",
             2048);
 

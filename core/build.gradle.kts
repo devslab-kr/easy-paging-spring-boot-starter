@@ -73,7 +73,7 @@ tasks.withType<Javadoc>().configureEach {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.3")
+        mavenBom("org.springframework.boot:spring-boot-dependencies:4.0.6")
     }
 }
 
@@ -82,19 +82,22 @@ dependencies {
     // The Spring Boot BOM (above) controls versions so they align with whatever
     // Boot version the consumer is on at resolution time.
     api("org.springframework.boot:spring-boot-starter")
-    api("org.springframework.boot:spring-boot-starter-aop")
+    // SB4 renamed spring-boot-starter-aop → spring-boot-starter-aspectj
+    // (clearer naming — the starter has always been AspectJ-based, not a
+    // generic "AOP" abstraction). Same artifact contents, new ID.
+    api("org.springframework.boot:spring-boot-starter-aspectj")
     api("org.springframework.data:spring-data-commons")
-    api("com.github.pagehelper:pagehelper-spring-boot-starter:2.1.1")
+    api("com.github.pagehelper:pagehelper-spring-boot-starter:4.0.0")
 
-    // MyBatis Spring Boot Starter is exposed as api because PageHelper requires
-    // MyBatis at runtime, and PageHelper 2.1.x still ships its own transitive
-    // mybatis-spring-boot-starter:2.3.2 (Spring Boot 2.7 line). Declaring 3.0.4
-    // directly here forces Gradle's conflict resolution to pick the Boot-3-
-    // compatible starter for every consumer — they no longer need to add it
-    // themselves and the wrong-line transitive footprint stops mattering.
-    // Override with `exclude(group = "org.mybatis.spring.boot")` + a direct
-    // declaration if you need a different MyBatis line for some reason.
-    api("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4")
+    // MyBatis Spring Boot Starter is exposed as api because PageHelper
+    // requires MyBatis at runtime. PageHelper 4.0.0 brings
+    // mybatis-spring-boot-starter 4.0.1 transitively (the SB4-compatible
+    // line) — declaring it here too pins the version for Gradle's conflict
+    // resolution, so consumers can't accidentally drop back to an SB3-line
+    // transitive that some other dep brings in. Override with
+    // `exclude(group = "org.mybatis.spring.boot")` + a direct declaration
+    // if you need a different MyBatis line for some reason.
+    api("org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1")
 
     // Silences "cannot find javax.annotation.Nonnull" cosmetic warnings emitted when
     // resolving Spring's @Nullable. Not exposed to consumers (compileOnly).
@@ -112,6 +115,10 @@ dependencies {
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-web")
+    // SB4 modularization: @AutoConfigureMockMvc, MockMvcTester, etc. moved
+    // out of spring-boot-test-autoconfigure into a dedicated webmvc-test
+    // starter. Must be declared explicitly now.
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     // mybatis-spring-boot-starter is inherited via the main `api` declaration,
     // so tests automatically run against whatever consumers get.
     testImplementation("io.projectreactor:reactor-core")

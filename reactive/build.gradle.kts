@@ -49,7 +49,7 @@ tasks.withType<Javadoc>().configureEach {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.3")
+        mavenBom("org.springframework.boot:spring-boot-dependencies:4.0.6")
     }
 }
 
@@ -75,6 +75,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    // SB4 modularization: @AutoConfigureWebTestClient and WebTestClient
+    // helpers moved out of spring-boot-test-autoconfigure into a dedicated
+    // webflux-test starter. Must be declared explicitly now.
+    testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("io.r2dbc:r2dbc-h2")
     testImplementation("com.h2database:h2")

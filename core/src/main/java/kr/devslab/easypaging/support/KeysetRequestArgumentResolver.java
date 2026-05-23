@@ -7,7 +7,7 @@ import kr.devslab.easypaging.core.Cursor;
 import kr.devslab.easypaging.core.CursorCodec;
 import kr.devslab.easypaging.core.KeysetRequest;
 import org.springframework.core.MethodParameter;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
