@@ -87,8 +87,8 @@ dependencies {
     // Testcontainers — dialect-compat tests against real PostgreSQL R2DBC.
     // r2dbc-h2 in the fast tests catches API-shape regressions; PostgreSQL
     // catches driver-specific type-binding differences (TIMESTAMP WITH TIME
-    // ZONE, UUID, etc.) that we won't see against H2.
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.21.2"))
+    // ZONE, UUID, etc.) that we won't see against H2. Versions managed by
+    // the Spring Boot BOM (Testcontainers 2.x line under SB4).
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
