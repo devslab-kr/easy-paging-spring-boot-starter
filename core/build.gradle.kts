@@ -84,7 +84,7 @@ dependencies {
     api("org.springframework.boot:spring-boot-starter")
     api("org.springframework.boot:spring-boot-starter-aop")
     api("org.springframework.data:spring-data-commons")
-    api("com.github.pagehelper:pagehelper-spring-boot-starter:2.1.1")
+    api("com.github.pagehelper:pagehelper-spring-boot-starter:4.0.0")
 
     // MyBatis Spring Boot Starter is exposed as api because PageHelper requires
     // MyBatis at runtime, and PageHelper 2.1.x still ships its own transitive
@@ -94,7 +94,7 @@ dependencies {
     // themselves and the wrong-line transitive footprint stops mattering.
     // Override with `exclude(group = "org.mybatis.spring.boot")` + a direct
     // declaration if you need a different MyBatis line for some reason.
-    api("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4")
+    api("org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1")
 
     // Silences "cannot find javax.annotation.Nonnull" cosmetic warnings emitted when
     // resolving Spring's @Nullable. Not exposed to consumers (compileOnly).
