@@ -1,5 +1,9 @@
 version: 2
+
 updates:
+  # ------------------------------------------------------------------
+  # main — Spring Boot 4.x active development line (v0.5.0+)
+  # ------------------------------------------------------------------
   - package-ecosystem: gradle
     directory: "/"
     schedule:
@@ -16,6 +20,54 @@ updates:
           - "org.mybatis*"
           - "com.github.pagehelper*"
 
+  # ------------------------------------------------------------------
+  # 0.4.x — Spring Boot 3.3-3.5 maintenance line
+  #
+  # Tracks patch/minor of SB3 deps. Holds majors so this line never
+  # accidentally jumps to SB4 (that's main's job).
+  # ------------------------------------------------------------------
+  - package-ecosystem: gradle
+    directory: "/"
+    target-branch: "0.4.x"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "0.4.x"
+    commit-message:
+      prefix: "build(deps)"
+      include: "scope"
+    groups:
+      spring:
+        patterns:
+          - "org.springframework*"
+          - "org.springframework.boot*"
+      mybatis:
+        patterns:
+          - "org.mybatis*"
+          - "com.github.pagehelper*"
+    ignore:
+      # Pin this branch to the Spring Boot 3.x line — never let
+      # dependabot accidentally bump 0.4.x to SB4. That's main's job.
+      - dependency-name: "org.springframework.boot:*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "io.spring.dependency-management"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "org.springframework:*"
+        update-types: ["version-update:semver-major"]
+      # PageHelper SB starter — 2.x is the SB3 line, 4.x is the SB4
+      # line. Hold this branch on 2.x.
+      - dependency-name: "com.github.pagehelper:pagehelper-spring-boot-starter"
+        update-types: ["version-update:semver-major"]
+      # mybatis-spring-boot-starter — 3.x is the SB3 line, 4.x is SB4.
+      - dependency-name: "org.mybatis.spring.boot:mybatis-spring-boot-starter"
+        update-types: ["version-update:semver-major"]
+
+  # ------------------------------------------------------------------
+  # GitHub Actions workflows (applies to all branches via main config)
+  # ------------------------------------------------------------------
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
