@@ -4,14 +4,14 @@
 
 easy-paging은 두 라인을 병행 운영해서, Spring Boot major를 올리지 않더라도 사용할 수 있도록 합니다:
 
-| Spring Boot 버전 | easy-paging 라인 | 좌표 |
+| Spring Boot 버전 | easy-paging 라인 | Maven Central 최신 |
 | --- | --- | --- |
-| **Spring Boot 4.0+** | **`4.x.y`** (active 라인 — `main` 브랜치) | `kr.devslab:easy-paging-spring-boot-starter:4.0.0` |
-| **Spring Boot 3.3–3.5** | **`3.x.y`** ([maintenance 브랜치](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/3.x)) | `kr.devslab:easy-paging-spring-boot-starter:3.0.0` |
+| **Spring Boot 4.0+** | **`4.x.y`** (active 라인 — `main` 브랜치) | [![Maven Central](https://img.shields.io/maven-central/v/kr.devslab/easy-paging-spring-boot-starter?versionPrefix=4)](https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter) |
+| **Spring Boot 3.3–3.5** | **`3.x.y`** ([maintenance 브랜치](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/3.x)) | [![Maven Central](https://img.shields.io/maven-central/v/kr.devslab/easy-paging-spring-boot-starter?versionPrefix=3)](https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter) |
 
 라이브러리 메이저 숫자는 타겟 Spring Boot 메이저와 일치 — [버전 정책](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md#한국어) 참조. 공개 API (`@AutoPaginate`, `@KeysetPaginate`, `PageResponse<T>`, `KeysetPage<T>`, `R2dbcOffsetPagingSupport`, ...)는 양쪽 라인 동일, 런타임 BOM만 다릅니다.
 
-이 페이지의 나머지 내용은 **`4.x` / Spring Boot 4** 라인 기준 — 신규 앱이라면 이쪽 추천.
+이 페이지의 나머지 내용은 **`4.x` / Spring Boot 4** 라인 기준 — 신규 앱이라면 이쪽 추천. 빌드 도구별 copy-paste 스니펫은 아래 [의존성 추가](#의존성-추가) 섹션 참조.
 
 ## 요구사항
 

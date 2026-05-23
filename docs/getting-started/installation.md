@@ -4,14 +4,14 @@
 
 easy-paging ships two parallel lines so apps don't have to upgrade Spring Boot just to use it:
 
-| Spring Boot version | easy-paging line | Use |
+| Spring Boot version | easy-paging line | Latest on Maven Central |
 | --- | --- | --- |
-| **Spring Boot 4.0+** | **`4.x.y`** (active line on `main`) | `kr.devslab:easy-paging-spring-boot-starter:4.0.0` |
-| **Spring Boot 3.3–3.5** | **`3.x.y`** ([maintenance branch](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/3.x)) | `kr.devslab:easy-paging-spring-boot-starter:3.0.0` |
+| **Spring Boot 4.0+** | **`4.x.y`** (active line on `main`) | [![Maven Central](https://img.shields.io/maven-central/v/kr.devslab/easy-paging-spring-boot-starter?versionPrefix=4)](https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter) |
+| **Spring Boot 3.3–3.5** | **`3.x.y`** ([maintenance branch](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/3.x)) | [![Maven Central](https://img.shields.io/maven-central/v/kr.devslab/easy-paging-spring-boot-starter?versionPrefix=3)](https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter) |
 
 The library major number matches the Spring Boot major it targets — see the [versioning policy](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md). The public API surface (`@AutoPaginate`, `@KeysetPaginate`, `PageResponse<T>`, `KeysetPage<T>`, `R2dbcOffsetPagingSupport`, ...) is identical on both lines; only the underlying runtime BOM differs.
 
-The rest of this page covers the **`4.x` / Spring Boot 4** line — the recommended path for new apps.
+The rest of this page covers the **`4.x` / Spring Boot 4** line — the recommended path for new apps. Copy-paste snippets for each build tool are in [Adding the dependency](#adding-the-dependency) below.
 
 ## Requirements
 
