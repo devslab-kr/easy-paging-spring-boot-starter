@@ -4,10 +4,13 @@
 
 > Annotation-driven pagination for Spring Boot + MyBatis. Offset and keyset/cursor in one starter.
 
-[![Maven Central](https://img.shields.io/maven-central/v/kr.devslab/easy-paging-spring-boot-starter.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter)
-[![CI](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter)
+[![Maven Central — 0.4.x line](https://img.shields.io/maven-central/v/kr.devslab/easy-paging-spring-boot-starter?versionPrefix=0.4&label=Maven%20Central%20%28SB3%20line%29)](https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter)
+[![Java](https://img.shields.io/badge/Java-21+-007396?logo=openjdk&logoColor=white)](https://adoptium.net)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3--3.5-6db33f?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![CI](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml/badge.svg?branch=0.4.x)](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml?query=branch%3A0.4.x)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
+> 🛠 **Maintenance branch.** This is the SB3 (`0.4.x`) line — kept on the Spring Boot 3.3–3.5 baseline and receiving security patches. Active development for Spring Boot 4 lives on [`main`](https://github.com/devslab-kr/easy-paging-spring-boot-starter) (`0.5.x`).
 
 📖 **[Documentation → easy-paging.devslab.kr](https://easy-paging.devslab.kr/)**
 
