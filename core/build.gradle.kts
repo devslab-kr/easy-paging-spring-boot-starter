@@ -123,7 +123,7 @@ dependencies {
     // and run by the `testDialect` task, separate from the fast H2 path. H2
     // catches most logic bugs in seconds; PostgreSQL + MySQL catch the
     // dialect-specific PageHelper rewriting paths the H2 dialect would miss.
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.21.2"))
+    testImplementation(platform("org.testcontainers:testcontainers-bom:2.0.5"))
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
