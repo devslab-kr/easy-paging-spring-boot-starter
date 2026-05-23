@@ -79,12 +79,12 @@ return ReactivePagingSupport.paginate(
 
 ```kotlin title="build.gradle.kts"
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
-    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.5.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:4.0.0")
 }
 ```
 
-(옵션 reactive 라인은 SB3 maintenance 라인에서도 `0.4.0`으로 게시 — 라인 선택은 [설치](../getting-started/installation.ko.md#릴리스-라인-선택) 참조.)
+(옵션 reactive 라인은 SB3 maintenance 라인에서도 `3.0.0`으로 게시 — 라인 선택은 [설치](../getting-started/installation.ko.md#릴리스-라인-선택) 참조.)
 
 본인이 추가(일반적 Spring Data R2DBC 프로젝트와 동일): R2DBC 드라이버, `spring-boot-starter-webflux`, `spring-boot-starter-data-r2dbc`.
 

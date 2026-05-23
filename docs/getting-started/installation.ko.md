@@ -6,12 +6,12 @@ easy-paging은 두 라인을 병행 운영해서, Spring Boot major를 올리지
 
 | Spring Boot 버전 | easy-paging 라인 | 좌표 |
 | --- | --- | --- |
-| **Spring Boot 4.0+** | **`0.5.x`** (active 라인 — `main` 브랜치) | `kr.devslab:easy-paging-spring-boot-starter:0.5.0` |
-| **Spring Boot 3.3–3.5** | **`0.4.x`** ([maintenance 브랜치](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/0.4.x)) | `kr.devslab:easy-paging-spring-boot-starter:0.4.0` |
+| **Spring Boot 4.0+** | **`4.x.y`** (active 라인 — `main` 브랜치) | `kr.devslab:easy-paging-spring-boot-starter:4.0.0` |
+| **Spring Boot 3.3–3.5** | **`3.x.y`** ([maintenance 브랜치](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/3.x)) | `kr.devslab:easy-paging-spring-boot-starter:3.0.0` |
 
-공개 API (`@AutoPaginate`, `@KeysetPaginate`, `PageResponse<T>`, `KeysetPage<T>`, `R2dbcOffsetPagingSupport`, ...)는 양쪽 라인 동일. 런타임 BOM만 다릅니다.
+라이브러리 메이저 숫자는 타겟 Spring Boot 메이저와 일치 — [버전 정책](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md#한국어) 참조. 공개 API (`@AutoPaginate`, `@KeysetPaginate`, `PageResponse<T>`, `KeysetPage<T>`, `R2dbcOffsetPagingSupport`, ...)는 양쪽 라인 동일, 런타임 BOM만 다릅니다.
 
-이 페이지의 나머지 내용은 **`0.5.x` / Spring Boot 4** 라인 기준 — 신규 앱이라면 이쪽 추천.
+이 페이지의 나머지 내용은 **`4.x` / Spring Boot 4** 라인 기준 — 신규 앱이라면 이쪽 추천.
 
 ## 요구사항
 
@@ -26,7 +26,7 @@ easy-paging은 두 라인을 병행 운영해서, Spring Boot major를 올리지
 
     ```kotlin
     dependencies {
-        implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
+        implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0")
     }
     ```
 
@@ -34,7 +34,7 @@ easy-paging은 두 라인을 병행 운영해서, Spring Boot major를 올리지
 
     ```groovy
     dependencies {
-        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.5.0'
+        implementation 'kr.devslab:easy-paging-spring-boot-starter:4.0.0'
     }
     ```
 
@@ -44,7 +44,7 @@ easy-paging은 두 라인을 병행 운영해서, Spring Boot major를 올리지
     <dependency>
         <groupId>kr.devslab</groupId>
         <artifactId>easy-paging-spring-boot-starter</artifactId>
-        <version>0.5.0</version>
+        <version>4.0.0</version>
     </dependency>
     ```
 
@@ -69,8 +69,8 @@ easy-paging은 두 라인을 병행 운영해서, Spring Boot major를 올리지
 
 ```kotlin
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
-    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.5.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:4.0.0")
 }
 ```
 
@@ -82,7 +82,7 @@ dependencies {
     SB4 라인 PageHelper가 기대하는 MyBatis 버전이 다른 transitive에 의해 덮이지 않도록 라이브러리가 직접 pin합니다. 다른 MyBatis 라인이 필요하면 exclude 후 직접 선언:
 
     ```kotlin
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0") {
+    implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0") {
         exclude(group = "org.mybatis.spring.boot")
     }
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:원하는버전")
@@ -105,12 +105,12 @@ easy-paging:
 
 ## Spring Boot 3.3–3.5 사용 중이라면?
 
-`0.4.x` maintenance 라인은 SB4 분기 시점의 동일한 코드를 SB3 BOM 기준으로 유지하면서 보안 패치를 계속 받습니다. `0.4.0` 사용:
+`3.x` maintenance 라인은 SB4 분기 시점의 동일한 코드를 SB3 BOM 기준으로 유지하면서 보안 패치를 계속 받습니다. `3.0.0` 사용:
 
 ```kotlin
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:3.0.0")
 }
 ```
 
-`0.4.x` 라인 요구사항: Java 21+, Spring Boot 3.3–3.5, Gradle 8.10+. API 표면은 `0.5.x`와 동일 — 추후 SB4 + `0.5.x`로 올릴 때 코드 변경 없음.
+`3.x` 라인 요구사항: Java 21+, Spring Boot 3.3–3.5, Gradle 8.10+. API 표면은 `4.x`와 동일 — 추후 SB4 + `4.x`로 올릴 때 코드 변경 없음.

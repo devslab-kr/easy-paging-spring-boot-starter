@@ -93,12 +93,12 @@ class ReportController {
 ```kotlin title="build.gradle.kts"
 dependencies {
     // Spring Boot 4 라인 (현재 — main 브랜치):
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0")
     // 옵션 — 네이티브 R2DBC + WebFlux 헬퍼:
-    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.5.0")
+    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:4.0.0")
 
     // Spring Boot 3.3–3.5 maintenance 라인 (SB4 아직 못 갔다면 이쪽):
-    // implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    // implementation("kr.devslab:easy-paging-spring-boot-starter:3.0.0")
 }
 ```
 
