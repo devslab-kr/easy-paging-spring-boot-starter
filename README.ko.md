@@ -5,10 +5,13 @@
 > Spring Boot + MyBatis를 위한 어노테이션 기반 페이지네이션 스타터.
 > Offset 방식과 Keyset/Cursor 방식을 하나로 제공합니다.
 
-[![Maven Central](https://img.shields.io/maven-central/v/kr.devslab/easy-paging-spring-boot-starter.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter)
-[![CI](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter)
+[![Maven Central — 0.4.x line](https://img.shields.io/maven-central/v/kr.devslab/easy-paging-spring-boot-starter?versionPrefix=0.4&label=Maven%20Central%20%28SB3%20line%29)](https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter)
+[![Java](https://img.shields.io/badge/Java-21+-007396?logo=openjdk&logoColor=white)](https://adoptium.net)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3--3.5-6db33f?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![CI](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml/badge.svg?branch=0.4.x)](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml?query=branch%3A0.4.x)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
+> 🛠 **Maintenance 브랜치.** SB3 (`0.4.x`) 라인 — Spring Boot 3.3–3.5 baseline 유지 + 보안 패치만 수신. Spring Boot 4 active 개발은 [`main`](https://github.com/devslab-kr/easy-paging-spring-boot-starter) (`0.5.x`) 에서 진행.
 
 📖 **[문서 보기 → easy-paging.devslab.kr](https://easy-paging.devslab.kr/ko/)**
 
