@@ -11,6 +11,8 @@
 
 📖 **[Documentation → easy-paging.devslab.kr](https://easy-paging.devslab.kr/)**
 
+> 💬 Questions, ideas, sharing your application? Head to [**devslab-examples Discussions**](https://github.com/devslab-kr/devslab-examples/discussions) — bilingual, maintained by the same folks who write the libraries.
+
 ## At a glance
 
 Drop one annotation on a controller method and get a JSON-ready paginated response. With the standard Controller → Service → Mapper layering, the controller stays thin:
