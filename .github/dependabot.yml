@@ -37,7 +37,7 @@ updates:
       - "dependencies"
       - "0.4.x"
     commit-message:
-      prefix: "build(deps)"
+      prefix: "build"
       include: "scope"
     groups:
       spring:
