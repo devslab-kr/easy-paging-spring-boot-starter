@@ -36,7 +36,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 class AutoPaginateMysqlDialectTest {
 
     @Container
-    static final MySQLContainer<?> MYSQL = new MySQLContainer<>("mysql:8.4")
+    static final MySQLContainer MYSQL = new MySQLContainer("mysql:8.4")
             .withDatabaseName("easy_paging_test")
             .withUsername("test")
             .withPassword("test")

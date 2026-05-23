@@ -38,7 +38,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 class AutoPaginatePostgresDialectTest {
 
     @Container
-    static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:16-alpine")
+    static final PostgreSQLContainer POSTGRES = new PostgreSQLContainer("postgres:16-alpine")
             .withDatabaseName("easy_paging_test")
             .withUsername("test")
             .withPassword("test")
