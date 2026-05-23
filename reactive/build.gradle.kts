@@ -84,7 +84,7 @@ dependencies {
     // r2dbc-h2 in the fast tests catches API-shape regressions; PostgreSQL
     // catches driver-specific type-binding differences (TIMESTAMP WITH TIME
     // ZONE, UUID, etc.) that we won't see against H2.
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.21.2"))
+    testImplementation(platform("org.testcontainers:testcontainers-bom:2.0.5"))
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
