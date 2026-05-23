@@ -139,15 +139,17 @@ public Map<String, Object> list(
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:3.0.0")
     // 옵션 — 네이티브 R2DBC + WebFlux 헬퍼가 필요한 경우만:
-    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
+    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:3.0.0")
 }
 ```
 
 여러분이 추가:
 - Spring Boot 3.3+ / Java 21+ (빌드·테스트는 3.5 기준)
 - JDBC 드라이버 (reactive 스타터 사용 시에는 R2DBC 드라이버도)
+
+> Spring Boot 4 사용 중이라면 [`4.x` active 라인](https://github.com/devslab-kr/easy-paging-spring-boot-starter) (`kr.devslab:easy-paging-spring-boot-starter:4.0.0`). 라이브러리 메이저는 Spring Boot 메이저와 일치 — [버전 정책](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md#한국어) 참조. 이 `3.x` 라인은 SB3 maintenance 라인으로 보안 패치를 계속 제공.
 
 core 스타터가 자동으로 가져옴: `spring-boot-starter-aop`, `spring-data-commons`, `pagehelper-spring-boot-starter`, `mybatis-spring-boot-starter` 3.x. **Spring Data JPA는 필요 없습니다** — 가벼운 `spring-data-commons` (`Pageable`, `Page`, `Sort` 제공)만 transitively 따라옵니다.
 

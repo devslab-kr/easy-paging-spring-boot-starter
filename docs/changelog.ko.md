@@ -6,6 +6,25 @@ easy-paging의 모든 주요 변경사항이 여기 기록됩니다. 포맷은 [
 
 ---
 
+## [3.0.0] — 2026-05-23
+
+**`0.4.0`의 재번호링** — 새 [Spring-major-정렬 버전 정책](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md#한국어)에 따름. API / 동작 / 의존성 변경 전혀 없음 — 메이저 숫자를 `0.4` → `3.0`으로 올려서 이 maintenance 라인의 타겟 Spring Boot 메이저 (Spring Boot 3)와 일치시킴. 발행된 JAR 바이트는 `0.4.0`과 동일 (POM의 버전 좌표만 다름).
+
+앞으로 SB3 maintenance 라인은 `3.x.y` 라인. SB4 active 라인도 같은 웨이브에서 `4.x.y`로 재번호링. 기존 `0.4.0` 아티팩트는 historical reference로 Maven Central에 잔존.
+
+### `0.4.0`에서 올라오기
+
+```diff
+- implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
++ implementation("kr.devslab:easy-paging-spring-boot-starter:3.0.0")
+- implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
++ implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:3.0.0")
+```
+
+다른 변경 없음. 이 라인은 Spring Boot 3이 upstream에서 지원받는 동안 보안 패치를 계속 제공.
+
+---
+
 ## [0.4.0] — 2026-05-20
 
 ### 추가

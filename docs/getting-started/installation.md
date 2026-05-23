@@ -12,7 +12,7 @@
 
     ```kotlin
     dependencies {
-        implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+        implementation("kr.devslab:easy-paging-spring-boot-starter:3.0.0")
     }
     ```
 
@@ -20,7 +20,7 @@
 
     ```groovy
     dependencies {
-        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.4.0'
+        implementation 'kr.devslab:easy-paging-spring-boot-starter:3.0.0'
     }
     ```
 
@@ -30,7 +30,7 @@
     <dependency>
         <groupId>kr.devslab</groupId>
         <artifactId>easy-paging-spring-boot-starter</artifactId>
-        <version>0.4.0</version>
+        <version>3.0.0</version>
     </dependency>
     ```
 
@@ -55,8 +55,8 @@ If your app uses Spring Data R2DBC + WebFlux instead of (or alongside) MyBatis, 
 
 ```kotlin
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
-    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:3.0.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:3.0.0")
 }
 ```
 
@@ -68,7 +68,7 @@ See the [Reactive guide](../guides/reactive.md#native-r2dbc--webflux) for the fu
     The MyBatis Spring Boot Starter version is pinned by this library so that PageHelper's older transitive doesn't leak into your app. If you need a different MyBatis line, exclude it and declare your own:
 
     ```kotlin
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0") {
+    implementation("kr.devslab:easy-paging-spring-boot-starter:3.0.0") {
         exclude(group = "org.mybatis.spring.boot")
     }
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:your.version")
