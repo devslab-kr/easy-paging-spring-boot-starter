@@ -6,6 +6,25 @@ easy-paging의 모든 주요 변경사항이 여기 기록됩니다. 포맷은 [
 
 ---
 
+## [4.0.0] — 2026-05-23
+
+**`0.5.0`의 재번호링** — 새 [Spring-major-정렬 버전 정책](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md#한국어)에 따름. API / 동작 / 의존성 변경 전혀 없음 — 메이저 숫자를 `0.5` → `4.0`으로 올려서 타겟 Spring Boot 메이저 (Spring Boot 4)와 일치시킴. 발행된 JAR 바이트는 `0.5.0`과 동일 (POM의 버전 좌표만 다름).
+
+앞으로 모든 Spring Boot 4 릴리즈는 `4.x.y` 라인. SB3 라인도 같은 웨이브에서 `3.x.y`로 재번호링 (`0.4.0` → `3.0.0`). 기존 `0.4.0` / `0.5.0` 아티팩트는 historical reference로 Maven Central에 잔존.
+
+### `0.5.0`에서 올라오기
+
+```diff
+- implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
++ implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0")
+- implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.5.0")
++ implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:4.0.0")
+```
+
+다른 변경 없음. 동일 Spring Boot 4 베이스라인, 동일 MyBatis 4.0.1 / PageHelper 4.0.0, 동일 API.
+
+---
+
 ## [0.5.0] — 2026-05-23
 
 **Spring Boot 4 릴리즈 라인.** Spring Boot 4 / Spring Framework 7 / Jackson 3 대상 `0.5.x` 라인의 첫 컷. `0.4.x` 브랜치는 Spring Boot 3.3–3.5 maintenance 라인으로 계속 유지되며 보안 패치를 받습니다.
@@ -30,7 +49,7 @@ easy-paging의 모든 주요 변경사항이 여기 기록됩니다. 포맷은 [
 - 테스트가 `@AutoConfigureMockMvc` 또는 `@AutoConfigureWebTestClient`를 쓰면, 해당 import들이 전용 `spring-boot-starter-{webmvc,webflux}-test` 모듈로 이동됨.
 - Testcontainers를 쓰는 테스트는, 2.x에서 모듈 아티팩트 이름이 변경됐고 (`postgresql` → `testcontainers-postgresql`, 등) `*Container` 클래스들이 모듈별 전용 패키지로 이동됨.
 
-Spring Boot 3.3–3.5에 머무는 중? [`0.4.x` maintenance 브랜치](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/0.4.x)를 사용.
+Spring Boot 3.3–3.5에 머무는 중? [`3.x` maintenance 브랜치](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/3.x) 사용 (`3.0.0`).
 
 ---
 

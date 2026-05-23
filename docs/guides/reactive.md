@@ -81,12 +81,12 @@ For applications on **Spring Data R2DBC** (no MyBatis on the request path). Add 
 
 ```kotlin title="build.gradle.kts"
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
-    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.5.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:4.0.0")
 }
 ```
 
-(The optional reactive line is also published on the SB3 maintenance line at `0.4.0` — see [Installation](../getting-started/installation.md#choose-your-release-line) for the picker.)
+(The optional reactive line is also published on the SB3 maintenance line at `3.0.0` — see [Installation](../getting-started/installation.md#choose-your-release-line) for the picker.)
 
 You bring (same as a stock Spring Data R2DBC project): an R2DBC driver, `spring-boot-starter-webflux`, `spring-boot-starter-data-r2dbc`.
 

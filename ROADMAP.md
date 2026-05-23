@@ -10,6 +10,9 @@ For released features see [CHANGELOG.md](CHANGELOG.md).
 
 | Release | Highlights |
 |---|---|
+| **v4.0.0** | **Spring-major-aligned versioning policy** — renumbering of `0.5.0`. Library major now matches the Spring Boot major (4.x = SB4, 3.x = SB3). Same code, new coordinates. See [VERSIONING policy](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md). |
+| **v3.0.0** | Spring Boot 3 maintenance line renumbered from `0.4.0`. Same code, new coordinates. SB 3.3–3.5 maintenance continues here for security patches. |
+| **v0.5.0** | **Spring Boot 4 release line.** SB4 / Spring Framework 7 / Jackson 3 baseline. PageHelper 4.0.0 + MyBatis 4.0.1. `spring-boot-starter-aop` → `spring-boot-starter-aspectj`. Starter auto-registers `PageableHandlerMethodArgumentResolver` + `SortHandlerMethodArgumentResolver`. |
 | **v0.4.0** | Native R2DBC + WebFlux support via the new optional `easy-paging-spring-boot-starter-reactive` artifact. Gradle build migrated to multi-module structure. Testcontainers dialect-compat test layer (PostgreSQL + MySQL). |
 | **v0.3.0** | Keyset reverse direction (`prevCursor` activated). Spring Boot baseline 3.3.5 → 3.5.3. PageHelper 2.1.1 + transitive MyBatis starter promoted to `api`. |
 
@@ -19,7 +22,9 @@ See [CHANGELOG.md](CHANGELOG.md) for the full notes.
 
 ## Next minor — TBD
 
-Shape will be driven by post-0.4.0 user feedback. Candidates likely to land here come from the [Considering](#considering--not-committed) section — open an issue to vote on what you want next.
+Shape will be driven by post-4.0.0 user feedback. Candidates likely to land here come from the [Considering](#considering--not-committed) section — open an issue to vote on what you want next.
+
+The `3.x` maintenance branch will continue to receive security patches and dependency bumps for as long as Spring Boot 3.5 itself is supported upstream.
 
 ---
 

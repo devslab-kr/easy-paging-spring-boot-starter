@@ -6,12 +6,12 @@ easy-paging ships two parallel lines so apps don't have to upgrade Spring Boot j
 
 | Spring Boot version | easy-paging line | Use |
 | --- | --- | --- |
-| **Spring Boot 4.0+** | **`0.5.x`** (active line on `main`) | `kr.devslab:easy-paging-spring-boot-starter:0.5.0` |
-| **Spring Boot 3.3–3.5** | **`0.4.x`** ([maintenance branch](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/0.4.x)) | `kr.devslab:easy-paging-spring-boot-starter:0.4.0` |
+| **Spring Boot 4.0+** | **`4.x.y`** (active line on `main`) | `kr.devslab:easy-paging-spring-boot-starter:4.0.0` |
+| **Spring Boot 3.3–3.5** | **`3.x.y`** ([maintenance branch](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/3.x)) | `kr.devslab:easy-paging-spring-boot-starter:3.0.0` |
 
-The public API surface (`@AutoPaginate`, `@KeysetPaginate`, `PageResponse<T>`, `KeysetPage<T>`, `R2dbcOffsetPagingSupport`, ...) is identical on both lines. Only the underlying runtime BOM differs.
+The library major number matches the Spring Boot major it targets — see the [versioning policy](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md). The public API surface (`@AutoPaginate`, `@KeysetPaginate`, `PageResponse<T>`, `KeysetPage<T>`, `R2dbcOffsetPagingSupport`, ...) is identical on both lines; only the underlying runtime BOM differs.
 
-The rest of this page covers the **`0.5.x` / Spring Boot 4** line — the recommended path for new apps.
+The rest of this page covers the **`4.x` / Spring Boot 4** line — the recommended path for new apps.
 
 ## Requirements
 
@@ -26,7 +26,7 @@ The rest of this page covers the **`0.5.x` / Spring Boot 4** line — the recomm
 
     ```kotlin
     dependencies {
-        implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
+        implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0")
     }
     ```
 
@@ -34,7 +34,7 @@ The rest of this page covers the **`0.5.x` / Spring Boot 4** line — the recomm
 
     ```groovy
     dependencies {
-        implementation 'kr.devslab:easy-paging-spring-boot-starter:0.5.0'
+        implementation 'kr.devslab:easy-paging-spring-boot-starter:4.0.0'
     }
     ```
 
@@ -44,7 +44,7 @@ The rest of this page covers the **`0.5.x` / Spring Boot 4** line — the recomm
     <dependency>
         <groupId>kr.devslab</groupId>
         <artifactId>easy-paging-spring-boot-starter</artifactId>
-        <version>0.5.0</version>
+        <version>4.0.0</version>
     </dependency>
     ```
 
@@ -69,8 +69,8 @@ If your app uses Spring Data R2DBC + WebFlux instead of (or alongside) MyBatis, 
 
 ```kotlin
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
-    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.5.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:4.0.0")
 }
 ```
 
@@ -82,7 +82,7 @@ See the [Reactive guide](../guides/reactive.md#native-r2dbc--webflux) for the fu
     The MyBatis Spring Boot Starter version is pinned by this library so that any other transitive doesn't override the SB4-line version that PageHelper expects. If you need a different MyBatis line, exclude it and declare your own:
 
     ```kotlin
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0") {
+    implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0") {
         exclude(group = "org.mybatis.spring.boot")
     }
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:your.version")
@@ -105,12 +105,12 @@ Continue to the [Tutorial](tutorial.md) for a 5-minute walkthrough of a paginate
 
 ## Staying on Spring Boot 3.3–3.5?
 
-The `0.4.x` maintenance line is the same code at the time of the SB4 split, kept on the SB3 BOM and receiving security patches. Use `0.4.0`:
+The `3.x` maintenance line is the same code at the time of the SB4 split, kept on the SB3 BOM and receiving security patches. Use `3.0.0`:
 
 ```kotlin
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:3.0.0")
 }
 ```
 
-Requirements for the `0.4.x` line: Java 21+, Spring Boot 3.3–3.5, Gradle 8.10+. Same API surface as `0.5.x` — your code doesn't change when the day comes to bump to SB4 + `0.5.x`.
+Requirements for the `3.x` line: Java 21+, Spring Boot 3.3–3.5, Gradle 8.10+. Same API surface as `4.x` — your code doesn't change when the day comes to bump to SB4 + `4.x`.

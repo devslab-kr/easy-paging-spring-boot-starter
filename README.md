@@ -137,9 +137,9 @@ The starter collapses all six concerns into the four-line controller at the top 
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0")
     // Optional — only if you also need native R2DBC + WebFlux helpers:
-    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.5.0")
+    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:4.0.0")
 }
 ```
 
@@ -147,7 +147,7 @@ You bring:
 - Spring Boot 4.0+ on Java 21+ (built/tested against 4.0.6)
 - a JDBC driver (or an R2DBC driver if using the reactive starter)
 
-> Still on Spring Boot 3.3–3.5? Use the [`0.4.x` maintenance line](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/0.4.x) (`kr.devslab:easy-paging-spring-boot-starter:0.4.0`). Same API, certified against the SB3 BOM, still receives security patches.
+> Still on Spring Boot 3.3–3.5? Use the [`3.x` maintenance line](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/3.x) (`kr.devslab:easy-paging-spring-boot-starter:3.0.0`). Same API, certified against the SB3 BOM, still receives security patches. The library major matches the Spring Boot major — see the [versioning policy](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md).
 
 (MyBatis Spring Boot Starter is provided transitively — see the [installation guide](https://easy-paging.devslab.kr/getting-started/installation/) if you need a different MyBatis line.)
 

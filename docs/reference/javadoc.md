@@ -9,12 +9,12 @@ Each release publishes a `javadoc.jar` for both the core artifact and the option
 **Core (`easy-paging-spring-boot-starter`):**
 
 - Latest: <https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/latest>
-- Specific version: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/<version>` — e.g. [0.5.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/0.5.0) (Spring Boot 4) or [0.4.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/0.4.0) (SB3 maintenance)
+- Specific version: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/<version>` — e.g. [4.0.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/4.0.0) (Spring Boot 4) or [3.0.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/3.0.0) (SB3 maintenance)
 
 **Reactive (`easy-paging-spring-boot-starter-reactive`, since 0.4.0):**
 
 - Latest: <https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/latest>
-- Specific version: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/<version>` — e.g. [0.5.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/0.5.0) (Spring Boot 4) or [0.4.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/0.4.0) (SB3 maintenance)
+- Specific version: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/<version>` — e.g. [4.0.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/4.0.0) (Spring Boot 4) or [3.0.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/3.0.0) (SB3 maintenance)
 
 The first visit to a new version takes a moment while javadoc.io fetches the jar from Maven Central; subsequent visits are cached.
 

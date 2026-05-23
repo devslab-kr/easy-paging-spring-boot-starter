@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.0] - 2026-05-23
+
+**Renumbering of `0.5.0`** per the new [Spring-major-aligned versioning policy](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md). No API, behaviour, or dependency changes — the major number is bumped from `0.5` to `4.0` to match the Spring Boot major (Spring Boot 4) this line targets. The published JAR bytes are identical to `0.5.0` apart from the version coordinate in the POM.
+
+Going forward, all Spring Boot 4 releases of this starter ship on the `4.x.y` line. The Spring Boot 3 line is renumbered to `3.x.y` in the same wave (`0.4.0` → `3.0.0`). The previous `0.4.0` / `0.5.0` artifacts remain on Maven Central as historical references.
+
+The renumber is motivated by [devslab-examples PR #50](https://github.com/devslab-kr/devslab-examples/pull/50), where Dependabot's standard `semver-major` ignore failed to hold the SB3 demos at `0.4.x` (because `0.4 → 0.5` reads as a minor bump even though it's the SB3 → SB4 line jump in this repo). Aligning library majors with Spring Boot majors makes that ignore rule do the right thing automatically.
+
+### Upgrading from `0.5.0`
+
+```diff
+- implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
++ implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0")
+- implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.5.0")
++ implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:4.0.0")
+```
+
+No other changes. Same Spring Boot 4 baseline, same MyBatis 4.0.1 / PageHelper 4.0.0, same APIs.
+
 ## [0.5.0] - 2026-05-23
 
 **Spring Boot 4 release line.** First cut of the `0.5.x` line targeting Spring Boot 4 / Spring Framework 7 / Jackson 3. The `0.4.x` branch continues as the Spring Boot 3.3–3.5 maintenance line and still receives security patches.
@@ -248,7 +267,9 @@ Four new SB4 demos added in [devslab-examples](https://github.com/devslab-kr/dev
 - Configuration metadata for IDE auto-completion of `easy-paging.*` properties.
 - GitHub Actions workflows for CI and Maven Central release.
 
-[Unreleased]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/releases/tag/v4.0.0
+[0.5.0]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.1.2...v0.2.0

@@ -6,6 +6,25 @@ For the canonical, machine-readable source see [`CHANGELOG.md`](https://github.c
 
 ---
 
+## [4.0.0] — 2026-05-23
+
+**Renumbering of `0.5.0`** per the new [Spring-major-aligned versioning policy](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md). No API, behaviour, or dependency changes — the major number bumps from `0.5` to `4.0` to match the Spring Boot major (Spring Boot 4) this line targets. Published JAR bytes are identical to `0.5.0` apart from the version coordinate in the POM.
+
+Going forward, all Spring Boot 4 releases of this starter ship on the `4.x.y` line. The Spring Boot 3 line is renumbered to `3.x.y` in the same wave (`0.4.0` → `3.0.0`). The previous `0.4.0` / `0.5.0` artifacts remain on Maven Central as historical references.
+
+### Upgrading from `0.5.0`
+
+```diff
+- implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
++ implementation("kr.devslab:easy-paging-spring-boot-starter:4.0.0")
+- implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.5.0")
++ implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:4.0.0")
+```
+
+No other changes. Same Spring Boot 4 baseline, same MyBatis 4.0.1 / PageHelper 4.0.0, same APIs.
+
+---
+
 ## [0.5.0] — 2026-05-23
 
 **Spring Boot 4 release line.** First cut of the `0.5.x` line targeting Spring Boot 4 / Spring Framework 7 / Jackson 3. The `0.4.x` branch continues as the Spring Boot 3.3–3.5 maintenance line and still receives security patches.
@@ -30,7 +49,7 @@ Coming from `0.4.x`:
 - If your tests use `@AutoConfigureMockMvc` or `@AutoConfigureWebTestClient`, the imports moved to dedicated `spring-boot-starter-{webmvc,webflux}-test` modules.
 - If your tests use Testcontainers, 2.x renamed module artifacts (`postgresql` → `testcontainers-postgresql`, etc.) and moved `*Container` classes into dedicated per-module packages.
 
-Staying on Spring Boot 3.3–3.5? Use the [`0.4.x` maintenance branch](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/0.4.x).
+Staying on Spring Boot 3.3–3.5? Use the [`3.x` maintenance branch](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/3.x) (`3.0.0`).
 
 ---
 
