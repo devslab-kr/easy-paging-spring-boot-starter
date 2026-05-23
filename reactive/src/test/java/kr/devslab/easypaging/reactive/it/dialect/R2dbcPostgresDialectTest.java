@@ -2,8 +2,7 @@ package kr.devslab.easypaging.reactive.it.dialect;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import tools.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,7 @@ import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.test.StepVerifier;
@@ -58,7 +57,7 @@ import reactor.test.StepVerifier;
 class R2dbcPostgresDialectTest {
 
     @Container
-    static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:16-alpine")
+    static final PostgreSQLContainer POSTGRES = new PostgreSQLContainer("postgres:16-alpine")
             .withDatabaseName("easy_paging_test")
             .withUsername("test")
             .withPassword("test")
@@ -76,7 +75,7 @@ class R2dbcPostgresDialectTest {
     @Autowired private R2dbcEntityTemplate template;
 
     private final CursorCodec codec = new CursorCodec(
-            new ObjectMapper().registerModule(new JavaTimeModule()),
+            new ObjectMapper(),
             "",
             2048);
 

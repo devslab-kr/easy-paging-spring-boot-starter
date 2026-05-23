@@ -2,11 +2,11 @@ package kr.devslab.easypaging.reactive.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -37,7 +37,7 @@ class ReactiveKeysetWebFluxIntegrationTest {
         assertThat(body.get("content").get(0).get("id").asLong()).isEqualTo(10);
         assertThat(body.get("hasNext").asBoolean()).isTrue();
         assertThat(body.get("hasPrev").asBoolean()).isFalse();
-        assertThat(body.get("nextCursor").asText()).isNotEmpty();
+        assertThat(body.get("nextCursor").asString()).isNotEmpty();
     }
 
     @Test
@@ -64,7 +64,7 @@ class ReactiveKeysetWebFluxIntegrationTest {
                 .returnResult();
 
         JsonNode firstJson = objectMapper.readTree(first.getResponseBody());
-        String nextCursor = firstJson.get("nextCursor").asText();
+        String nextCursor = firstJson.get("nextCursor").asString();
         long firstPageLastId = firstJson.get("content").get(2).get("id").asLong();
 
         EntityExchangeResult<byte[]> second = client.get()
@@ -107,7 +107,7 @@ class ReactiveKeysetWebFluxIntegrationTest {
                 .expectStatus().isOk()
                 .expectBody().returnResult();
         String nextCursor = objectMapper.readTree(first.getResponseBody())
-                .get("nextCursor").asText();
+                .get("nextCursor").asString();
 
         EntityExchangeResult<byte[]> second = client.get()
                 .uri(uriBuilder -> uriBuilder
@@ -118,7 +118,7 @@ class ReactiveKeysetWebFluxIntegrationTest {
                 .expectStatus().isOk()
                 .expectBody().returnResult();
         JsonNode secondJson = objectMapper.readTree(second.getResponseBody());
-        String prevCursor = secondJson.get("prevCursor").asText();
+        String prevCursor = secondJson.get("prevCursor").asString();
         assertThat(prevCursor).isNotEmpty();
 
         EntityExchangeResult<byte[]> backToFirst = client.get()

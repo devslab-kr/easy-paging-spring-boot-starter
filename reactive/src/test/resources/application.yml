@@ -1,6 +1,12 @@
 spring:
   r2dbc:
-    url: r2dbc:h2:mem:///testdb;DB_CLOSE_DELAY=-1
+    # CASE_INSENSITIVE_IDENTIFIERS=TRUE lets quoted/unquoted identifiers match
+    # regardless of case. Spring Data Relational under SB4 quotes more
+    # identifiers than SB3 did (e.g. `"events".ID`), and H2's default policy
+    # of uppercasing unquoted identifiers ends up mismatching the quoted-
+    # lowercase lookups it now generates. MODE=PostgreSQL keeps the dialect
+    # close to the production target.
+    url: r2dbc:h2:mem:///testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE
     username: sa
     password:
 

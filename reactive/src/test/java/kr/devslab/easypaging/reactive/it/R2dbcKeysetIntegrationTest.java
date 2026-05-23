@@ -2,8 +2,7 @@ package kr.devslab.easypaging.reactive.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import tools.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +27,10 @@ class R2dbcKeysetIntegrationTest {
 
     // Unsigned codec — matches the test application.yml so signatures don't
     // interfere with what we're trying to verify (the keyset SQL itself).
-    // JavaTimeModule is required for the Instant cursor key to roundtrip.
+    // Java 8 date/time support is built into Jackson 3's ObjectMapper, so
+    // the JavaTimeModule registration the SB3 line needed is no longer required.
     private final CursorCodec codec = new CursorCodec(
-            new ObjectMapper().registerModule(new JavaTimeModule()),
+            new ObjectMapper(),
             "",
             2048);
 

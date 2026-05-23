@@ -5,11 +5,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -46,7 +46,7 @@ class KeysetWebMvcIntegrationTest {
                 .andReturn();
 
         JsonNode firstJson = objectMapper.readTree(firstResult.getResponse().getContentAsString());
-        String nextCursor = firstJson.get("nextCursor").asText();
+        String nextCursor = firstJson.get("nextCursor").asString();
         long firstPageLastId = firstJson.get("content").get(2).get("id").asLong();
 
         MvcResult secondResult = mockMvc.perform(get("/test/users/keyset").param("cursor", nextCursor))
@@ -79,7 +79,7 @@ class KeysetWebMvcIntegrationTest {
                 .andExpect(jsonPath("$.prevCursor").isEmpty())
                 .andReturn();
         String firstNext = objectMapper.readTree(firstResult.getResponse().getContentAsString())
-                .get("nextCursor").asText();
+                .get("nextCursor").asString();
 
         mockMvc.perform(get("/test/users/keyset").param("cursor", firstNext))
                 .andExpect(status().isOk())
@@ -93,12 +93,12 @@ class KeysetWebMvcIntegrationTest {
         // the stream, then use its prevCursor (which encodes BACKWARD direction).
         MvcResult firstResult = mockMvc.perform(get("/test/users/keyset")).andReturn();
         String firstNext = objectMapper.readTree(firstResult.getResponse().getContentAsString())
-                .get("nextCursor").asText();
+                .get("nextCursor").asString();
 
         MvcResult secondResult = mockMvc.perform(get("/test/users/keyset").param("cursor", firstNext))
                 .andReturn();
         JsonNode secondJson = objectMapper.readTree(secondResult.getResponse().getContentAsString());
-        String prevCursor = secondJson.get("prevCursor").asText();
+        String prevCursor = secondJson.get("prevCursor").asString();
         long secondHeadId = secondJson.get("content").get(0).get("id").asLong();
 
         // Going back via prevCursor should return rows newer than secondHeadId,
@@ -123,12 +123,12 @@ class KeysetWebMvcIntegrationTest {
         JsonNode page1Json = objectMapper.readTree(page1.getResponse().getContentAsString());
 
         MvcResult page2 = mockMvc.perform(get("/test/users/keyset")
-                        .param("cursor", page1Json.get("nextCursor").asText()))
+                        .param("cursor", page1Json.get("nextCursor").asString()))
                 .andReturn();
         JsonNode page2Json = objectMapper.readTree(page2.getResponse().getContentAsString());
 
         MvcResult back = mockMvc.perform(get("/test/users/keyset")
-                        .param("cursor", page2Json.get("prevCursor").asText()))
+                        .param("cursor", page2Json.get("prevCursor").asString()))
                 .andReturn();
         JsonNode backJson = objectMapper.readTree(back.getResponse().getContentAsString());
 
@@ -144,11 +144,11 @@ class KeysetWebMvcIntegrationTest {
         // page 2 lands on page 1 with no newer rows remaining.
         MvcResult page1 = mockMvc.perform(get("/test/users/keyset")).andReturn();
         String page1Next = objectMapper.readTree(page1.getResponse().getContentAsString())
-                .get("nextCursor").asText();
+                .get("nextCursor").asString();
         MvcResult page2 = mockMvc.perform(get("/test/users/keyset").param("cursor", page1Next))
                 .andReturn();
         String page2Prev = objectMapper.readTree(page2.getResponse().getContentAsString())
-                .get("prevCursor").asText();
+                .get("prevCursor").asString();
 
         mockMvc.perform(get("/test/users/keyset").param("cursor", page2Prev))
                 .andExpect(jsonPath("$.hasNext").value(true))    // older rows still exist
@@ -163,7 +163,7 @@ class KeysetWebMvcIntegrationTest {
         // clients re-purpose a cursor without re-encoding it server-side.
         MvcResult page1 = mockMvc.perform(get("/test/users/keyset")).andReturn();
         String forwardCursor = objectMapper.readTree(page1.getResponse().getContentAsString())
-                .get("nextCursor").asText();  // encoded as FORWARD
+                .get("nextCursor").asString();  // encoded as FORWARD
 
         // Use that forward cursor but tell the resolver BACKWARD.
         // The page should walk back toward newer items (the rows above id=10).

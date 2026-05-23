@@ -49,7 +49,7 @@ tasks.withType<Javadoc>().configureEach {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.3")
+        mavenBom("org.springframework.boot:spring-boot-dependencies:4.0.6")
     }
 }
 
@@ -75,6 +75,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    // SB4 modularization: @AutoConfigureWebTestClient and WebTestClient
+    // helpers moved out of spring-boot-test-autoconfigure into a dedicated
+    // webflux-test starter. Must be declared explicitly now.
+    testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("io.r2dbc:r2dbc-h2")
     testImplementation("com.h2database:h2")
@@ -83,12 +87,13 @@ dependencies {
     // Testcontainers — dialect-compat tests against real PostgreSQL R2DBC.
     // r2dbc-h2 in the fast tests catches API-shape regressions; PostgreSQL
     // catches driver-specific type-binding differences (TIMESTAMP WITH TIME
-    // ZONE, UUID, etc.) that we won't see against H2.
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.21.2"))
+    // ZONE, UUID, etc.) that we won't see against H2. testcontainers-bom
+    // platform pins all module versions to the SB4-shipped 2.0.5 line.
+    testImplementation(platform("org.testcontainers:testcontainers-bom:2.0.5"))
     testImplementation("org.testcontainers:testcontainers")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:r2dbc")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
+    testImplementation("org.testcontainers:testcontainers-r2dbc")
     testImplementation("org.postgresql:r2dbc-postgresql")
     // Used by Testcontainers' Postgres module to run init scripts via JDBC.
     testImplementation("org.postgresql:postgresql")

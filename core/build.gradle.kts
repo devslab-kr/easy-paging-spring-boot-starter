@@ -73,7 +73,7 @@ tasks.withType<Javadoc>().configureEach {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.3")
+        mavenBom("org.springframework.boot:spring-boot-dependencies:4.0.6")
     }
 }
 
@@ -82,19 +82,22 @@ dependencies {
     // The Spring Boot BOM (above) controls versions so they align with whatever
     // Boot version the consumer is on at resolution time.
     api("org.springframework.boot:spring-boot-starter")
-    api("org.springframework.boot:spring-boot-starter-aop")
+    // SB4 renamed spring-boot-starter-aop → spring-boot-starter-aspectj
+    // (clearer naming — the starter has always been AspectJ-based, not a
+    // generic "AOP" abstraction). Same artifact contents, new ID.
+    api("org.springframework.boot:spring-boot-starter-aspectj")
     api("org.springframework.data:spring-data-commons")
-    api("com.github.pagehelper:pagehelper-spring-boot-starter:2.1.1")
+    api("com.github.pagehelper:pagehelper-spring-boot-starter:4.0.0")
 
-    // MyBatis Spring Boot Starter is exposed as api because PageHelper requires
-    // MyBatis at runtime, and PageHelper 2.1.x still ships its own transitive
-    // mybatis-spring-boot-starter:2.3.2 (Spring Boot 2.7 line). Declaring 3.0.4
-    // directly here forces Gradle's conflict resolution to pick the Boot-3-
-    // compatible starter for every consumer — they no longer need to add it
-    // themselves and the wrong-line transitive footprint stops mattering.
-    // Override with `exclude(group = "org.mybatis.spring.boot")` + a direct
-    // declaration if you need a different MyBatis line for some reason.
-    api("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4")
+    // MyBatis Spring Boot Starter is exposed as api because PageHelper
+    // requires MyBatis at runtime. PageHelper 4.0.0 brings
+    // mybatis-spring-boot-starter 4.0.1 transitively (the SB4-compatible
+    // line) — declaring it here too pins the version for Gradle's conflict
+    // resolution, so consumers can't accidentally drop back to an SB3-line
+    // transitive that some other dep brings in. Override with
+    // `exclude(group = "org.mybatis.spring.boot")` + a direct declaration
+    // if you need a different MyBatis line for some reason.
+    api("org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1")
 
     // Silences "cannot find javax.annotation.Nonnull" cosmetic warnings emitted when
     // resolving Spring's @Nullable. Not exposed to consumers (compileOnly).
@@ -112,6 +115,10 @@ dependencies {
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-web")
+    // SB4 modularization: @AutoConfigureMockMvc, MockMvcTester, etc. moved
+    // out of spring-boot-test-autoconfigure into a dedicated webmvc-test
+    // starter. Must be declared explicitly now.
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     // mybatis-spring-boot-starter is inherited via the main `api` declaration,
     // so tests automatically run against whatever consumers get.
     testImplementation("io.projectreactor:reactor-core")
@@ -123,11 +130,17 @@ dependencies {
     // and run by the `testDialect` task, separate from the fast H2 path. H2
     // catches most logic bugs in seconds; PostgreSQL + MySQL catch the
     // dialect-specific PageHelper rewriting paths the H2 dialect would miss.
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.21.2"))
+    //
+    // Track the Testcontainers version SB4 ships with (2.0.5 — major bump
+    // from 1.x). The SB4 BOM only manages `org.testcontainers:testcontainers`
+    // itself, not the module artifacts (junit-jupiter, postgresql, mysql),
+    // so we still need to import the testcontainers-bom platform to get
+    // versions on those.
+    testImplementation(platform("org.testcontainers:testcontainers-bom:2.0.5"))
     testImplementation("org.testcontainers:testcontainers")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:mysql")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
+    testImplementation("org.testcontainers:testcontainers-mysql")
     testImplementation("org.postgresql:postgresql")
     testImplementation("com.mysql:mysql-connector-j")
 
