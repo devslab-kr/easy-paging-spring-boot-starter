@@ -138,9 +138,9 @@ public Map<String, Object> list(
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
     // 옵션 — 네이티브 R2DBC + WebFlux 헬퍼가 필요한 경우만:
-    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
+    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.5.0")
 }
 ```
 
