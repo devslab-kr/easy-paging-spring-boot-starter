@@ -150,6 +150,19 @@ reactive 스타터는 `spring-boot-starter-webflux`와 `spring-boot-starter-data
 
 > 다른 MyBatis 라인이 필요하다면 `exclude(group = "org.mybatis.spring.boot")` 후 원하는 버전 직접 선언 — [설치 가이드](https://easy-paging.devslab.kr/ko/getting-started/installation/) 참조.
 
+## 실행 가능한 예제
+
+이 README의 모든 기능을 그대로 돌려볼 수 있는 standalone Spring Boot 프로젝트 — clone → `./gradlew bootRun` → curl. README 코드를 자기 프로젝트에 복붙할 필요 없이 이미 end-to-end로 wired up (테스트 클래스 포함).
+
+| 데모 | 보여주는 것 |
+| --- | --- |
+| [`easy-paging-demo`](https://github.com/devslab-kr/devslab-examples/tree/main/easy-paging-demo) | `@AutoPaginate` (H2) — [커스텀 응답 형식](#커스텀-응답-형식) 고급 섹션 (`/reports/company`, `/reports/auto-envelope`)도 포함 |
+| [`easy-paging-keyset-demo`](https://github.com/devslab-kr/devslab-examples/tree/main/easy-paging-keyset-demo) | `@KeysetPaginate` 커서 페이지네이션 (300건 time-series, H2). 테스트가 커서 walk이 모든 row를 정확히 한 번씩 cover하는지 검증 |
+| [`easy-paging-postgres-demo`](https://github.com/devslab-kr/devslab-examples/tree/main/easy-paging-postgres-demo) | 실제 PostgreSQL — `bootRun`은 Docker Compose, 테스트는 Testcontainers + `@ServiceConnection`. 로컬 Postgres 설치 불필요 |
+| [`easy-paging-reactive-demo`](https://github.com/devslab-kr/devslab-examples/tree/main/easy-paging-reactive-demo) | reactive 컴패니언 아티팩트를 `R2dbcOffsetPagingSupport`로 사용 (WebFlux + R2DBC + Docker PostgreSQL) |
+
+전체 인덱스: [github.com/devslab-kr/devslab-examples](https://github.com/devslab-kr/devslab-examples).
+
 ## Offset 페이지네이션 — `@AutoPaginate`
 
 가장 일반적인 페이지네이션. 총 개수가 필요하고 데이터가 `LIMIT/OFFSET`으로 무난히 처리되는 리스트 화면에 적합합니다.

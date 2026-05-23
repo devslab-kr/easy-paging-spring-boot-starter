@@ -149,6 +149,19 @@ The core starter pulls in `spring-boot-starter-aop`, `spring-data-commons`, `pag
 
 The reactive starter declares `spring-boot-starter-webflux` and `spring-boot-starter-data-r2dbc` as `compileOnly`, so you only pay for what you actually use.
 
+## Runnable examples
+
+Standalone Spring Boot projects that exercise every feature documented below — clone, `./gradlew bootRun`, curl. No copy-paste from this README into your own project; the examples are already wired up end to end (test classes included).
+
+| Demo | Showcases |
+| --- | --- |
+| [`easy-paging-demo`](https://github.com/devslab-kr/devslab-examples/tree/main/easy-paging-demo) | `@AutoPaginate` against H2 — also covers the advanced [custom envelope](#custom-response-format) section (`/reports/company` and `/reports/auto-envelope`) |
+| [`easy-paging-keyset-demo`](https://github.com/devslab-kr/devslab-examples/tree/main/easy-paging-keyset-demo) | `@KeysetPaginate` cursor pagination over a 300-row time-series (H2). Test asserts the cursor walk covers every row exactly once |
+| [`easy-paging-postgres-demo`](https://github.com/devslab-kr/devslab-examples/tree/main/easy-paging-postgres-demo) | Same starter against real PostgreSQL — Docker Compose for `bootRun`, Testcontainers + `@ServiceConnection` for tests, no local Postgres install |
+| [`easy-paging-reactive-demo`](https://github.com/devslab-kr/devslab-examples/tree/main/easy-paging-reactive-demo) | The reactive companion artifact via `R2dbcOffsetPagingSupport` (WebFlux + R2DBC + Docker PostgreSQL) |
+
+Full index at [github.com/devslab-kr/devslab-examples](https://github.com/devslab-kr/devslab-examples).
+
 ## Offset pagination — `@AutoPaginate`
 
 The default strategy. Best for traditional paginated lists where you want a total count and the data fits comfortably in `LIMIT/OFFSET`.
