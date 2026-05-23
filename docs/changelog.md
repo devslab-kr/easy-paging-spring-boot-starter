@@ -6,6 +6,34 @@ For the canonical, machine-readable source see [`CHANGELOG.md`](https://github.c
 
 ---
 
+## [0.5.0] — 2026-05-23
+
+**Spring Boot 4 release line.** First cut of the `0.5.x` line targeting Spring Boot 4 / Spring Framework 7 / Jackson 3. The `0.4.x` branch continues as the Spring Boot 3.3–3.5 maintenance line and still receives security patches.
+
+### Changed
+
+- **Spring Boot baseline raised to 4.0+** (built/tested against `4.0.6`). Pulls in Spring Framework 7, Jakarta EE 11, Jackson 3, and Servlet 6.1.
+- **PageHelper bumped** `2.1.1` → `4.0.0` (its first SB4-compatible release), which transitively brings `mybatis-spring-boot-starter` `3.0.4` → `4.0.1`. The starter now also pins `4.0.1` directly for conflict-resolution stability.
+- **`spring-boot-starter-aop` renamed to `spring-boot-starter-aspectj`** in SB4. Same artifact contents, new ID — followed.
+- **`io.spring.dependency-management` bumped** `1.1.6` → `1.1.7` (SB4-compatible).
+- **`@Nullable` switched** from `org.springframework.lang.Nullable` (deprecated in Spring 7) to `org.jspecify.annotations.Nullable`.
+- **Jackson 2 → 3 migration** — imports moved from `com.fasterxml.jackson.*` to `tools.jackson.*`; `JsonProcessingException` → `JacksonException`; `JavaTimeModule` is auto-registered (no explicit registration needed).
+- **Starter auto-registers `PageableHandlerMethodArgumentResolver` + `SortHandlerMethodArgumentResolver`** itself (servlet MVC), plus the reactive equivalents for WebFlux. SB4 dropped the auto-config that previously did this for MVC; apps no longer need a per-app `WebMvcConfigurer` / `WebFluxConfigurer` to use `Pageable pageable` controller parameters. Existing `PageableHandlerMethodArgumentResolverCustomizer` beans (e.g. `easy-paging.one-indexed-pages=true`) are still honored.
+
+### Migration notes
+
+Coming from `0.4.x`:
+
+- Bump Spring Boot to 4.x + this starter to `0.5.x` together.
+- Bump the dependency-management plugin to `1.1.7`.
+- Bump Gradle wrapper to **8.14+** (the SB4 plugin refuses older Gradle).
+- If your tests use `@AutoConfigureMockMvc` or `@AutoConfigureWebTestClient`, the imports moved to dedicated `spring-boot-starter-{webmvc,webflux}-test` modules.
+- If your tests use Testcontainers, 2.x renamed module artifacts (`postgresql` → `testcontainers-postgresql`, etc.) and moved `*Container` classes into dedicated per-module packages.
+
+Staying on Spring Boot 3.3–3.5? Use the [`0.4.x` maintenance branch](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/0.4.x).
+
+---
+
 ## [0.4.0] — 2026-05-20
 
 ### Added

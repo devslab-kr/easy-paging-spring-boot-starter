@@ -92,13 +92,17 @@ No `PageHelper.startPage(...)` calls scattered through your codebase, no `Thread
 
 ```kotlin title="build.gradle.kts"
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    // Spring Boot 4 line (current — main branch):
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
     // Optional — native R2DBC + WebFlux helpers:
-    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
+    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.5.0")
+
+    // Spring Boot 3.3–3.5 maintenance line (use this if you're not on SB4 yet):
+    // implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
 }
 ```
 
-See [Installation](getting-started/installation.md) for prerequisites and full setup, or jump to the [Tutorial](getting-started/tutorial.md) for a 5-minute walkthrough.
+See [Installation](getting-started/installation.md) for the release-line picker, prerequisites, and full setup, or jump to the [Tutorial](getting-started/tutorial.md) for a 5-minute walkthrough.
 
 ## Where to go next
 
