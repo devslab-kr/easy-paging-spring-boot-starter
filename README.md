@@ -137,9 +137,9 @@ The starter collapses all six concerns into the four-line controller at the top 
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:0.5.0")
     // Optional — only if you also need native R2DBC + WebFlux helpers:
-    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
+    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.5.0")
 }
 ```
 
