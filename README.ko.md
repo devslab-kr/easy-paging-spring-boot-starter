@@ -6,6 +6,8 @@
 > Offset 방식과 Keyset/Cursor 방식을 하나로 제공합니다.
 
 [![Maven Central](https://img.shields.io/maven-central/v/kr.devslab/easy-paging-spring-boot-starter.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter)
+[![Java](https://img.shields.io/badge/Java-21+-007396?logo=openjdk&logoColor=white)](https://adoptium.net)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0+-6db33f?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![CI](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
@@ -143,10 +145,12 @@ dependencies {
 ```
 
 여러분이 추가:
-- Spring Boot 3.3+ / Java 21+ (빌드·테스트는 3.5 기준)
+- Spring Boot 4.0+ / Java 21+ (빌드·테스트는 4.0.6 기준)
 - JDBC 드라이버 (reactive 스타터 사용 시에는 R2DBC 드라이버도)
 
-core 스타터가 자동으로 가져옴: `spring-boot-starter-aop`, `spring-data-commons`, `pagehelper-spring-boot-starter`, `mybatis-spring-boot-starter` 3.x. **Spring Data JPA는 필요 없습니다** — 가벼운 `spring-data-commons` (`Pageable`, `Page`, `Sort` 제공)만 transitively 따라옵니다.
+> Spring Boot 3.3–3.5 사용 중이라면 [`0.4.x` maintenance 라인](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/0.4.x)을 사용 (`kr.devslab:easy-paging-spring-boot-starter:0.4.0`). API 동일, SB3 BOM에 인증, 보안 패치 계속 제공.
+
+core 스타터가 자동으로 가져옴: `spring-boot-starter-aspectj` (SB4에서 `spring-boot-starter-aop`에서 이름 변경), `spring-data-commons`, `pagehelper-spring-boot-starter`, `mybatis-spring-boot-starter` 4.x. **Spring Data JPA는 필요 없습니다** — 가벼운 `spring-data-commons` (`Pageable`, `Page`, `Sort` 제공)만 transitively 따라옵니다.
 
 reactive 스타터는 `spring-boot-starter-webflux`와 `spring-boot-starter-data-r2dbc`를 `compileOnly`로 선언하므로, 실제로 사용하는 것에 대해서만 비용을 지불.
 

@@ -5,6 +5,8 @@
 > Annotation-driven pagination for Spring Boot + MyBatis. Offset and keyset/cursor in one starter.
 
 [![Maven Central](https://img.shields.io/maven-central/v/kr.devslab/easy-paging-spring-boot-starter.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/kr.devslab/easy-paging-spring-boot-starter)
+[![Java](https://img.shields.io/badge/Java-21+-007396?logo=openjdk&logoColor=white)](https://adoptium.net)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0+-6db33f?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![CI](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/easy-paging-spring-boot-starter/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/devslab-kr/easy-paging-spring-boot-starter)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
@@ -142,12 +144,14 @@ dependencies {
 ```
 
 You bring:
-- Spring Boot 3.3+ on Java 21+ (built/tested against 3.5)
+- Spring Boot 4.0+ on Java 21+ (built/tested against 4.0.6)
 - a JDBC driver (or an R2DBC driver if using the reactive starter)
+
+> Still on Spring Boot 3.3–3.5? Use the [`0.4.x` maintenance line](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/0.4.x) (`kr.devslab:easy-paging-spring-boot-starter:0.4.0`). Same API, certified against the SB3 BOM, still receives security patches.
 
 (MyBatis Spring Boot Starter is provided transitively — see the [installation guide](https://easy-paging.devslab.kr/getting-started/installation/) if you need a different MyBatis line.)
 
-The core starter pulls in `spring-boot-starter-aop`, `spring-data-commons`, `pagehelper-spring-boot-starter`, and `mybatis-spring-boot-starter`. **You do not need Spring Data JPA** — only the lightweight `spring-data-commons` (which provides `Pageable`, `Page`, `Sort`) comes along automatically.
+The core starter pulls in `spring-boot-starter-aspectj` (renamed from `spring-boot-starter-aop` in SB4), `spring-data-commons`, `pagehelper-spring-boot-starter`, and `mybatis-spring-boot-starter`. **You do not need Spring Data JPA** — only the lightweight `spring-data-commons` (which provides `Pageable`, `Page`, `Sort`) comes along automatically.
 
 The reactive starter declares `spring-boot-starter-webflux` and `spring-boot-starter-data-r2dbc` as `compileOnly`, so you only pay for what you actually use.
 
