@@ -130,11 +130,13 @@ dependencies {
     // and run by the `testDialect` task, separate from the fast H2 path. H2
     // catches most logic bugs in seconds; PostgreSQL + MySQL catch the
     // dialect-specific PageHelper rewriting paths the H2 dialect would miss.
-    // Versions managed by the Spring Boot BOM (Testcontainers 2.x line under
-    // SB4) — pinning testcontainers-bom explicitly used to make sense, but
-    // SB4 manages a coherent 2.0.x set and overriding it with an older 1.21.x
-    // ends up with module-version skew (NoClassDefFoundError on shaded
-    // commons-io). Let the BOM win.
+    //
+    // Track the Testcontainers version SB4 ships with (2.0.5 — major bump
+    // from 1.x). The SB4 BOM only manages `org.testcontainers:testcontainers`
+    // itself, not the module artifacts (junit-jupiter, postgresql, mysql),
+    // so we still need to import the testcontainers-bom platform to get
+    // versions on those.
+    testImplementation(platform("org.testcontainers:testcontainers-bom:2.0.5"))
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
