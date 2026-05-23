@@ -9,7 +9,13 @@
 plugins {
     id("org.springframework.boot") version "4.0.6" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
-    id("com.vanniktech.maven.publish") version "0.36.0" apply false
+    // Pinned to 0.30.0: 0.34.0+ removed the `mavenPlainJavadocJar` task that
+    // core/build.gradle.kts and reactive/build.gradle.kts reference to fix the
+    // GitHub Release asset filename. The SB3 maintenance line keeps the same
+    // pin as main for consistency until that override is rewritten against the
+    // newer plugin API. (PR #56 bumped this to 0.36.0 and broke v3.0.0's
+    // release workflow on 2026-05-23 — see the v3.0.0 retag thread.)
+    id("com.vanniktech.maven.publish") version "0.30.0" apply false
 }
 
 allprojects {
