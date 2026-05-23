@@ -9,12 +9,12 @@
 **Core (`easy-paging-spring-boot-starter`):**
 
 - 최신: <https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/latest>
-- 특정 버전: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/<버전>` (예: [0.4.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/0.4.0))
+- 특정 버전: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/<버전>` — 예: [0.5.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/0.5.0) (Spring Boot 4) 또는 [0.4.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/0.4.0) (SB3 maintenance)
 
 **Reactive (`easy-paging-spring-boot-starter-reactive`, 0.4.0부터):**
 
 - 최신: <https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/latest>
-- 특정 버전: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/<버전>` (예: [0.4.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/0.4.0))
+- 특정 버전: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/<버전>` — 예: [0.5.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/0.5.0) (Spring Boot 4) 또는 [0.4.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/0.4.0) (SB3 maintenance)
 
 새 버전을 처음 방문할 때는 javadoc.io가 Maven Central에서 jar를 가져오느라 약간 느리지만, 이후 방문부터는 캐시되어 빠릅니다.
 

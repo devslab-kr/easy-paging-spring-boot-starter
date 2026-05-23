@@ -6,6 +6,34 @@ easy-paging의 모든 주요 변경사항이 여기 기록됩니다. 포맷은 [
 
 ---
 
+## [0.5.0] — 2026-05-23
+
+**Spring Boot 4 릴리즈 라인.** Spring Boot 4 / Spring Framework 7 / Jackson 3 대상 `0.5.x` 라인의 첫 컷. `0.4.x` 브랜치는 Spring Boot 3.3–3.5 maintenance 라인으로 계속 유지되며 보안 패치를 받습니다.
+
+### 변경
+
+- **Spring Boot 베이스라인 4.0+로 상향** (빌드/테스트 `4.0.6` 기준). Spring Framework 7, Jakarta EE 11, Jackson 3, Servlet 6.1 도입.
+- **PageHelper bump** `2.1.1` → `4.0.0` (PageHelper의 첫 SB4 호환 릴리즈). transitive로 `mybatis-spring-boot-starter`도 `3.0.4` → `4.0.1`로 끌어올라감. 스타터가 충돌 해결 안정성을 위해 `4.0.1`을 직접 pin도 함.
+- **`spring-boot-starter-aop`가 SB4에서 `spring-boot-starter-aspectj`로 이름 변경.** 아티팩트 내용은 동일, ID만 변경 — 따라감.
+- **`io.spring.dependency-management` bump** `1.1.6` → `1.1.7` (SB4 호환).
+- **`@Nullable` 전환** — `org.springframework.lang.Nullable` (Spring 7에서 deprecated) → `org.jspecify.annotations.Nullable`.
+- **Jackson 2 → 3 마이그레이션** — `com.fasterxml.jackson.*` → `tools.jackson.*` import; `JsonProcessingException` → `JacksonException`; `JavaTimeModule`은 자동 등록 (명시적 등록 불필요).
+- **스타터가 `PageableHandlerMethodArgumentResolver` + `SortHandlerMethodArgumentResolver`를 직접 자동 등록** (servlet MVC), WebFlux용 reactive 등가도 동일. SB4가 MVC에 대해 이전에 이걸 자동 설정해주던 auto-config를 제거함 — 앱이 `Pageable pageable` 컨트롤러 파라미터를 쓰려고 더 이상 앱별 `WebMvcConfigurer` / `WebFluxConfigurer`를 추가하지 않아도 됨. 기존의 `PageableHandlerMethodArgumentResolverCustomizer` 빈 (예: `easy-paging.one-indexed-pages=true`)은 그대로 인식됨.
+
+### 마이그레이션 노트
+
+`0.4.x`에서 올라오는 경우:
+
+- Spring Boot 4.x와 이 스타터 `0.5.x`를 함께 bump.
+- dependency-management 플러그인 `1.1.7`로 bump.
+- Gradle wrapper **8.14+**로 bump (SB4 플러그인이 그 이전 Gradle 거부).
+- 테스트가 `@AutoConfigureMockMvc` 또는 `@AutoConfigureWebTestClient`를 쓰면, 해당 import들이 전용 `spring-boot-starter-{webmvc,webflux}-test` 모듈로 이동됨.
+- Testcontainers를 쓰는 테스트는, 2.x에서 모듈 아티팩트 이름이 변경됐고 (`postgresql` → `testcontainers-postgresql`, 등) `*Container` 클래스들이 모듈별 전용 패키지로 이동됨.
+
+Spring Boot 3.3–3.5에 머무는 중? [`0.4.x` maintenance 브랜치](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/0.4.x)를 사용.
+
+---
+
 ## [0.4.0] — 2026-05-20
 
 ### 추가

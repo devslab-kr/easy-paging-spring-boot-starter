@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-05-23
+
+**Spring Boot 4 release line.** First cut of the `0.5.x` line targeting Spring Boot 4 / Spring Framework 7 / Jackson 3. The `0.4.x` branch continues as the Spring Boot 3.3–3.5 maintenance line and still receives security patches.
+
+### Changed
+
+- **Spring Boot baseline raised to 4.0+** (built/tested against `4.0.6`). Pulls in Spring Framework 7, Jakarta EE 11, Jackson 3, and Servlet 6.1.
+- **PageHelper bumped** `2.1.1` → `4.0.0` (its first SB4-compatible release), which transitively brings `mybatis-spring-boot-starter` `3.0.4` → `4.0.1`. The starter now also pins `4.0.1` directly for conflict-resolution stability.
+- **`spring-boot-starter-aop` renamed to `spring-boot-starter-aspectj`** in SB4. Same artifact contents, new ID — followed.
+- **`io.spring.dependency-management` bumped** `1.1.6` → `1.1.7` (the SB4-compatible plugin release).
+- **`@Nullable` annotation source switched** from `org.springframework.lang.Nullable` (deprecated in Spring 7) to `org.jspecify.annotations.Nullable`. Pulled in transitively via `spring-core 7.x`.
+- **Jackson 2 → 3 migration** in main + test code:
+    - imports moved from `com.fasterxml.jackson.*` to `tools.jackson.*`
+    - `JsonProcessingException` → `JacksonException` (Jackson 3 base type)
+    - removed explicit `JavaTimeModule` registration — Jackson 3 ships Java 8 date/time integrated by default
+- **Starter now auto-registers `PageableHandlerMethodArgumentResolver` + `SortHandlerMethodArgumentResolver`** for servlet MVC, and the reactive equivalents for WebFlux. SB4 dropped the auto-config that previously did this for MVC, and WebFlux never had one — so apps no longer need a per-app `WebMvcConfigurer` / `WebFluxConfigurer` to use `Pageable pageable` controller parameters. Existing `PageableHandlerMethodArgumentResolverCustomizer` beans (e.g. `easy-paging.one-indexed-pages=true`) are still applied to the starter-registered resolvers.
+
+### Migration notes
+
+If you are coming from `0.4.x` (Spring Boot 3.3–3.5):
+
+- Bump Spring Boot to 4.x + this starter to `0.5.x` together.
+- Bump the dependency-management plugin to `1.1.7`.
+- Bump Gradle wrapper to **8.14+** (the SB4 plugin refuses older Gradle).
+- If your tests use `@AutoConfigureMockMvc` or `@AutoConfigureWebTestClient`, the imports moved to dedicated `spring-boot-starter-{webmvc,webflux}-test` modules (must be declared explicitly now).
+- If your tests use Testcontainers, 2.x renamed module artifacts (`postgresql` → `testcontainers-postgresql`, etc.), moved `*Container` classes out of `org.testcontainers.containers.*` into dedicated per-module packages, and dropped the self-typed generic on `PostgreSQLContainer<SELF>` / `MySQLContainer<SELF>`.
+
+If you are staying on Spring Boot 3.3–3.5, use the [`0.4.x` maintenance branch](https://github.com/devslab-kr/easy-paging-spring-boot-starter/tree/0.4.x) — same API, certified against the SB3 BOM.
+
+### Demos
+
+Four new SB4 demos added in [devslab-examples](https://github.com/devslab-kr/devslab-examples): `easy-paging-sb4-demo`, `easy-paging-sb4-keyset-demo`, `easy-paging-sb4-postgres-demo`, `easy-paging-sb4-reactive-demo`. The original 4 SB3 demos remain and pin against `0.4.0`.
+
 ## [0.4.0] - 2026-05-20
 
 ### Added

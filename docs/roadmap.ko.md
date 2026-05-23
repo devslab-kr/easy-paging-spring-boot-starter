@@ -10,6 +10,7 @@ easy-paging의 향후 계획을 정리한 살아있는 문서입니다. 항목�
 
 | 릴리스 | 주요 변경 |
 |---|---|
+| **v0.5.0** | **Spring Boot 4 릴리즈 라인.** SB4 / Spring Framework 7 / Jackson 3 베이스라인. PageHelper 4.0.0 + MyBatis 4.0.1 (SB4 호환). `spring-boot-starter-aop` → `spring-boot-starter-aspectj`. 스타터가 이제 `PageableHandlerMethodArgumentResolver` + `SortHandlerMethodArgumentResolver`를 자동 등록 (SB4가 auto-config 제거). `0.4.x`는 SB 3.3–3.5 maintenance 라인으로 계속. |
 | **v0.4.0** | 새 옵션 아티팩트 `easy-paging-spring-boot-starter-reactive`로 네이티브 R2DBC + WebFlux 지원. Gradle 빌드 멀티-모듈 구조로 마이그레이션. Testcontainers dialect-compat 테스트 레이어 (PostgreSQL + MySQL). |
 | **v0.3.0** | Keyset 역방향 (`prevCursor` 활성화). Spring Boot 베이스라인 3.3.5 → 3.5.3. PageHelper 2.1.1 + transitive MyBatis starter `api`로 승격. |
 
@@ -19,7 +20,9 @@ easy-paging의 향후 계획을 정리한 살아있는 문서입니다. 항목�
 
 ## 다음 마이너 — TBD
 
-v0.4.0 이후 사용자 피드백에 따라 형태가 결정됩니다. 현재 [검토 중](#검토-중--미확정) 섹션의 항목들이 후보 — 원하는 항목에 이슈로 투표해주세요.
+v0.5.0 이후 사용자 피드백에 따라 형태가 결정됩니다. 현재 [검토 중](#검토-중--미확정) 섹션의 항목들이 후보 — 원하는 항목에 이슈로 투표해주세요.
+
+`0.4.x` maintenance 브랜치는 Spring Boot 3.5 자체가 upstream에서 지원받는 동안 보안 패치와 의존성 bump를 계속 받습니다.
 
 ---
 
