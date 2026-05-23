@@ -91,9 +91,9 @@ dependencies {
     // platform pins all module versions to the SB4-shipped 2.0.5 line.
     testImplementation(platform("org.testcontainers:testcontainers-bom:2.0.5"))
     testImplementation("org.testcontainers:testcontainers")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:r2dbc")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
+    testImplementation("org.testcontainers:testcontainers-r2dbc")
     testImplementation("org.postgresql:r2dbc-postgresql")
     // Used by Testcontainers' Postgres module to run init scripts via JDBC.
     testImplementation("org.postgresql:postgresql")
