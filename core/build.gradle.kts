@@ -94,7 +94,7 @@ dependencies {
     // themselves and the wrong-line transitive footprint stops mattering.
     // Override with `exclude(group = "org.mybatis.spring.boot")` + a direct
     // declaration if you need a different MyBatis line for some reason.
-    api("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4")
+    api("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5")
 
     // Silences "cannot find javax.annotation.Nonnull" cosmetic warnings emitted when
     // resolving Spring's @Nullable. Not exposed to consumers (compileOnly).
