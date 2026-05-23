@@ -9,12 +9,12 @@ Each release publishes a `javadoc.jar` for both the core artifact and the option
 **Core (`easy-paging-spring-boot-starter`):**
 
 - Latest: <https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/latest>
-- Specific version: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/<version>` (e.g. [0.4.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/0.4.0))
+- Specific version: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/<version>` (e.g. [0.4.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter/3.0.0))
 
 **Reactive (`easy-paging-spring-boot-starter-reactive`, since 0.4.0):**
 
 - Latest: <https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/latest>
-- Specific version: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/<version>` (e.g. [0.4.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/0.4.0))
+- Specific version: `https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/<version>` (e.g. [0.4.0](https://javadoc.io/doc/kr.devslab/easy-paging-spring-boot-starter-reactive/3.0.0))
 
 The first visit to a new version takes a moment while javadoc.io fetches the jar from Maven Central; subsequent visits are cached.
 

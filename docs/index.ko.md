@@ -92,9 +92,9 @@ class ReportController {
 
 ```kotlin title="build.gradle.kts"
 dependencies {
-    implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
+    implementation("kr.devslab:easy-paging-spring-boot-starter:3.0.0")
     // 옵션 — 네이티브 R2DBC + WebFlux 헬퍼:
-    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
+    // implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:3.0.0")
 }
 ```
 

@@ -6,6 +6,25 @@ For the canonical, machine-readable source see [`CHANGELOG.md`](https://github.c
 
 ---
 
+## [3.0.0] — 2026-05-23
+
+**Renumbering of `0.4.0`** per the new [Spring-major-aligned versioning policy](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md). No API, behaviour, or dependency changes — the major number bumps from `0.4` to `3.0` to match the Spring Boot major (Spring Boot 3) this maintenance line targets. Published JAR bytes are identical to `0.4.0` apart from the version coordinate in the POM.
+
+Going forward, the SB3 maintenance line ships on `3.x.y`. The SB4 active line is renumbered to `4.x.y` in the same wave. Previous `0.4.0` artifacts remain on Maven Central as historical references.
+
+### Upgrading from `0.4.0`
+
+```diff
+- implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
++ implementation("kr.devslab:easy-paging-spring-boot-starter:3.0.0")
+- implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
++ implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:3.0.0")
+```
+
+No other changes. This line continues to receive security patches for as long as Spring Boot 3 has upstream support.
+
+---
+
 ## [0.4.0] — 2026-05-20
 
 ### Added

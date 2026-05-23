@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-05-23
+
+**Renumbering of `0.4.0`** per the new [Spring-major-aligned versioning policy](https://github.com/devslab-kr/.github/blob/main/.github/VERSIONING.md). No API, behaviour, or dependency changes — the major number is bumped from `0.4` to `3.0` to match the Spring Boot major (Spring Boot 3) this maintenance line targets. The published JAR bytes are identical to `0.4.0` apart from the version coordinate in the POM.
+
+Going forward, the Spring Boot 3 maintenance line ships on `3.x.y`. The Spring Boot 4 active line is renumbered to `4.x.y` in the same wave (`0.5.0` → `4.0.0`). The previous `0.4.0` / `0.5.0` artifacts remain on Maven Central as historical references.
+
+The renumber is motivated by [devslab-examples PR #50](https://github.com/devslab-kr/devslab-examples/pull/50), where Dependabot's standard `semver-major` ignore failed to hold the SB3 demos at `0.4.x` (because `0.4 → 0.5` reads as a minor bump even though it's the SB3 → SB4 line jump in this repo). Aligning library majors with Spring Boot majors makes that ignore rule do the right thing automatically.
+
+### Upgrading from `0.4.0`
+
+```diff
+- implementation("kr.devslab:easy-paging-spring-boot-starter:0.4.0")
++ implementation("kr.devslab:easy-paging-spring-boot-starter:3.0.0")
+- implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:0.4.0")
++ implementation("kr.devslab:easy-paging-spring-boot-starter-reactive:3.0.0")
+```
+
+No other changes. Same Spring Boot 3 baseline (3.3-3.5), same MyBatis 3.0.4 / PageHelper 2.1.1, same APIs. This line continues to receive security patches for as long as Spring Boot 3 has upstream support.
+
 ## [0.4.0] - 2026-05-20
 
 ### Added
@@ -215,7 +234,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configuration metadata for IDE auto-completion of `easy-paging.*` properties.
 - GitHub Actions workflows for CI and Maven Central release.
 
-[Unreleased]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/releases/tag/v3.0.0
 [0.4.0]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/devslab-kr/easy-paging-spring-boot-starter/compare/v0.1.2...v0.2.0
