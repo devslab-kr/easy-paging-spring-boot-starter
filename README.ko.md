@@ -12,6 +12,8 @@
 
 📖 **[문서 보기 → easy-paging.devslab.kr](https://easy-paging.devslab.kr/ko/)**
 
+> 💬 질문, 아이디어, 사용 사례 공유는 [**devslab-examples Discussions**](https://github.com/devslab-kr/devslab-examples/discussions)에서 — 영/한 둘 다 OK, 라이브러리 만든 메인테이너가 직접 답변.
+
 ## 한눈에 보기
 
 컨트롤러 메서드에 어노테이션 하나만 붙이면 JSON 응답이 바로 나옵니다. Spring MVC 구조에서 컨트롤러는 서비스에 위임만 하고, 실제 로직은 서비스가 담당합니다:
