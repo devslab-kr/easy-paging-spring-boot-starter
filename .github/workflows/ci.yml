@@ -40,7 +40,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: success() && github.event_name == 'push'
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           # Coverage now lives under the `core` subproject's build dir.
           # Glob handles additional published subprojects automatically.
