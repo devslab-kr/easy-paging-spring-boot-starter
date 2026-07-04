@@ -15,7 +15,7 @@ plugins {
     // pin as main for consistency until that override is rewritten against the
     // newer plugin API. (PR #56 bumped this to 0.36.0 and broke v3.0.0's
     // release workflow on 2026-05-23 — see the v3.0.0 retag thread.)
-    id("com.vanniktech.maven.publish") version "0.30.0" apply false
+    id("com.vanniktech.maven.publish") version "0.37.0" apply false
 }
 
 allprojects {
