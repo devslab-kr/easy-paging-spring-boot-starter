@@ -87,7 +87,7 @@ dependencies {
     // generic "AOP" abstraction). Same artifact contents, new ID.
     api("org.springframework.boot:spring-boot-starter-aspectj")
     api("org.springframework.data:spring-data-commons")
-    api("com.github.pagehelper:pagehelper-spring-boot-starter:4.0.0")
+    api("com.github.pagehelper:pagehelper-spring-boot-starter:4.1.0")
 
     // MyBatis Spring Boot Starter is exposed as api because PageHelper
     // requires MyBatis at runtime. PageHelper 4.0.0 brings
