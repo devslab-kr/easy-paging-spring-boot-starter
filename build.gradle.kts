@@ -7,7 +7,7 @@
 // between modules stays at zero.
 
 plugins {
-    id("org.springframework.boot") version "4.1.0" apply false
+    id("org.springframework.boot") version "4.1.1" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
     // Pinned to 0.30.0: 0.34.0+ removed the `mavenPlainJavadocJar` task that
     // core/build.gradle.kts and reactive/build.gradle.kts reference to fix the
