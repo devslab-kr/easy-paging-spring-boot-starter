@@ -5,12 +5,12 @@ import assert from 'node:assert/strict';
 
 const root = resolve(import.meta.dirname, '..');
 const expected = {
-  'docs/assets/logo.svg': '5fa7ef804c18bc073222f8b2100fd4c04239f9fb2e41d5d1ecc00f056e1043d2',
-  'docs/assets/favicon.svg': '5fa7ef804c18bc073222f8b2100fd4c04239f9fb2e41d5d1ecc00f056e1043d2',
-  'docs/assets/social-preview.png': '2ca4b1125453378eba138ca04e8cb57c0840b4af5f5887cd7079d831cda77d90',
+  'docs/assets/logo.svg': 'fc186dffc5b47bf40973a9d2f44e622b3cbfbaa912b8434ce900b239983c7c63',
+  'docs/assets/favicon.svg': 'fc186dffc5b47bf40973a9d2f44e622b3cbfbaa912b8434ce900b239983c7c63',
+  'docs/assets/social-preview.png': 'dfce2d3db5b4d6f185f04cc527697188113477b204feb57704ffc2e5acbd5b23',
   'docs/assets/oss-brand-checksums.txt': '53a818e80aa1542c4dd3a89407f66e47b6345b0c797bdc535b6cff1ed7a6affc',
-  '.github/assets/readme-header.png': '8a6a2a43c210644c02e36b9aab9cd7c4bccb6df0ee3273c0c961b291dbefe06b',
-  '.github/assets/social-preview.png': '2ca4b1125453378eba138ca04e8cb57c0840b4af5f5887cd7079d831cda77d90',
+  '.github/assets/readme-header.png': '8ab26762809c920287a8c088109bee5c869e6e9cb0f99b745386a863e19f3b6f',
+  '.github/assets/social-preview.png': 'dfce2d3db5b4d6f185f04cc527697188113477b204feb57704ffc2e5acbd5b23',
 };
 const distinctProjects = {
   O09: '94697c47e87ac17d9209b890da0993b9d85c04ddb2d91b27afc7cfc31dc0380d',
@@ -23,7 +23,7 @@ async function file(relativePath) {
 
 for (const [relativePath, hash] of Object.entries(expected)) {
   const actual = createHash('sha256').update(await file(relativePath)).digest('hex');
-  assert.equal(actual, hash, `${relativePath} must be the OSS brand v0.1.1 O08 asset`);
+  assert.equal(actual, hash, `${relativePath} must be the OSS brand v0.2.0 O08 asset`);
 }
 
 const logo = (await file('docs/assets/logo.svg')).toString();
