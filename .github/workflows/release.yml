@@ -27,6 +27,9 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
 
+      - name: Verify DevsLab OSS brand assets
+        run: node scripts/check-brand-assets.mjs
+
       - name: Derive version from tag
         id: ver
         run: echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"

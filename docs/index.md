@@ -2,6 +2,11 @@
 title: easy-paging — Annotation-driven pagination for Spring Boot + MyBatis
 ---
 
+<a class="oss-docs-mark" href="https://devslab.kr/brand/open-source/" aria-label="easy-paging, open source by DevsLab">
+  <img src="assets/logo.svg" alt="" width="32" height="32">
+  <span>easy-paging <small>Open source by DevsLab</small></span>
+</a>
+
 # easy-paging
 
 > **Annotation-driven pagination for Spring Boot + MyBatis.**

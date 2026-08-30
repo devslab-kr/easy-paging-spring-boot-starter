@@ -2,6 +2,11 @@
 title: easy-paging — Spring Boot + MyBatis 어노테이션 페이지네이션
 ---
 
+<a class="oss-docs-mark" href="https://devslab.kr/brand/open-source/" aria-label="easy-paging, DevsLab 오픈소스">
+  <img src="assets/logo.svg" alt="" width="32" height="32">
+  <span>easy-paging <small>DevsLab 오픈소스</small></span>
+</a>
+
 # easy-paging
 
 > **Spring Boot + MyBatis를 위한 어노테이션 기반 페이지네이션.**
