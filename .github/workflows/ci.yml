@@ -35,6 +35,9 @@ jobs:
           # Vanniktech publish plugin's property-driven configuration.
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
+      - name: Verify DevsLab OSS brand assets
+        run: node scripts/check-brand-assets.mjs
+
       - name: Build and test
         run: ./gradlew build jacocoTestReport --no-configuration-cache --stacktrace
 
@@ -82,6 +85,9 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+
+      - name: Verify DevsLab OSS brand assets
+        run: node scripts/check-brand-assets.mjs
 
       - name: Run dialect-compat tests
         # Ubuntu runners ship with Docker pre-installed and the daemon already

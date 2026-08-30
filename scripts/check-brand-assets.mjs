@@ -60,4 +60,13 @@ assert.match(css, /\.oss-docs-atmosphere/, 'the docs atmosphere must be styled')
 assert.match(css, /\[data-md-color-scheme="slate"\][^{]*\.oss-docs-atmosphere[\s\S]*?0\.10/, 'dark atmosphere must remain capped at .10 opacity');
 assert.match(css, /forced-colors: active/, 'the atmosphere must respect forced-colors mode');
 
+const ci = (await file('.github/workflows/ci.yml')).toString();
+const buildJob = ci.slice(ci.indexOf('  build:'), ci.indexOf('  dialect-compat:'));
+const dialectJob = ci.slice(ci.indexOf('  dialect-compat:'));
+assert.match(buildJob, /run:\s*node scripts\/check-brand-assets\.mjs/, 'the routine CI build job must verify brand assets');
+assert.match(dialectJob, /run:\s*node scripts\/check-brand-assets\.mjs/, 'the routine CI dialect job must verify brand assets');
+
+const release = (await file('.github/workflows/release.yml')).toString();
+assert.match(release, /run:\s*node scripts\/check-brand-assets\.mjs/, 'the release path must verify brand assets before publishing');
+
 console.log('O08 DevsLab OSS brand assets and source references are valid.');
