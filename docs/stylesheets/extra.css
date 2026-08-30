@@ -241,3 +241,56 @@ html[lang="ko"] .md-header [aria-label="Select language"]::before,
 html[lang="ko"] .md-header [aria-label*="언어"]::before {
   content: "한";
 }
+
+/* Source-only OSS atmosphere: quiet enough to leave the technical content first. */
+.md-content {
+  isolation: isolate;
+  position: relative;
+}
+
+.oss-docs-atmosphere {
+  background: radial-gradient(circle at 88% 4%, rgb(14 116 144 / 0.08), transparent 30%);
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.oss-docs-mark {
+  align-items: center;
+  color: var(--md-default-fg-color);
+  display: inline-flex;
+  font-size: 0.92rem;
+  font-weight: 700;
+  gap: 0.55rem;
+  letter-spacing: 0.01em;
+  margin: 0.35rem 0 0.8rem;
+  text-decoration: none;
+}
+
+.oss-docs-mark:hover {
+  color: var(--md-accent-fg-color);
+}
+
+.oss-docs-mark img {
+  flex: none;
+}
+
+.oss-docs-mark small {
+  color: var(--md-default-fg-color--light);
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  margin-top: 0.08rem;
+}
+
+[data-md-color-scheme="slate"] .oss-docs-atmosphere {
+  background: radial-gradient(circle at 88% 4%, rgb(34 211 238 / 0.10), transparent 30%);
+}
+
+@media (forced-colors: active), print {
+  .oss-docs-atmosphere {
+    display: none;
+  }
+}
