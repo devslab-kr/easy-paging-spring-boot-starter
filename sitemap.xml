@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://easy-paging.devslab.kr/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/changelog/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/changelog/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/changelog/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/contributing/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/contributing/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/contributing/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/roadmap/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/roadmap/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/roadmap/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/getting-started/installation/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/getting-started/installation/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/getting-started/installation/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/getting-started/tutorial/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/getting-started/tutorial/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/getting-started/tutorial/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/guides/custom-response/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/guides/custom-response/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/guides/custom-response/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/guides/keyset/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/guides/keyset/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/guides/keyset/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/guides/offset/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/guides/offset/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/guides/offset/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/guides/reactive/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/guides/reactive/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/guides/reactive/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/guides/sorting/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/guides/sorting/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/guides/sorting/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/reference/configuration/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/reference/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/reference/configuration/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/reference/javadoc/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/reference/javadoc/"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/reference/javadoc/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/changelog/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/changelog/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/changelog/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/contributing/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/contributing/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/contributing/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/roadmap/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/roadmap/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/roadmap/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/getting-started/installation/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/getting-started/installation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/getting-started/installation/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/getting-started/tutorial/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/getting-started/tutorial/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/getting-started/tutorial/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/guides/custom-response/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/guides/custom-response/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/guides/custom-response/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/guides/keyset/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/guides/keyset/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/guides/keyset/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/guides/offset/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/guides/offset/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/guides/offset/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/guides/reactive/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/guides/reactive/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/guides/reactive/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/guides/sorting/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/guides/sorting/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/guides/sorting/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/reference/configuration/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/reference/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/reference/configuration/"/>
+    </url>
+    <url>
+        <loc>https://easy-paging.devslab.kr/ko/reference/javadoc/</loc>
+        <lastmod>2026-09-06</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://easy-paging.devslab.kr/ko/reference/javadoc/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://easy-paging.devslab.kr/reference/javadoc/"/>
+    </url>
+</urlset>
