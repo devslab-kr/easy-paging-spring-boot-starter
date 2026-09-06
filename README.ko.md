@@ -8,7 +8,9 @@
 
 [English](README.md) · **한국어**
 
-<p align="center"><a href="https://devslab.kr/brand/open-source/">DevsLab 오픈소스</a></p>
+<!-- publisher:start -->
+Open source by [데브스랩(DevsLab)](https://devslab.kr/).
+<!-- publisher:end -->
 
 > Spring Boot + MyBatis를 위한 어노테이션 기반 페이지네이션 스타터.
 > Offset 방식과 Keyset/Cursor 방식을 하나로 제공합니다.

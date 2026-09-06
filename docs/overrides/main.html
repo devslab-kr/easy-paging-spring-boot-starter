@@ -13,3 +13,8 @@
   <div class="oss-docs-atmosphere" aria-hidden="true"></div>
   {{ super() }}
 {% endblock %}
+
+{% block footer %}
+  <div class="md-grid">{% include "publisher.html" %}</div>
+  {{ super() }}
+{% endblock %}

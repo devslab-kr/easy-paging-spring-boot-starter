@@ -8,7 +8,9 @@
 
 **English** · [한국어](README.ko.md)
 
-<p align="center"><a href="https://devslab.kr/brand/open-source/">Open source by DevsLab</a></p>
+<!-- publisher:start -->
+Open source by [데브스랩(DevsLab)](https://devslab.kr/).
+<!-- publisher:end -->
 
 > Annotation-driven pagination for Spring Boot + MyBatis. Offset and keyset/cursor in one starter.
 
