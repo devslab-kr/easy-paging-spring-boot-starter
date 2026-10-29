@@ -33,14 +33,14 @@ class ReportController {
     }
 
     @GetMapping("/reports")
-    @AutoPaginate(maxSize = 50)                          // (1)!
+    @AutoPaginate(maxSize = 50)
     public PageResponse<Report> list(Pageable pageable) {
         return PageResponse.from(reports.findAll(), pageable);
     }
 }
 ```
 
-1.  The aspect sets up PageHelper's per-thread state, validates the sort parameter, clamps the page size, then cleans up after the mapper call returns.
+The aspect sets up PageHelper's per-thread state, validates the sort parameter, clamps the page size, then cleans up after the mapper call returns.
 
 A request to `GET /reports?page=0&size=20&sort=createdAt,desc` returns:
 
