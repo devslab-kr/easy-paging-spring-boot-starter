@@ -33,14 +33,14 @@ class ReportController {
     }
 
     @GetMapping("/reports")
-    @AutoPaginate(maxSize = 50)                          // (1)!
+    @AutoPaginate(maxSize = 50)
     public PageResponse<Report> list(Pageable pageable) {
         return PageResponse.from(reports.findAll(), pageable);
     }
 }
 ```
 
-1.  Aspect가 PageHelper의 스레드별 상태를 설정하고, 정렬 파라미터를 검증하며, 페이지 크기를 클램핑하고, 매퍼 호출 후 정리까지 책임집니다.
+Aspect가 PageHelper의 스레드별 상태를 설정하고, 정렬 파라미터를 검증하며, 페이지 크기를 클램핑하고, 매퍼 호출 후 정리까지 책임집니다.
 
 `GET /reports?page=0&size=20&sort=createdAt,desc` 요청에 대한 응답:
 
